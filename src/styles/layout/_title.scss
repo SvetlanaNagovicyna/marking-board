@@ -1,0 +1,19 @@
+@import '../shared/functions';
+@import 'src/styles/shared/colors';
+
+.title {
+  margin-bottom: em(48);
+  span {
+    font-family: 'CLICKABLE', sans-serif;
+    font-weight: 900;
+    font-size: em(44);
+    line-height: 1.1;
+    color: transparent;
+    -webkit-text-stroke: em(1, 44) $white-color;
+    text-transform: uppercase;
+  }
+  .title-red {
+    -webkit-text-stroke: em(1, 44)  $red-color;
+    padding-left: em(10, 44);
+  }
+}

@@ -1,0 +1,78 @@
+<div class="window">
+  <div class="window__wrap">
+
+    <div class="title">
+      <span>entrance in  <br> marking board</span>
+      <span class="title-red">.</span>
+    </div>
+    <div class="alert-error" *ngIf="auth.error$ | async as error">
+      {{error}}
+    </div>
+
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+
+
+      <div
+        class="form__control"
+        [ngClass]="{invalid: form.get('email')?.touched && form.get('email')?.invalid}"
+      >
+        <input type="email" placeholder="Email" formControlName="email">
+        <div
+          *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
+          class="validation">
+          <small *ngIf="form.get('email')?.errors?.['required']">
+            Field email is required
+          </small>
+          <small *ngIf="form.get('email')?.errors?.['email']">
+            Field must be type email
+          </small>
+        </div>
+      </div>
+
+      <div
+        class="form__control mb-24"
+        [ngClass]="{invalid: form.get('password')?.touched && form.get('password')?.invalid}"
+      >
+        <input type="password" placeholder="Password" formControlName="password">
+        <div
+          *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+          class="validation">
+          <small *ngIf="form.get('password')?.hasError('required')">
+            Field password is required
+          </small>
+<!--          <small *ngIf="form.get('password')?.hasError('minlength')">-->
+<!--            Password must be more than-->
+<!--            {{form.get('password')?.errors?.['minlength'].requaredLength}} characters.-->
+<!--            Now is-->
+<!--            {{form.get('password')?.errors?.['minlength'].actualLength}}-->
+<!--          </small>-->
+<!--          <small *ngIf="form.get('password')?.hasError('pattern')">-->
+<!--             Password must contain at least one uppercase letter, one lowercase letter, and one digit-->
+<!--          </small>-->
+        </div>
+      </div>
+
+      <label class="form__control mb-32 form__control-checkbox">
+        <input type="checkbox">
+        <span class="checkmark"></span>
+        Remember me
+      </label>
+
+      <button
+        class="btn-red"
+        type="submit"
+        [disabled]="form.invalid || submitted"
+      >
+        <svg viewBox="0 0 225 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <polygon fill="none" points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
+          <polygon fill="transparent" stroke="#FF1822" points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
+        </svg>
+        <span>LOG IN</span>
+      </button>
+
+    </form>
+
+    <a>Forgot password?</a>
+
+  </div>
+</div>

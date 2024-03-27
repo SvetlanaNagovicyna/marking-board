@@ -1,0 +1,29 @@
+@import 'src/styles/shared/functions';
+
+.header {
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: em(40) 0;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: em(1720);
+    margin: 0 auto;
+  }
+
+  &__logo {
+    width: em(300);
+  }
+
+  button {
+    &:nth-of-type(1) {
+      margin-right: em(24);
+    }
+  }
+}

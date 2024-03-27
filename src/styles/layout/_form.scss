@@ -1,0 +1,138 @@
+@import '../shared/functions';
+@import 'src/styles/shared/colors';
+
+.form {
+  width: 100%;
+
+  &__control {
+    position: relative;
+    margin-bottom: em(16);
+
+    .validation {
+      position: absolute;
+      bottom: em(3);
+      left: em(15);
+
+      small {
+        font-size: em(9);
+        color: $red-color;
+        display: block;
+      }
+    }
+
+    &.mb-24 {
+      margin-bottom: em(24);
+    }
+
+    &.mb-32 {
+      margin-bottom: em(32);
+    }
+
+    label {
+      cursor: pointer;
+    }
+
+    input {
+      font-size: 1em;
+      display: block;
+      height: em(53);
+      width: 100%;
+      color: $text-color;
+      background: $grey-color;
+      border: em(1) solid $grey-color;
+      padding: 0 em(16);
+      margin: 0;
+
+      &[type=checkbox] {
+        position: absolute;
+        opacity: 0;
+        height: 0;
+        width: 0;
+        cursor: pointer;
+      }
+
+      &[type=checkbox]:checked ~ .checkmark {
+        background-color: $red-color;
+        border: em(1) solid $red-color;
+
+        &:after {
+          opacity: 1;
+        }
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+    }
+
+    &-checkbox {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .checkmark {
+        position: relative;
+        top: 0;
+        left: 0;
+        background: $grey-color;
+        border: em(1) solid $grey-color;
+        width: em(31);
+        height: em(31);
+        margin-right: em(15);
+
+        &:after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 60%;
+          height: 60%;
+          background: url('../../assets/img/checkbox.svg') no-repeat 50%;
+          opacity: 0;
+        }
+      }
+    }
+
+    &.invalid {
+      input {
+        border: em(1) solid $red-color;
+      }
+    }
+  }
+  button {
+    position: relative;
+    width: 100%;
+    height: em(74.5);
+    margin-bottom: em(32);
+
+    span {
+      position: relative;
+      font-size: em(16);
+      width: 100%;
+      display: inline-block;
+      &:after {
+        content: "";
+        position: absolute;
+        left: em(-35);
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-block;
+        width: em(80);
+        height: em(1);
+        background-color: $white-color;
+        transition: all .3s ease-in-out;
+      }
+    }
+
+    &:hover {
+      span {
+        &:after {
+          left: em(-25);
+        }
+      }
+    }
+  }
+}
