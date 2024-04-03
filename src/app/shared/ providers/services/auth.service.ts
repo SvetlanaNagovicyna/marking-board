@@ -37,7 +37,7 @@ export class AuthService {
        );
   }
 
-  logout() {
+  logout(): void {
     this.setToken(null)
   }
 
@@ -45,10 +45,8 @@ export class AuthService {
     return !!this.token;
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     const {message} = error.error.error;
-
-    console.log(message);
 
     switch (message) {
       case 'INVALID_EMAIL':
@@ -67,9 +65,7 @@ export class AuthService {
   }
 
 
-
-  // private setToken(){}
-  private setToken(response: AuthResponseInterface | any){   /// тут питання, мені треба щоб тип був AuthResponseInterface | null, але по типам не сходиться
+  private setToken(response: AuthResponseInterface | any): void {   /// тут питання, мені треба щоб тип був AuthResponseInterface | null, але по типам не сходиться
     if (response) {
       const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
       localStorage.setItem('token', response.idToken);
@@ -78,5 +74,4 @@ export class AuthService {
       localStorage.clear();
     }
   }
-
 }

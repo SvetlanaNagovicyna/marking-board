@@ -9,12 +9,12 @@
     margin-bottom: em(16);
 
     .validation {
-      position: absolute;
-      bottom: em(3);
-      left: em(15);
+      position: relative;
+      top: em(8);
+      left: 0;
 
       small {
-        font-size: em(9);
+        font-size: em(10);
         color: $red-color;
         display: block;
       }
@@ -106,7 +106,7 @@
     position: relative;
     width: 100%;
     height: em(74.5);
-    margin-bottom: em(32);
+    margin-bottom: em(36);
 
     span {
       position: relative;

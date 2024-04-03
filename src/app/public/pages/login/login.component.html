@@ -5,25 +5,21 @@
       <span>entrance in  <br> marking board</span>
       <span class="title-red">.</span>
     </div>
-    <div class="alert-error" *ngIf="auth.error$ | async as error">
-      {{error}}
-    </div>
+
 
     <form class="form" [formGroup]="form" (ngSubmit)="submit()">
-
-
       <div
         class="form__control"
-        [ngClass]="{invalid: form.get('email')?.touched && form.get('email')?.invalid}"
+        [ngClass]="{invalid: form.controls.email.touched && form.controls.email.errors}"
       >
         <input type="email" placeholder="Email" formControlName="email">
         <div
-          *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
+          *ngIf="form.controls.email.touched && form.controls.email.invalid"
           class="validation">
-          <small *ngIf="form.get('email')?.errors?.['required']">
+          <small *ngIf="form.controls.email.hasError('required')">
             Field email is required
           </small>
-          <small *ngIf="form.get('email')?.errors?.['email']">
+          <small *ngIf="form.controls.email.hasError('email')">
             Field must be type email
           </small>
         </div>
@@ -31,26 +27,27 @@
 
       <div
         class="form__control mb-24"
-        [ngClass]="{invalid: form.get('password')?.touched && form.get('password')?.invalid}"
+        [ngClass]="{invalid: form.controls.password.touched && form.controls.password.errors}"
       >
         <input type="password" placeholder="Password" formControlName="password">
         <div
-          *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+          *ngIf="form.controls.password.touched && form.controls.password.invalid"
           class="validation">
-          <small *ngIf="form.get('password')?.hasError('required')">
+          <small *ngIf="form.controls.password.hasError('required')">
             Field password is required
           </small>
-<!--          <small *ngIf="form.get('password')?.hasError('minlength')">-->
-<!--            Password must be more than-->
-<!--            {{form.get('password')?.errors?.['minlength'].requaredLength}} characters.-->
-<!--            Now is-->
-<!--            {{form.get('password')?.errors?.['minlength'].actualLength}}-->
-<!--          </small>-->
-<!--          <small *ngIf="form.get('password')?.hasError('pattern')">-->
-<!--             Password must contain at least one uppercase letter, one lowercase letter, and one digit-->
-<!--          </small>-->
+          <small *ngIf="form.controls.password.hasError('minlength')">
+            Password must be more than
+            {{form.controls.password.errors?.['minlength'].requaredLength}} characters.
+            Now is
+            {{form.controls.password.errors?.['minlength'].actualLength}}
+          </small>
+          <small *ngIf="form.controls.password.hasError('pattern')">
+             Password must contain at least one uppercase letter, one lowercase letter, and one digit
+          </small>
         </div>
       </div>
+
 
       <label class="form__control mb-32 form__control-checkbox">
         <input type="checkbox">
@@ -71,6 +68,12 @@
       </button>
 
     </form>
+
+
+    <div class="alert-error" *ngIf="auth.error$ | async as error">
+      {{error}}
+    </div>
+
 
     <a>Forgot password?</a>
 

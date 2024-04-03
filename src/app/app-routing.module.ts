@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from "./public/pages/login/login.component";
 
 const routes: Routes = [
   // {
@@ -14,17 +13,17 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./private/private.module').then(mod => mod.PrivateModule),
-  }
+  },
 
-  // {
-  //   path: '',
-  //   pathMatch: 'full',
-  //   redirectTo: '/'
-  // },
-  // {
-  //   path: '**',
-  //   redirectTo: '/'
-  // },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/'
+  },
+  {
+    path: '**',
+    redirectTo: '/'
+  },
 ];
 
 @NgModule({

@@ -1,9 +1,9 @@
 <header class="header">
   <nav class="container">
     <div class="header__logo">
-      <img src="../../../assets/img/logo.svg" alt="logo">
+      <img src="../../../../assets/img/logo.svg" alt="logo">
     </div>
-    <div class="header__buttons">
+    <div class="header__buttons" *ngIf="!auth.isAuthenticated">
       <button class="button width-179">
         <svg width="179" height="45" viewBox="0 0 179 45" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1 1V44H161.168L177.617 27.5503V1H1Z" stroke="#FF1822"/>
@@ -14,5 +14,6 @@
         <span>REGISTRATION</span>
       </button>
     </div>
+
   </nav>
 </header>
