@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {User} from "../../../shared/interfaces/user.interfaces";
 import {AuthService} from "../../../shared/ providers/services/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-page',
@@ -27,13 +27,21 @@ export class LoginComponent implements  OnInit {
   });
 
 
+
   submitted = false;
   auth = inject(AuthService);
   #router = inject(Router);
-
+  #route = inject(ActivatedRoute);
+  message : string = '';
 
 
   ngOnInit() {
+
+    this.#route.queryParams.subscribe((params: Params) => {
+      if(params['loginAgain']) {
+        this.message = 'The session has expired. Please, login again'
+      }
+    })
     console.log(this.form)
   }
 

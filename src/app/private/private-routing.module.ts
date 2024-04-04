@@ -2,6 +2,7 @@ import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {PrivateComponent} from "./private.component";
 import {HomeComponent} from "./pages/home/home.component";
+import {AuthGuard} from "../shared/ providers/guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
+        canActivate: [AuthGuard],
         loadChildren: () => import('./pages/home/home.module').then(mod => mod.HomeModule),
       },
       {
