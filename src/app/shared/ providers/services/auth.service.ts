@@ -18,7 +18,7 @@ export class AuthService {
 
   get token(): string | null {
 
-    const expDate = new Date(localStorage.getItem('fb-token-exp') ?? '');
+    const expDate = new Date(localStorage.getItem('token-exp') ?? '');
 
     if (new Date() > expDate) {
       this.logout();
@@ -28,11 +28,11 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  login(user: User): Observable<any> {
+  login(user: User, isChecked: boolean): Observable<any> {
      user.returnSecureToken = true;
      return this.#http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
        .pipe(
-         tap(this.setToken),
+         tap(response => this.setToken(response, isChecked)),
          catchError(this.handleError.bind(this))
        );
   }
@@ -65,11 +65,19 @@ export class AuthService {
   }
 
 
-  private setToken(response: AuthResponseInterface | any): void {   /// тут питання, мені треба щоб тип був AuthResponseInterface | null, але по типам не сходиться
+  private setToken(response: AuthResponseInterface | any, isChecked: boolean = false): void {   /// тут питання, мені треба щоб тип був AuthResponseInterface | null, але по типам не сходиться
+
     if (response) {
-      const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+      const expDate = new Date(new Date().getTime() + +response.expiresIn);
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
+
+      if (isChecked) {
+        const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+        localStorage.setItem('token', response.idToken);
+        localStorage.setItem('token-exp', expDate.toString());
+      }
+
     } else {
       localStorage.clear();
     }

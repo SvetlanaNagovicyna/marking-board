@@ -33,6 +33,9 @@ export class LoginComponent implements  OnInit {
   #router = inject(Router);
   #route = inject(ActivatedRoute);
   message : string = '';
+  isChecked: boolean = false;
+
+
 
 
   ngOnInit() {
@@ -43,6 +46,7 @@ export class LoginComponent implements  OnInit {
       }
     })
     console.log(this.form)
+
   }
 
 
@@ -58,7 +62,7 @@ export class LoginComponent implements  OnInit {
       password: this.form.value.password ?? '',
     }
 
-    this.auth.login(user).subscribe({
+    this.auth.login(user, this.isChecked).subscribe({
       next: () => {
         this.form.reset();
         this.#router.navigate(['home']);
