@@ -2,7 +2,9 @@ import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {PublicComponent} from "./public.component";
 import {LoginComponent} from "./pages/login/login.component";
-import {RegistrationModule} from "./pages/registration/registration.module";
+import {RegistrationComponent} from "./pages/registration/registration.component";
+import {LoginGuard} from "../shared/providers/guards/login/login.guard";
+
 
 const routes: Routes = [
   {
@@ -11,10 +13,13 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        loadChildren: () => import('./pages/login/login.module').then(mod => mod.LoginModule)
+        component: LoginComponent,
+        canActivate: [LoginGuard],
+        loadChildren: () => import('./pages/login/login.module').then(mod => mod.LoginModule),
       },
       {
         path: 'registration',
+        component: RegistrationComponent,
         loadChildren: () => import('./pages/registration/registration.module').then(mod => mod.RegistrationModule)
       },
       {

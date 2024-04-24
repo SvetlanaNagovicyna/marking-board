@@ -1,11 +1,10 @@
 import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot} from '@angular/router';
 import {inject} from "@angular/core";
-import {AuthService} from "../services/auth.service";
+import {AuthService} from "../../services/auth.service";
+
 
 export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
-  if (inject(AuthService).isAuthenticated()) {
-    return true
-  } else {
+  if (!inject(AuthService).isAuthenticated()) {
     inject(Router).navigate(['login'], {
       queryParams: {
         loginAgain: true,
@@ -13,4 +12,5 @@ export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
     })
     return false
   }
+  return true
 };

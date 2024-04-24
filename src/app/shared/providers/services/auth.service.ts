@@ -37,6 +37,16 @@ export class AuthService {
        );
   }
 
+  singUp(user: User, isChecked: boolean): Observable<any> {
+    user.returnSecureToken = true;
+    return this.#http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`, user)
+      .pipe(
+        tap(this.#http.post(`${environment.fbDbUrl}/users.json`, user)),
+        tap(response => this.setToken(response, isChecked)),
+        catchError(this.handleError.bind(this))
+      );
+  }
+
   logout(): void {
     this.setToken(null)
   }

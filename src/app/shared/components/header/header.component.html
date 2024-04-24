@@ -3,17 +3,25 @@
     <div class="header__logo">
       <img src="../../../../assets/img/logo.svg" alt="logo">
     </div>
-    <div class="header__buttons" *ngIf="!auth.isAuthenticated">
-      <button class="button width-179">
+    <div class="header__buttons" *ngIf="!auth.isAuthenticated(); else elseBlock">
+      <button class="button width-179" routerLink="login">
         <svg width="179" height="45" viewBox="0 0 179 45" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1 1V44H161.168L177.617 27.5503V1H1Z" stroke="#FF1822"/>
         </svg>
         <span>LOG IN</span>
       </button>
-      <button class="button hover-text-red">
+      <button class="button hover-text-red" routerLink="registration">
         <span>REGISTRATION</span>
       </button>
     </div>
+    <ng-template #elseBlock>
+      <button class="button width-179">
+        <svg width="179" height="45" viewBox="0 0 179 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1V44H161.168L177.617 27.5503V1H1Z" stroke="#FF1822"/>
+        </svg>
+        <span>Super</span>
+      </button>
+    </ng-template>
 
   </nav>
 </header>
