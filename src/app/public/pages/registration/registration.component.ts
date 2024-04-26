@@ -34,18 +34,14 @@ export class RegistrationComponent implements OnInit {
       ]),
   },
     {validators: this.passwordMatchValidator()}
-
   );
-
 
   submitted = false;
   auth = inject(AuthService);
   #router = inject(Router);
   destroyRef = inject(DestroyRef);
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -74,10 +70,9 @@ export class RegistrationComponent implements OnInit {
       password: this.form.value.password ?? '',
       name: this.form.value.name ?? '',
     }
-
-   this.singUp(user)
-
+    this.singUp(user)
   }
+
   singUp(user: User) {
     this.auth.singUp(user)
       .pipe(takeUntilDestroyed(this.destroyRef))

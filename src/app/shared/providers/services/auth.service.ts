@@ -6,10 +6,10 @@ import {User} from "../../interfaces/user.interfaces";
 import {environment} from "../../../../environments/environment";
 import {AuthResponseInterface} from "../../interfaces/authResponse.interface";
 
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 
   public error$: Subject<string> = new Subject<string>();
@@ -17,14 +17,11 @@ export class AuthService {
   #http = inject(HttpClient);
 
   get token(): string | null {
-
     const expDate = new Date(localStorage.getItem('token-exp') ?? '');
-
     if (new Date() > expDate) {
       this.logout();
       return null;
     }
-
     return localStorage.getItem('token');
   }
 
@@ -50,12 +47,13 @@ export class AuthService {
   logout(): void {
     this.setToken(null)
   }
+
   isAuthenticated(): boolean {
     return !!this.token;
   }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     const {message} = error.error.error;
-
     switch (message) {
       case 'INVALID_EMAIL':
         this.error$.next('Invalid email');
@@ -71,18 +69,15 @@ export class AuthService {
   }
 
   private setToken(response: AuthResponseInterface | any, rememberMe: boolean = false): void {
-
     if (response) {
       const expDate = new Date(new Date().getTime() + +response.expiresIn);
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
-
       if (rememberMe) {
         const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
         localStorage.setItem('token', response.idToken);
         localStorage.setItem('token-exp', expDate.toString());
       }
-
     } else {
       localStorage.clear();
     }

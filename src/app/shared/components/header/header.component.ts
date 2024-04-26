@@ -6,6 +6,7 @@ import {AuthService} from "../../providers/services/auth.service";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
 export class HeaderComponent  {
   auth = inject(AuthService);
 }

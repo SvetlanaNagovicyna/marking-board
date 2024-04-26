@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import {RegistrationComponent} from "./registration.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
-
-
 @NgModule({
   declarations: [
       RegistrationComponent,
@@ -15,4 +13,5 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
       ReactiveFormsModule,
   ]
 })
+
 export class RegistrationModule { }

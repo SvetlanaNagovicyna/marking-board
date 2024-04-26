@@ -10,8 +10,8 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements  OnInit {
 
+export class LoginComponent implements  OnInit {
   form = new FormGroup({
     email: new FormControl('',
       [
@@ -26,8 +26,6 @@ export class LoginComponent implements  OnInit {
     rememberMe: new FormControl<boolean>(false)
   });
 
-
-
   submitted = false;
   auth = inject(AuthService);
   #router = inject(Router);
@@ -35,7 +33,6 @@ export class LoginComponent implements  OnInit {
   destroyRef = inject(DestroyRef);
   message : string = '';
   greenText: boolean = false;
-
 
   ngOnInit() {
     this.#route.queryParams
@@ -51,7 +48,6 @@ export class LoginComponent implements  OnInit {
     })
   }
 
-
   submit() {
     if(this.form.invalid) {
       return
@@ -62,7 +58,6 @@ export class LoginComponent implements  OnInit {
       email: this.form.value.email ?? '',
       password: this.form.value.password ?? '',
     }
-    // this.login(user);
   }
 
   login(user: User) {
