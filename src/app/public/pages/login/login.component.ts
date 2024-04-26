@@ -11,7 +11,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent implements  OnInit {
+export class LoginComponent implements OnInit {
   form = new FormGroup({
     email: new FormControl('',
       [
@@ -21,7 +21,6 @@ export class LoginComponent implements  OnInit {
     password: new FormControl('',
       [
         Validators.required,
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$'),
       ]),
     rememberMe: new FormControl<boolean>(false)
   });
@@ -29,23 +28,13 @@ export class LoginComponent implements  OnInit {
   submitted = false;
   auth = inject(AuthService);
   #router = inject(Router);
-  #route = inject(ActivatedRoute);
+  #activatedRoute = inject(ActivatedRoute);
   destroyRef = inject(DestroyRef);
   message : string = '';
   greenText: boolean = false;
 
   ngOnInit() {
-    this.#route.queryParams
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params: Params) => {
-      if(params['loginAgain']) {
-        this.message = 'The session has expired. Please, login again'
-      }
-      if(params['registration']) {
-          this.greenText = true;
-          this.message = 'You successfully registered! Please login.'
-      }
-    })
+    this.subscribeToQueryParams();
   }
 
   submit() {
@@ -58,6 +47,8 @@ export class LoginComponent implements  OnInit {
       email: this.form.value.email ?? '',
       password: this.form.value.password ?? '',
     }
+
+    this.login(user);
   }
 
   login(user: User) {
@@ -72,6 +63,20 @@ export class LoginComponent implements  OnInit {
         },
         error: () => {
           this.submitted = false;
+        }
+      })
+  }
+
+  subscribeToQueryParams() {
+    this.#activatedRoute.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params: Params) => {
+        if(params['loginAgain']) {
+          this.message = 'The session has expired. Please, login again'
+        }
+        if(params['registration']) {
+          this.greenText = true;
+          this.message = 'You successfully registered! Please login.'
         }
       })
   }
