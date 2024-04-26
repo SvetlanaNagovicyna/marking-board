@@ -75,10 +75,10 @@ export class RegistrationComponent implements OnInit {
       name: this.form.value.name ?? '',
     }
 
-   this.authSingUp(user)
+   this.singUp(user)
 
   }
-  authSingUp(user: User) {
+  singUp(user: User) {
     this.auth.singUp(user)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

@@ -62,10 +62,10 @@ export class LoginComponent implements  OnInit {
       email: this.form.value.email ?? '',
       password: this.form.value.password ?? '',
     }
-    this.authLogin(user);
+    // this.login(user);
   }
 
-  authLogin(user: User) {
+  login(user: User) {
     const rememberMe: boolean = !!this.form.value.rememberMe;
     this.auth.login(user, rememberMe)
       .pipe(takeUntilDestroyed(this.destroyRef))
