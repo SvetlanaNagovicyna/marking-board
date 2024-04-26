@@ -1,8 +1,9 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {User} from "../../../shared/interfaces/user.interfaces";
 import {AuthService} from "../../../shared/providers/services/auth.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-login-page',
@@ -20,10 +21,9 @@ export class LoginComponent implements  OnInit {
     password: new FormControl('',
       [
         Validators.required,
-        Validators.minLength(6),
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$'),
       ]),
-
+    rememberMe: new FormControl<boolean>(false)
   });
 
 
@@ -32,21 +32,23 @@ export class LoginComponent implements  OnInit {
   auth = inject(AuthService);
   #router = inject(Router);
   #route = inject(ActivatedRoute);
+  destroyRef = inject(DestroyRef);
   message : string = '';
-  isChecked: boolean = false;
-
-
+  greenText: boolean = false;
 
 
   ngOnInit() {
-
-    this.#route.queryParams.subscribe((params: Params) => {
+    this.#route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params: Params) => {
       if(params['loginAgain']) {
         this.message = 'The session has expired. Please, login again'
       }
+      if(params['registration']) {
+          this.greenText = true;
+          this.message = 'You successfully registered! Please login.'
+      }
     })
-    console.log(this.form)
-
   }
 
 
@@ -54,24 +56,28 @@ export class LoginComponent implements  OnInit {
     if(this.form.invalid) {
       return
     }
-
     this.submitted = true;
 
     const user: User = {
       email: this.form.value.email ?? '',
       password: this.form.value.password ?? '',
     }
+    this.authLogin(user);
+  }
 
-    this.auth.login(user, this.isChecked).subscribe({
-      next: () => {
-        this.form.reset();
-        this.#router.navigate(['home']);
-        this.submitted = true;
-      },
-      error: () => {
-        this.submitted = false;
-      }
-    })
-
+  authLogin(user: User) {
+    const rememberMe: boolean = !!this.form.value.rememberMe;
+    this.auth.login(user, rememberMe)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.form.reset();
+          this.#router.navigate(['home']);
+          this.submitted = true;
+        },
+        error: () => {
+          this.submitted = false;
+        }
+      })
   }
 }

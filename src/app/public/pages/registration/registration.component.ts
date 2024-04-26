@@ -1,8 +1,9 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {User} from "../../../shared/interfaces/user.interfaces";
 import {AuthService} from "../../../shared/providers/services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-registration',
@@ -40,19 +41,11 @@ export class RegistrationComponent implements OnInit {
   submitted = false;
   auth = inject(AuthService);
   #router = inject(Router);
-  #route = inject(ActivatedRoute);
-  message : string = '';
-  isChecked: boolean = false;
+  destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
   }
 
-  // passwordMatchValidator( control: AbstractControl) {
-  //   console.log(control)
-  //   return control.get('password')?.value === control.get('confirmPassword')?.value
-  //     ? null
-  //     : {'mismatch': true};
-  // }
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -70,9 +63,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   submit() {
-
-    console.log(this.form)
-
     if(this.form.invalid) {
       return
     }
@@ -85,16 +75,25 @@ export class RegistrationComponent implements OnInit {
       name: this.form.value.name ?? '',
     }
 
-    this.auth.singUp(user, this.isChecked).subscribe({
-      next: () => {
-        this.form.reset();
-        this.#router.navigate(['login']);
-        this.submitted = true;
-      },
-      error: () => {
-        this.submitted = false;
-      }
-    })
+   this.authSingUp(user)
 
+  }
+  authSingUp(user: User) {
+    this.auth.singUp(user)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.form.reset();
+          this.#router.navigate(['login'], {
+            queryParams: {
+              registration: true,
+            }
+          });
+          this.submitted = true;
+        },
+        error: () => {
+          this.submitted = false;
+        }
+      })
   }
 }

@@ -12,9 +12,9 @@ import {RouterLink} from "@angular/router";
     BackgroundComponent,
   ],
     imports: [
-        HttpClientModule,
-        CommonModule,
-        RouterLink,
+      HttpClientModule,
+      CommonModule,
+      RouterLink,
     ],
   exports: [
     HttpClientModule,

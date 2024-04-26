@@ -6,8 +6,8 @@
       <span class="title-red">.</span>
     </div>
 
-
     <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+
       <div
         class="form__control"
         [ngClass]="{invalid: form.controls.name.touched && form.controls.name.errors}"
@@ -21,6 +21,7 @@
           </small>
         </div>
       </div>
+
       <div
         class="form__control"
         [ngClass]="{invalid: form.controls.email.touched && form.controls.email.errors}"
@@ -75,14 +76,8 @@
           <small *ngIf="form.controls.confirmPassword.touched && form.controls.confirmPassword.hasError('mismatch')">
             Passwords must match
           </small>
-
         </div>
-
-<!--        {{ form.errors | json }}-->
       </div>
-
-
-
 
       <button
         class="btn-red"

@@ -28,21 +28,21 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  login(user: User, isChecked: boolean): Observable<any> {
+  login(user: User, rememberMe: boolean): Observable<any> {
      user.returnSecureToken = true;
      return this.#http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
        .pipe(
-         tap(response => this.setToken(response, isChecked)),
+         tap(response => this.setToken(response, rememberMe)),
          catchError(this.handleError.bind(this))
        );
   }
 
-  singUp(user: User, isChecked: boolean): Observable<any> {
+  singUp(user: User): Observable<any> {
     user.returnSecureToken = true;
     return this.#http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`, user)
       .pipe(
         tap(this.#http.post(`${environment.fbDbUrl}/users.json`, user)),
-        tap(response => this.setToken(response, isChecked)),
+        tap(response => this.setToken(response)),
         catchError(this.handleError.bind(this))
       );
   }
@@ -50,11 +50,9 @@ export class AuthService {
   logout(): void {
     this.setToken(null)
   }
-
   isAuthenticated(): boolean {
     return !!this.token;
   }
-
   private handleError(error: HttpErrorResponse): Observable<never> {
     const {message} = error.error.error;
 
@@ -69,20 +67,17 @@ export class AuthService {
         this.error$.next('Email not found');
         break;
     }
-
     return throwError(() => error);
-
   }
 
-
-  private setToken(response: AuthResponseInterface | any, isChecked: boolean = false): void {   /// тут питання, мені треба щоб тип був AuthResponseInterface | null, але по типам не сходиться
+  private setToken(response: AuthResponseInterface | any, rememberMe: boolean = false): void {
 
     if (response) {
       const expDate = new Date(new Date().getTime() + +response.expiresIn);
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
 
-      if (isChecked) {
+      if (rememberMe) {
         const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
         localStorage.setItem('token', response.idToken);
         localStorage.setItem('token-exp', expDate.toString());

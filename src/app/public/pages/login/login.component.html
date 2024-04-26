@@ -6,8 +6,8 @@
       <span class="title-red">.</span>
     </div>
 
-
     <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+
       <div
         class="form__control"
         [ngClass]="{invalid: form.controls.email.touched && form.controls.email.errors}"
@@ -36,23 +36,14 @@
           <small *ngIf="form.controls.password.hasError('required')">
             Field password is required
           </small>
-          <small *ngIf="form.controls.password.hasError('minlength')">
-            Password must be more than
-            {{form.controls.password.errors?.['minlength'].requaredLength}} characters.
-            Now is
-            {{form.controls.password.errors?.['minlength'].actualLength}}
-          </small>
           <small *ngIf="form.controls.password.hasError('pattern')">
              Password must contain at least one uppercase letter, one lowercase letter, and one digit
           </small>
         </div>
       </div>
 
-
       <label class="form__control mb-32 form__control-checkbox">
-        <input type="checkbox"
-               [(ngModel)]="isChecked"
-               [ngModelOptions]="{standalone: true}">
+        <input type="checkbox" formControlName="rememberMe">
         <span class="checkmark"></span>
         Remember me
       </label>
@@ -71,15 +62,15 @@
 
     </form>
 
-
     <div class="alert-error" *ngIf="auth.error$ | async as error">
       {{error}}
     </div>
 
-    <div class="alert-error" *ngIf="message">
+    <div class="alert-error"
+         [ngClass]="{green: greenText}"
+         *ngIf="message">
       {{ message }}
     </div>
-
 
   </div>
 </div>
