@@ -11,11 +11,11 @@ import {RouterLink} from "@angular/router";
     HeaderComponent,
     BackgroundComponent,
   ],
-    imports: [
-      HttpClientModule,
-      CommonModule,
-      RouterLink,
-    ],
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    RouterLink,
+  ],
   exports: [
     HttpClientModule,
     HeaderComponent,
