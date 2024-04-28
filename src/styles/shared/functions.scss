@@ -1,0 +1,29 @@
+//Default font size for html elements
+$browser-context: 16;
+
+// function calculates em depending on default font size in px
+
+@function em($pixels, $context: $browser-context) {
+  @return #{calc($pixels/$context)}em;
+}
+
+// function calculates rem depending on default font size in px
+
+@function rem($pixels, $context: $browser-context) {
+  @return #{calc($pixels/$context)}rem;
+}
+
+
+// function calculates vw depending on the browser viewport
+// Usage:
+// - the first argument is the screen width  (if the value is empty = 1920)
+// - the second argument is how many pixels need to
+// Examples: font-size: vp(); => 1920px - 16px
+// font-size: vp(1440); => 1440px - 16px
+// font-size: vp(1440, 14); => 1440px - 14px
+
+@function vp($context: 1920, $pixels: $browser-context) {
+  @return calc($pixels/($context / 100) * 1vw);
+}
+
+

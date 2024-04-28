@@ -1,0 +1,81 @@
+@import '../shared/functions';
+@import 'src/styles/shared/colors';
+
+button {
+  position: relative;
+  outline: none;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-size: em(16);
+  z-index: 1;
+
+  span {
+    color: $white-color;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    line-height: 1;
+    font-size: em(13, 16);
+    transition: all .3s ease-in-out;
+  }
+
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
+    path {
+      fill: transparent;
+      transition: all .3s ease-in-out;
+    }
+  }
+
+  &:hover {
+    svg {
+      path {
+        fill: $red-color;
+      }
+    }
+  }
+  &:disabled {
+    cursor: not-allowed;
+    user-select: none;
+    pointer-events: none;
+    opacity: .3;
+    filter: grayscale(1);
+  }
+}
+
+.width-179 {
+  width: em(179);
+  height: em(45);
+}
+
+.hover-text-red {
+  &:hover {
+    span {
+      color: $red-color;
+    }
+  }
+}
+
+.btn-red {
+  svg {
+    polygon {
+      fill: transparent;
+      transition: all .3s ease-in-out;
+    }
+  }
+  &:hover {
+    svg {
+      polygon {
+        fill: $red-color;
+      }
+    }
+  }
+}

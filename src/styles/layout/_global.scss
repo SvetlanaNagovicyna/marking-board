@@ -1,0 +1,40 @@
+@import '../shared/functions';
+@import 'src/styles/shared/colors';
+
+
+html {
+  scroll-behavior: smooth;
+  font-size: vp(1920);
+  height: 100%;
+  background-color: $black-color;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  color: $text-color;
+}
+
+.main__wrap{
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  overflow: hidden;
+  background-color: $black-color;
+}
+
+app-header {
+  flex: 0 0 auto;
+}
+
+main {
+  min-height: 100%;
+  flex: 1 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
