@@ -1,4 +1,4 @@
-export interface AuthResponseInterface {
+export interface AuthResponse {
   idToken: string,
   expiresIn: string,
 }
