@@ -1,5 +1,5 @@
 @import '../shared/functions';
-@import 'src/styles/shared/colors';
+
 
 .title {
   margin-bottom: em(48);
@@ -9,11 +9,11 @@
     font-size: em(44);
     line-height: 1.1;
     color: transparent;
-    -webkit-text-stroke: em(1, 44) $white-color;
+    -webkit-text-stroke: em(1, 44) var(--white-color);
     text-transform: uppercase;
   }
   .title-red {
-    -webkit-text-stroke: em(1, 44)  $red-color;
+    -webkit-text-stroke: em(1, 44)  var(--red-color);
     padding-left: em(10, 44);
   }
 }

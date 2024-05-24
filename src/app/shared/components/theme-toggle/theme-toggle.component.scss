@@ -1,0 +1,82 @@
+@import 'src/styles/shared/functions';
+
+
+
+.switcher {
+  position: relative;
+  display: inline-block;
+  width: em(90);
+  height: em(43);
+  z-index: 5;
+  cursor: pointer;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--toggle-color);
+    transition: .4s;
+
+    &::before {
+      position: absolute;
+      content: "";
+      height: em(43);
+      width: em(45);
+      left: 0;
+      bottom: 0;
+      z-index: 2;
+      background-color: var(--red-color);
+      transition: .4s;
+    }
+  }
+  .white svg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: em(10);
+    z-index: 3;
+    width: em(26);
+    height: em(26);
+    ellipse, line {
+      stroke: var(--toggle-svg-color);
+      transition: all .4s ease-in-out;
+    }
+  }
+
+  .dark svg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: em(10);
+    z-index: 3;
+    width: em(26);
+    height: em(26);
+
+    path {
+      transition: all .4s ease-in-out;
+    }
+  }
+
+  input:checked + .slider::before {
+    transform: translateX(em(45));
+  }
+  input:checked ~ .dark svg {
+    path {
+      stroke: var(--toggle-svg-color);
+    }
+  }
+  input:checked ~ .white svg {
+    ellipse, line {
+      stroke: var(--toggle-svg-checked-color);
+    }
+  }
+}

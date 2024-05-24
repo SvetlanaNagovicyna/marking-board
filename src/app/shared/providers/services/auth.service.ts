@@ -5,6 +5,7 @@ import { catchError, map, mergeMap, Observable, Subject, tap, throwError } from 
 import { User } from "../../interfaces/user.interfaces";
 import { environment } from "../../../../environments/environment";
 import { AuthResponse } from "../../interfaces/auth-response.interface";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,13 @@ export class AuthService {
   public error$: Subject<string> = new Subject<string>();
 
   #http = inject(HttpClient);
+  #router = inject(Router)
 
   get token(): string | null {
     const expDate = new Date(localStorage.getItem('token-exp') ?? '');
     if (new Date() > expDate) {
       this.logout();
+      this.#router.navigate(['login'])
       return null;
     }
     return localStorage.getItem('token');
@@ -89,11 +92,11 @@ export class AuthService {
 
   private setToken(response: AuthResponse | null, rememberMe: boolean = false): void {
     if (response) {
-      const expDate = new Date(new Date().getTime() + +response.expiresIn);
+      const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
       if (rememberMe) {
-        const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+        const expDate = new Date(new Date().getTime() + +response.expiresIn * 10000);
         localStorage.setItem('token', response.idToken);
         localStorage.setItem('token-exp', expDate.toString());
       }

@@ -1,5 +1,7 @@
 @import '../shared/functions';
-@import 'src/styles/shared/colors';
+
+
+
 
 button {
   position: relative;
@@ -13,7 +15,7 @@ button {
   z-index: 1;
 
   span {
-    color: $white-color;
+    color: var(--btn-red-text-color);
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     line-height: 1;
@@ -38,7 +40,7 @@ button {
   &:hover {
     svg {
       path {
-        fill: $red-color;
+        fill: var(--red-color);
       }
     }
   }
@@ -59,7 +61,7 @@ button {
 .hover-text-red {
   &:hover {
     span {
-      color: $red-color;
+      color: var(--red-color);
     }
   }
 }
@@ -74,7 +76,7 @@ button {
   &:hover {
     svg {
       polygon {
-        fill: $red-color;
+        fill: var(--red-color);
       }
     }
   }

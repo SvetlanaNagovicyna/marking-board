@@ -1,5 +1,5 @@
 @import 'src/styles/shared/functions';
-@import 'src/styles/shared/colors';
+
 
 .header {
   position: absolute;
@@ -74,13 +74,16 @@
 
         span {
           text-transform: uppercase;
-          color: $white-color;
+          color: var(--title-color);
           font-weight: 600;
           font-size: em(13);
           margin-right: em(12,13);
         }
         svg {
           width: em(8);
+          path {
+            fill: var(--title-color);
+          }
         }
 
       }
@@ -92,8 +95,8 @@
 
         li {
           height: em(39);
-          background-color: $base-color;
-          border-bottom: em(3) solid $black-color;
+          background-color: var(--base-color);
+          border-bottom: em(3) solid var(--background-color);
           padding: em(12);
           display: flex;
           align-items: center;
@@ -101,7 +104,7 @@
           span {
             font-size: em(13);
             line-height: 1;
-            color: $text-color;
+            color: var(--text-color);
             text-transform: initial;
           }
           &:last-child {
@@ -112,89 +115,12 @@
     }
 
     .admin {
-      color: $red-color;
+      color: var(--red-color);
       font-weight: 600;
       margin-left: em(36, 13);
       font-size: em(13);
     }
 
-    .switcher {
-      position: relative;
-      display: inline-block;
-      width: em(90);
-      height: em(43);
-      z-index: 5;
-      cursor: pointer;
 
-      input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: $base-color;
-        transition: .4s;
-
-        &::before {
-          position: absolute;
-          content: "";
-          height: em(43);
-          width: em(45);
-          left: 0;
-          bottom: 0;
-          z-index: 2;
-          background-color: $red-color;
-          transition: .4s;
-        }
-      }
-      .white svg {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: em(10);
-        z-index: 3;
-        width: em(26);
-        height: em(26);
-        ellipse, line {
-          stroke: $white-color;
-          transition: all .4s ease-in-out;
-        }
-      }
-
-      .dark svg {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: em(10);
-        z-index: 3;
-        width: em(26);
-        height: em(26);
-
-        path {
-          transition: all .4s ease-in-out;
-        }
-      }
-
-      input:checked + .slider::before {
-        transform: translateX(em(45));
-      }
-      input:checked ~ .dark svg {
-        path {
-          stroke: $white-color;
-        }
-      }
-      input:checked ~ .white svg {
-        ellipse, line {
-          stroke: $text-color;
-        }
-      }
-    }
   }
 }
