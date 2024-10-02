@@ -5,4 +5,5 @@ export interface User {
   returnSecureToken?: boolean,
   name?: string,
   hasPerm?: boolean,
+  idDb?: string,
 }

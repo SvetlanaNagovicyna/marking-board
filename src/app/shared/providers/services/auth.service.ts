@@ -6,6 +6,8 @@ import { User } from "../../interfaces/user.interfaces";
 import { environment } from "../../../../environments/environment";
 import { AuthResponse } from "../../interfaces/auth-response.interface";
 import { Router } from '@angular/router';
+import { UserService } from './user.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,8 @@ export class AuthService {
   public error$: Subject<string> = new Subject<string>();
 
   #http = inject(HttpClient);
-  #router = inject(Router)
+  #router = inject(Router);
+  userService = inject(UserService);
 
   get token(): string | null {
     const expDate = new Date(localStorage.getItem('token-exp') ?? '');
@@ -32,10 +35,14 @@ export class AuthService {
      user.returnSecureToken = true;
      return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
        .pipe(
-         tap(response => this.setToken(response, rememberMe)),
+         tap(response => {
+           this.setToken(response, rememberMe);
+           localStorage.setItem('userId', response.localId);
+         }),
          catchError(this.handleError.bind(this))
        );
   }
+
 
   singUp(user: User): Observable<AuthResponse> {
     user.returnSecureToken = true;
@@ -45,6 +52,7 @@ export class AuthService {
           const newUser = {
             name: user.name,
             email: user.email,
+            idDb: res.localId,
             hasPerm: false,
           }
           return this.addUser(newUser)
@@ -92,7 +100,7 @@ export class AuthService {
 
   private setToken(response: AuthResponse | null, rememberMe: boolean = false): void {
     if (response) {
-      const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+      const expDate = new Date(new Date().getTime() + +response.expiresIn);
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
       if (rememberMe) {
