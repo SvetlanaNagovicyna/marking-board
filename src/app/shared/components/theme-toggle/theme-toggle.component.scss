@@ -62,6 +62,21 @@
     }
   }
 
+  &.light {
+    .slider::before {
+      transform: translateX(em(-45));
+    }
+    .dark svg {
+        path {
+          stroke: var(--toggle-svg-color);
+        }
+      }
+    .white svg {
+        ellipse, line {
+          stroke: var(--toggle-svg-checked-color);
+        }
+      }
+  }
   //input:checked + .slider::before {
   //  transform: translateX(em(45));
   //}
