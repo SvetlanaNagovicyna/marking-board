@@ -18,7 +18,7 @@
       <div class="header__user">
         <app-theme-toggle></app-theme-toggle>
 
-        <div class="admin">
+        <div *ngIf="user?.hasPerm" class="admin">
           <span>АДМИН ПАНЕЛЬ</span>
         </div>
         <ul class="user">
