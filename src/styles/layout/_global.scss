@@ -17,7 +17,7 @@
   --input-color: #1A1A1A;
 
 }
-#light {
+html.light {
   --base-color: #9e9e9e;
   --background-color: #b9b9b9;
   --btn-red-text-color: #000000;
@@ -26,8 +26,8 @@
   --text-color: #FFFFFF;
   --title-color: #000000;
   --toggle-color: #373737;
-
 }
+
 html {
   scroll-behavior: smooth;
   font-size: vp(1920);

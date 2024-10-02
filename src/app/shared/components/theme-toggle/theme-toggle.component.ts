@@ -1,23 +1,38 @@
-import { Component, inject } from '@angular/core';
-import { ThemeService } from '../../providers/services/theme.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-theme-toggle',
   templateUrl: './theme-toggle.component.html',
   styleUrls: ['./theme-toggle.component.scss']
 })
-export class ThemeToggleComponent {
-  #theme: ThemeService = inject(ThemeService);
+export class ThemeToggleComponent implements OnInit {
 
-  switchTheme(): void {
-    this.#theme.toggleTheme();
+  isToggle: boolean = false;
+
+  ngOnInit() {
+    const isToggleTheme = localStorage.getItem('isToggleTheme')
+    if(isToggleTheme) {
+      this.isToggle = JSON.parse(isToggleTheme);
+      this.changeColorTheme();
+    }
   }
 
-  isDarkThemeActive(): boolean {
-    return this.#theme.isDarkThemeActive();
+  isToggleTheme() {
+    this.isToggle = !this.isToggle;
+    console.log(this.isToggle)
+    localStorage.setItem('isToggleTheme', JSON.stringify(this.isToggle));
+    this.changeColorTheme();
   }
 
-  getThemeToggleLabel(): string {
-    return this.#theme.getToggleLabel();
+  changeColorTheme() {
+    const htmlElement = document.documentElement;
+
+    if (this.isToggle) {
+      htmlElement.classList.add('light');
+      htmlElement.classList.remove('dark');
+    } else {
+      htmlElement.classList.add('dark');
+      htmlElement.classList.remove('light');
+    }
   }
 }
