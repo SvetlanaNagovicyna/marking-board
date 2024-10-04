@@ -1,6 +1,6 @@
 export interface User {
   id?: string,
-  email: string,
+  email?: string,
   password?: string,
   returnSecureToken?: boolean,
   name?: string,

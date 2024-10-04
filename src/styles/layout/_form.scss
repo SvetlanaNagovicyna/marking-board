@@ -31,7 +31,15 @@
     label {
       cursor: pointer;
     }
+    label {
+      span {
+        font-size: em(12);
+        text-transform: uppercase;
+        margin-bottom: em(12, 12);
+        display: inline-block;
+      }
 
+    }
     input {
       font-size: 1em;
       display: block;

@@ -28,7 +28,7 @@
               <path d="M4 4.5L8 0H0L4 4.5Z" fill="white"/>
             </svg>
             <ul class="user__possibilities">
-              <li class="edit">
+              <li class="edit" (click)="isShowFormEdit()">
                 <span>Редактировать</span>
               </li>
               <li class="logout" (click)="logout($event)">
@@ -48,5 +48,6 @@
     </ng-template>
 
   </nav>
-<!--  <button style="background-color: #00CF2C" (click)="this.serv.getUserById('0')">Ghfdfdf</button>-->
+
+  <app-edit-popup *ngIf="isShowForm"></app-edit-popup>
 </header>

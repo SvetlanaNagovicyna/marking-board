@@ -15,13 +15,25 @@ export class HeaderComponent implements OnInit {
   #router = inject(Router);
   userService = inject(UserService);
   user: User | null = null ;
+  isShowForm: boolean = false;
+
+
 
   ngOnInit() {
     this.userService.user$.subscribe({
       next: (user) => {
         this.user = user;
       }
-    })
+    });
+    this.userService.isShowForm$.subscribe((value) => {
+      this.isShowForm = value;
+    });
+
+  }
+
+  isShowFormEdit() {
+    this.isShowForm = true;
+    this.userService.setShowForm(this.isShowForm);
   }
 
   logout(event: Event) {
