@@ -2,17 +2,20 @@
   <div class="window__wrap">
 
     <div class="title">
-      <span>Registration form</span>
+      <span>Change data</span>
       <span class="title-red">.</span>
     </div>
 
-    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
-
+    <form class="form" [formGroup]="form" (ngSubmit)="saveInfoUserInFirebase()">
       <div
         class="form__control"
         [ngClass]="{invalid: form.controls.name.touched && form.controls.name.errors}"
       >
+        <label>
+
+          <span> Surname and Name</span>
         <input type="text" placeholder="Surname and Name" formControlName="name">
+        </label>
         <div
           *ngIf="form.controls.name.touched && form.controls.name.invalid"
           class="validation">
@@ -22,28 +25,15 @@
         </div>
       </div>
 
-      <div
-        class="form__control"
-        [ngClass]="{invalid: form.controls.email.touched && form.controls.email.errors}"
-      >
-        <input type="email" placeholder="Email" formControlName="email">
-        <div
-          *ngIf="form.controls.email.touched && form.controls.email.invalid"
-          class="validation">
-          <small *ngIf="form.controls.email.hasError('required')">
-            Field email is required
-          </small>
-          <small *ngIf="form.controls.email.hasError('email')">
-            Field must be type email
-          </small>
-        </div>
-      </div>
 
       <div
         class="form__control"
         [ngClass]="{invalid: form.controls.password.touched && form.controls.password.errors}"
       >
-        <input type="password" placeholder="Password" formControlName="password" value="123456789Zaq">
+        <label>
+           <span>New Password</span>
+          <input type="password" placeholder="Password" formControlName="password">
+        </label>
         <div
           *ngIf="form.controls.password.touched && form.controls.password.invalid"
           class="validation">
@@ -66,7 +56,10 @@
         class="form__control mb-24"
         [ngClass]="{invalid: form.controls.confirmPassword.touched && form.controls.confirmPassword.errors}"
       >
-        <input type="password" placeholder="Confirm Password" formControlName="confirmPassword" value="123456789Zaq">
+        <label>
+          <span>confirm New Password</span>
+        <input type="password" placeholder="Confirm Password" formControlName="confirmPassword">
+        </label>
         <div
           *ngIf="form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid"
           class="validation">
@@ -88,7 +81,7 @@
           <polygon fill="none" points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
           <polygon fill="transparent" stroke="#FF1822" points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
         </svg>
-        <span>Registration</span>
+        <span>Save changes</span>
       </button>
 
     </form>

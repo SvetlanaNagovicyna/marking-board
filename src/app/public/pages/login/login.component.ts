@@ -13,12 +13,12 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 export class LoginComponent implements OnInit {
   form = new FormGroup({
-    email: new FormControl('',
+    email: new FormControl('test@test.com',
       [
         Validators.required,
         Validators.email,
       ]),
-    password: new FormControl('',
+    password: new FormControl('193978777Zaq',
       [
         Validators.required,
       ]),
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
 
   submit() {
     if(this.form.invalid) {
-      return
+      return;
     }
     this.submitted = true;
 

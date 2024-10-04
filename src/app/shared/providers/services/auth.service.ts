@@ -1,10 +1,13 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError, Observable, Subject, tap, throwError} from "rxjs";
+import { catchError, map, mergeMap, Observable, Subject, tap, throwError } from "rxjs";
 
 import { User } from "../../interfaces/user.interfaces";
 import { environment } from "../../../../environments/environment";
 import { AuthResponse } from "../../interfaces/auth-response.interface";
+import { Router } from '@angular/router';
+import { UserService } from './user.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +18,14 @@ export class AuthService {
   public error$: Subject<string> = new Subject<string>();
 
   #http = inject(HttpClient);
+  #router = inject(Router);
+  userService = inject(UserService);
 
   get token(): string | null {
     const expDate = new Date(localStorage.getItem('token-exp') ?? '');
     if (new Date() > expDate) {
       this.logout();
+      this.#router.navigate(['login'])
       return null;
     }
     return localStorage.getItem('token');
@@ -29,19 +35,42 @@ export class AuthService {
      user.returnSecureToken = true;
      return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
        .pipe(
-         tap(response => this.setToken(response, rememberMe)),
+         tap(response => {
+           this.setToken(response, rememberMe);
+           localStorage.setItem('userId', response.localId);
+         }),
          catchError(this.handleError.bind(this))
        );
   }
+
 
   singUp(user: User): Observable<AuthResponse> {
     user.returnSecureToken = true;
     return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`, user)
       .pipe(
-        tap(this.#http.post(`${environment.fbDbUrl}/users.json`, user)),
-        tap(response => this.setToken(response)),
+        mergeMap(res => {
+          const newUser = {
+            name: user.name,
+            email: user.email,
+            idDb: res.localId,
+            hasPerm: false,
+          }
+          return this.addUser(newUser)
+            .pipe(
+              map(() => {
+                return res;
+              })
+            )
+        }),
         catchError(this.handleError.bind(this))
       );
+  }
+
+  addUser(user: User): Observable<User> {
+    return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user)
+      .pipe(
+        catchError(this.handleError.bind(this))
+      )
   }
 
   logout(): void {
@@ -54,6 +83,7 @@ export class AuthService {
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     const {message} = error.error.error;
+    console.log(message);
     switch (message) {
       case 'INVALID_EMAIL':
         this.error$.next('Invalid email');
@@ -74,7 +104,7 @@ export class AuthService {
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
       if (rememberMe) {
-        const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+        const expDate = new Date(new Date().getTime() + +response.expiresIn * 10000);
         localStorage.setItem('token', response.idToken);
         localStorage.setItem('token-exp', expDate.toString());
       }

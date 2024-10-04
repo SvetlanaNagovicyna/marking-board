@@ -10,7 +10,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent {
 
   form = new FormGroup({
     name: new FormControl('',
@@ -40,8 +40,6 @@ export class RegistrationComponent implements OnInit {
   auth = inject(AuthService);
   #router = inject(Router);
   destroyRef = inject(DestroyRef);
-
-  ngOnInit(): void {}
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
