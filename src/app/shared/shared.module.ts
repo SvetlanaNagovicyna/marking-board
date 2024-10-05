@@ -6,22 +6,18 @@ import {BackgroundComponent} from "./components/background/background.component"
 import {CommonModule} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
-import { EditFormComponent } from './components/edit-popup/edit-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     BackgroundComponent,
     ThemeToggleComponent,
-    EditFormComponent,
   ],
-    imports: [
-        HttpClientModule,
-        CommonModule,
-        RouterLink,
-        ReactiveFormsModule,
-    ],
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    RouterLink,
+  ],
   exports: [
     HttpClientModule,
     HeaderComponent,
