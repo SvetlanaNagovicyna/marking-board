@@ -1,5 +1,5 @@
 @import '../shared/functions';
-
+@import 'src/styles/shared/colors';
 
 .form {
   width: 100%;
@@ -15,7 +15,7 @@
 
       small {
         font-size: em(10);
-        color: var(--red-color);
+        color: $red-color;
         display: block;
       }
     }
@@ -31,23 +31,15 @@
     label {
       cursor: pointer;
     }
-    label {
-      span {
-        font-size: em(12);
-        text-transform: uppercase;
-        margin-bottom: em(12, 12);
-        display: inline-block;
-      }
 
-    }
     input {
       font-size: 1em;
       display: block;
       height: em(53);
       width: 100%;
-      color: var(--text-color);
-      background: var(--input-color);
-      border: em(1) solid var(--input-color);
+      color: $text-color;
+      background: $grey-color;
+      border: em(1) solid $grey-color;
       padding: 0 em(16);
       margin: 0;
 
@@ -60,8 +52,8 @@
       }
 
       &[type=checkbox]:checked ~ .checkmark {
-        background-color: var(--red-color);
-        border: em(1) solid var(--red-color);
+        background-color: $red-color;
+        border: em(1) solid $red-color;
 
         &:after {
           opacity: 1;
@@ -84,8 +76,8 @@
         position: relative;
         top: 0;
         left: 0;
-        background: var(--input-color);
-        border: em(1) solid var(--input-color);
+        background: $grey-color;
+        border: em(1) solid $grey-color;
         width: em(31);
         height: em(31);
         margin-right: em(15);
@@ -106,7 +98,7 @@
 
     &.invalid {
       input {
-        border: em(1) solid var(--red-color);
+        border: em(1) solid $red-color;
       }
     }
   }
@@ -130,7 +122,7 @@
         display: inline-block;
         width: em(80);
         height: em(1);
-        background-color: var(--btn-red-text-color);
+        background-color: $white-color;
         transition: all .3s ease-in-out;
       }
     }
