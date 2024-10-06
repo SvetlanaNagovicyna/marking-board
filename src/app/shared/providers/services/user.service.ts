@@ -3,19 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../../interfaces/user.interfaces';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Theme } from '../../types/theme.type';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class UserService {
+  #http = inject(HttpClient);
 
-  isUser = false;
   user: User = {} as User;
   user$ = new BehaviorSubject<null | User>(null);
-
-
-  #http = inject(HttpClient);
 
   getUserById(id: string): Observable<User> {
     return this.#http.get<{ [key: string]: User }>(`${environment.fbDbUrl}/users.json`)
@@ -29,29 +27,28 @@ export class UserService {
       }));
   }
 
-  getAllUsers(): Observable<User[]> {
-    return this.#http.get<{ [key: string]: User }>(`${environment.url}/users.json`)
-      .pipe(map((response: { [key: string]: User }) => {
-        return Object
-          .keys(response)
-          .map((key:string) => ({
-            ...response[key],
-            id: key
-          }))
-          // .map((item) => {
-          //   item.forEach((date) => {
-          //     date.date = Object
-          //       .keys(date.date)
-          //       .map(key => ({
-          //         ...date.date[key],
-          //       }))
-          //   })
-          //   return item;
-          // });
-      }));
+   setUser(user: User) {
+     this.user$.next(user);
+   }
+
+   addUser(user: Omit<User, 'id'>): Observable<User> {
+     return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user);
+   }
+
+  getUserThemeFromDb(userId: string): Observable<Theme> {
+    return this.getUserById(userId).pipe(
+      map(user => user?.theme ?? 'dark')
+    );
   }
 
- setUser(user: User) {
-   this.user$.next(user);
- }
+  updateUserTheme(theme: Theme) {
+    const userId = localStorage.getItem('userId');
+    if(!userId) return;
+    this.getUserById(userId).subscribe({
+      next: (user) => {
+        const url = `${environment.fbDbUrl}/users/${user.id}.json`;
+        this.#http.patch<void>(url, { theme }).subscribe();
+      }
+    })
+  }
 }

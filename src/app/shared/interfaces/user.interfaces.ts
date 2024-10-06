@@ -1,9 +1,10 @@
+import { Theme } from '../types/theme.type';
+
 export interface User {
-  id?: string,
+  id: string,
   email: string,
-  password?: string,
-  returnSecureToken?: boolean,
-  name?: string,
-  hasPerm?: boolean,
-  idDb?: string,
+  name: string,
+  hasPerm: boolean,
+  idDb: string,
+  theme: Theme,
 }

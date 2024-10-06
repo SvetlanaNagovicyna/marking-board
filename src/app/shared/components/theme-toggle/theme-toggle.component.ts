@@ -1,38 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, Renderer2 } from '@angular/core';
+import { ThemeService } from '../../providers/services/theme.service';
+import { Theme } from '../../types/theme.type';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-theme-toggle',
   templateUrl: './theme-toggle.component.html',
   styleUrls: ['./theme-toggle.component.scss']
 })
-export class ThemeToggleComponent implements OnInit {
+export class ThemeToggleComponent {
 
-  isToggle: boolean = false;
-
-  ngOnInit() {
-    const isToggleTheme = localStorage.getItem('isToggleTheme')
-    if(isToggleTheme) {
-      this.isToggle = JSON.parse(isToggleTheme);
-      this.changeColorTheme();
-    }
-  }
+  themeService = inject(ThemeService);
+  renderer = inject(Renderer2);
+  private document = inject(DOCUMENT);
 
   isToggleTheme() {
-    this.isToggle = !this.isToggle;
-    console.log(this.isToggle)
-    localStorage.setItem('isToggleTheme', JSON.stringify(this.isToggle));
-    this.changeColorTheme();
+    this.themeService.toggleTheme();
+    this.themeService.theme$.subscribe({
+      next: (theme) => {
+        this.changeDocumentTheme(theme)
+      }
+    })
   }
 
-  changeColorTheme() {
-    const htmlElement = document.documentElement;
-
-    if (this.isToggle) {
-      htmlElement.classList.add('light');
-      htmlElement.classList.remove('dark');
+  changeDocumentTheme(theme: Theme) {
+    const html = this.document.documentElement;
+    if (theme === 'light') {
+      this.renderer.removeClass(html, 'dark');
+      this.renderer.addClass(html, 'light');
     } else {
-      htmlElement.classList.add('dark');
-      htmlElement.classList.remove('light');
+      this.renderer.removeClass(html, 'light');
+      this.renderer.addClass(html, 'dark');
     }
   }
 }

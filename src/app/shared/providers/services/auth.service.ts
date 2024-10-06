@@ -1,25 +1,28 @@
-import {inject, Injectable} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import { catchError, map, mergeMap, Observable, Subject, tap, throwError } from "rxjs";
-
-import { User } from "../../interfaces/user.interfaces";
 import { environment } from "../../../../environments/environment";
 import { AuthResponse } from "../../interfaces/auth-response.interface";
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
+import { UserRequest } from '../../interfaces/user-request.interface';
+import { Theme } from '../../types/theme.type';
+import { ThemeService } from './theme.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class AuthService {
+export class AuthService{
 
   public error$: Subject<string> = new Subject<string>();
 
   #http = inject(HttpClient);
   #router = inject(Router);
   userService = inject(UserService);
+  themeService = inject(ThemeService);
+
 
   get token(): string | null {
     const expDate = new Date(localStorage.getItem('token-exp') ?? '');
@@ -31,31 +34,34 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  login(user: User, rememberMe: boolean): Observable<AuthResponse> {
-     user.returnSecureToken = true;
+  login(user: Omit<UserRequest, 'name'>, rememberMe: boolean): Observable<AuthResponse> {
      return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
        .pipe(
          tap(response => {
            this.setToken(response, rememberMe);
-           localStorage.setItem('userId', response.localId);
+           const userId = response.localId;
+           this.userService.getUserThemeFromDb(userId).subscribe((theme: Theme) => {
+             this.themeService.setTheme(theme);
+           });
          }),
          catchError(this.handleError.bind(this))
        );
   }
 
 
-  singUp(user: User): Observable<AuthResponse> {
-    user.returnSecureToken = true;
+  singUp(user: UserRequest): Observable<AuthResponse> {
     return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`, user)
       .pipe(
         mergeMap(res => {
+          const currentTheme = this.themeService.getCurrentTheme();
           const newUser = {
             name: user.name,
             email: user.email,
             idDb: res.localId,
             hasPerm: false,
+            theme: currentTheme
           }
-          return this.addUser(newUser)
+          return this.userService.addUser(newUser)
             .pipe(
               map(() => {
                 return res;
@@ -64,13 +70,6 @@ export class AuthService {
         }),
         catchError(this.handleError.bind(this))
       );
-  }
-
-  addUser(user: User): Observable<User> {
-    return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user)
-      .pipe(
-        catchError(this.handleError.bind(this))
-      )
   }
 
   logout(): void {
@@ -83,7 +82,6 @@ export class AuthService {
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     const {message} = error.error.error;
-    console.log(message);
     switch (message) {
       case 'INVALID_EMAIL':
         this.error$.next('Invalid email');
@@ -103,6 +101,7 @@ export class AuthService {
       const expDate = new Date(new Date().getTime() + +response.expiresIn);
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
+      localStorage.setItem('userId', response.localId);
       if (rememberMe) {
         const expDate = new Date(new Date().getTime() + +response.expiresIn * 10000);
         localStorage.setItem('token', response.idToken);

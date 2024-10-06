@@ -1,9 +1,9 @@
-import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {User} from "../../../shared/interfaces/user.interfaces";
 import {AuthService} from "../../../shared/providers/services/auth.service";
 import {Router} from "@angular/router";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import { UserRequest } from '../../../shared/interfaces/user-request.interface';
 
 @Component({
   selector: 'app-registration',
@@ -63,7 +63,7 @@ export class RegistrationComponent {
 
     this.submitted = true;
 
-    const user: User = {
+    const user: UserRequest = {
       email: this.form.value.email ?? '',
       password: this.form.value.password ?? '',
       name: this.form.value.name ?? '',
@@ -71,7 +71,7 @@ export class RegistrationComponent {
     this.singUp(user)
   }
 
-  singUp(user: User) {
+  singUp(user: UserRequest) {
     this.auth.singUp(user)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

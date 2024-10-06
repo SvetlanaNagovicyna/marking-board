@@ -1,8 +1,8 @@
 <div
   (click)="isToggleTheme()"
   [ngClass]="{
-    'light': isToggle,
-    'dark': !isToggle
+    'light': (themeService.theme$ | async) === 'light',
+    'dark': (themeService.theme$ | async) === 'dark'
   }"
   class="switcher">
 

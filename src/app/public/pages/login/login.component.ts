@@ -1,9 +1,9 @@
 import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../../shared/interfaces/user.interfaces";
 import {AuthService} from "../../../shared/providers/services/auth.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import { UserRequest } from '../../../shared/interfaces/user-request.interface';
 
 @Component({
   selector: 'app-login-page',
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     }
     this.submitted = true;
 
-    const user: User = {
+    const user: Omit<UserRequest, 'name'> = {
       email: this.form.value.email ?? '',
       password: this.form.value.password ?? '',
     }
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
     this.login(user);
   }
 
-  login(user: User) {
+  login(user: Omit<UserRequest, 'name'>) {
     const rememberMe: boolean = !!this.form.value.rememberMe;
     this.auth.login(user, rememberMe)
       .pipe(takeUntilDestroyed(this.destroyRef))
