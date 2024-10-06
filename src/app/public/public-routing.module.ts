@@ -17,12 +17,12 @@ const routes: Routes = [
       {
         path: 'registration',
         component: RegistrationComponent,
-        loadChildren: () => import('./pages/registration/registration.module').then(mod => mod.RegistrationModule)
+        loadChildren: () => import('./pages/registration/registration.module').then(mod => mod.RegistrationModule),
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/login'
+        redirectTo: '/login',
       }
     ]
   }
@@ -30,7 +30,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 
-export class PublicRoutingModule { }
+export class PublicRoutingModule {}

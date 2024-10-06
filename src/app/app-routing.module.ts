@@ -19,11 +19,11 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/'
+    redirectTo: '/',
   },
   {
     path: '**',
-    redirectTo: '/'
+    redirectTo: '/',
   },
 ];
 
@@ -31,6 +31,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, {
     preloadingStrategy: PreloadAllModules,
   })],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

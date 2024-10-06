@@ -10,7 +10,6 @@ export const UserResolver: ResolveFn<boolean> = ():Observable<boolean> => {
   const userService = inject(UserService);
   const authService = inject(AuthService);
   const themeService = inject(ThemeService);
-
   const userId = localStorage.getItem('userId');
 
   if (!userId) {
@@ -20,7 +19,7 @@ export const UserResolver: ResolveFn<boolean> = ():Observable<boolean> => {
   return userService.getUserById(userId)
     .pipe(
       map((user) => {
-        if (user){
+        if (user) {
           userService.setUser(user);
           themeService.setTheme(user.theme);
         }

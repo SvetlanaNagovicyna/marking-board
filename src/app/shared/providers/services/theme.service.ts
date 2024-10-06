@@ -1,7 +1,8 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Theme } from '../../types/theme.type';
 import { UserService } from './user.service';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,10 @@ import { UserService } from './user.service';
 export class ThemeService {
   theme$ = new BehaviorSubject<Theme>('dark');
   userService = inject(UserService);
+  rendererFactory = inject(RendererFactory2)
+  private document = inject(DOCUMENT);
 
-  constructor() {
-    this.loadUserTheme();
-  }
+  private renderer: Renderer2 = this.rendererFactory.createRenderer(null, null);
 
   getCurrentTheme(): Theme {
     return this.theme$.getValue();
@@ -20,23 +21,23 @@ export class ThemeService {
 
   setTheme(theme: Theme) {
     this.theme$.next(theme);
+    this.changeDocumentTheme(theme);
   }
 
   toggleTheme() {
     const newTheme: Theme = this.getCurrentTheme() === 'dark' ? 'light' : 'dark';
     this.setTheme(newTheme);
-    this.userService.updateUserTheme(newTheme);
+    this.userService.updateUserTheme(newTheme).subscribe();
   }
 
-  private loadUserTheme(): void {
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
-      return
+  changeDocumentTheme(theme: Theme) {
+    const html = this.document.documentElement;
+    if (theme === 'light') {
+      this.renderer.removeClass(html, 'dark');
+      this.renderer.addClass(html, 'light');
+    } else {
+      this.renderer.removeClass(html, 'light');
+      this.renderer.addClass(html, 'dark');
     }
-    this.userService.getUserThemeFromDb(userId).subscribe((theme: Theme) => {
-      if (theme) {
-        this.setTheme(theme);
-      }
-    });
   }
 }

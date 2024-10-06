@@ -72,11 +72,11 @@ export class LoginComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params: Params) => {
         if(params['loginAgain']) {
-          this.message = 'The session has expired. Please, login again'
+          this.message = 'The session has expired. Please, login again';
         }
         if(params['registration']) {
           this.greenText = true;
-          this.message = 'You successfully registered! Please login.'
+          this.message = 'You successfully registered! Please login.';
         }
       })
   }

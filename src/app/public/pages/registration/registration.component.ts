@@ -33,7 +33,7 @@ export class RegistrationComponent {
         Validators.required,
       ]),
   },
-    {validators: this.passwordMatchValidator() }
+    { validators: this.passwordMatchValidator() }
   );
 
   submitted = false;
@@ -58,7 +58,7 @@ export class RegistrationComponent {
 
   submit() {
     if(this.form.invalid) {
-      return
+      return;
     }
 
     this.submitted = true;
@@ -68,7 +68,7 @@ export class RegistrationComponent {
       password: this.form.value.password ?? '',
       name: this.form.value.name ?? '',
     }
-    this.singUp(user)
+    this.singUp(user);
   }
 
   singUp(user: UserRequest) {
@@ -87,6 +87,6 @@ export class RegistrationComponent {
         error: () => {
           this.submitted = false;
         }
-      })
+      });
   }
 }

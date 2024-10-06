@@ -9,7 +9,7 @@ export const AuthGuard: CanActivateFn = (): boolean => {
         loginAgain: true,
       }
     })
-    return false
+    return false;
   }
-  return true
+  return true;
 };

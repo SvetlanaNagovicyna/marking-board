@@ -35,20 +35,7 @@ export class UserService {
      return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user);
    }
 
-  getUserThemeFromDb(userId: string): Observable<Theme> {
-    return this.getUserById(userId).pipe(
-      map(user => user?.theme ?? 'dark')
-    );
-  }
-
-  updateUserTheme(theme: Theme) {
-    const userId = localStorage.getItem('userId');
-    if(!userId) return;
-    this.getUserById(userId).subscribe({
-      next: (user) => {
-        const url = `${environment.fbDbUrl}/users/${user.id}.json`;
-        this.#http.patch<void>(url, { theme }).subscribe();
-      }
-    })
-  }
+   updateUserTheme(theme: Theme) {
+    return this.#http.patch<void>(`${environment.fbDbUrl}/users/${this.user$.getValue()?.id}.json`, { theme });
+   }
 }

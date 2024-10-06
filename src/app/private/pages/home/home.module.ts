@@ -4,13 +4,13 @@ import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     CommonModule,
   ],
   exports: [
-    HomeComponent
+    HomeComponent,
   ]
 })
 

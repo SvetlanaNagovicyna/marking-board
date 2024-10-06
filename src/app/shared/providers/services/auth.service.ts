@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { UserService } from './user.service';
 import { UserRequest } from '../../interfaces/user-request.interface';
 import { Theme } from '../../types/theme.type';
-import { ThemeService } from './theme.service';
 
 
 @Injectable({
@@ -15,20 +14,17 @@ import { ThemeService } from './theme.service';
 })
 
 export class AuthService{
-
   public error$: Subject<string> = new Subject<string>();
 
   #http = inject(HttpClient);
   #router = inject(Router);
   userService = inject(UserService);
-  themeService = inject(ThemeService);
-
 
   get token(): string | null {
     const expDate = new Date(localStorage.getItem('token-exp') ?? '');
     if (new Date() > expDate) {
       this.logout();
-      this.#router.navigate(['login'])
+      this.#router.navigate(['login']);
       return null;
     }
     return localStorage.getItem('token');
@@ -39,10 +35,6 @@ export class AuthService{
        .pipe(
          tap(response => {
            this.setToken(response, rememberMe);
-           const userId = response.localId;
-           this.userService.getUserThemeFromDb(userId).subscribe((theme: Theme) => {
-             this.themeService.setTheme(theme);
-           });
          }),
          catchError(this.handleError.bind(this))
        );
@@ -53,13 +45,12 @@ export class AuthService{
     return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`, user)
       .pipe(
         mergeMap(res => {
-          const currentTheme = this.themeService.getCurrentTheme();
           const newUser = {
             name: user.name,
             email: user.email,
             idDb: res.localId,
             hasPerm: false,
-            theme: currentTheme
+            theme: 'dark' as Theme,
           }
           return this.userService.addUser(newUser)
             .pipe(
@@ -73,7 +64,7 @@ export class AuthService{
   }
 
   logout(): void {
-    this.setToken(null)
+    this.setToken(null);
   }
 
   isAuthenticated(): boolean {
