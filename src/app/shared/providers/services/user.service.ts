@@ -10,10 +10,10 @@ import { Theme } from '../../types/theme.type';
 })
 
 export class UserService {
-  #http = inject(HttpClient);
+  #http: HttpClient = inject(HttpClient);
 
   user: User = {} as User;
-  user$ = new BehaviorSubject<null | User>(null);
+  user$: BehaviorSubject<User | null> = new BehaviorSubject<null | User>(null);
 
   getUserById(id: string): Observable<User> {
     return this.#http.get<{ [key: string]: User }>(`${environment.fbDbUrl}/users.json`)
@@ -27,7 +27,7 @@ export class UserService {
       }));
   }
 
-   setUser(user: User) {
+   setUser(user: User): void {
      this.user$.next(user);
    }
 
@@ -35,7 +35,7 @@ export class UserService {
      return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user);
    }
 
-   updateUserTheme(theme: Theme) {
+   updateUserTheme(theme: Theme): Observable<void> {
     return this.#http.patch<void>(`${environment.fbDbUrl}/users/${this.user$.getValue()?.id}.json`, { theme });
    }
 }

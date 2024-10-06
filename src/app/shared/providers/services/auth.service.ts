@@ -16,12 +16,12 @@ import { Theme } from '../../types/theme.type';
 export class AuthService{
   public error$: Subject<string> = new Subject<string>();
 
-  #http = inject(HttpClient);
-  #router = inject(Router);
-  userService = inject(UserService);
+  #http: HttpClient = inject(HttpClient);
+  #router: Router = inject(Router);
+  userService: UserService = inject(UserService);
 
   get token(): string | null {
-    const expDate = new Date(localStorage.getItem('token-exp') ?? '');
+    const expDate: Date = new Date(localStorage.getItem('token-exp') ?? '');
     if (new Date() > expDate) {
       this.logout();
       this.#router.navigate(['login']);
@@ -33,7 +33,7 @@ export class AuthService{
   login(user: Omit<UserRequest, 'name'>, rememberMe: boolean): Observable<AuthResponse> {
      return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
        .pipe(
-         tap(response => {
+         tap((response: AuthResponse): void => {
            this.setToken(response, rememberMe);
          }),
          catchError(this.handleError.bind(this))
@@ -44,7 +44,7 @@ export class AuthService{
   singUp(user: UserRequest): Observable<AuthResponse> {
     return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`, user)
       .pipe(
-        mergeMap(res => {
+        mergeMap((res: AuthResponse) => {
           const newUser = {
             name: user.name,
             email: user.email,
@@ -89,12 +89,12 @@ export class AuthService{
 
   private setToken(response: AuthResponse | null, rememberMe: boolean = false): void {
     if (response) {
-      const expDate = new Date(new Date().getTime() + +response.expiresIn);
+      const expDate: Date = new Date(new Date().getTime() + +response.expiresIn);
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
       localStorage.setItem('userId', response.localId);
       if (rememberMe) {
-        const expDate = new Date(new Date().getTime() + +response.expiresIn * 10000);
+        const expDate: Date = new Date(new Date().getTime() + +response.expiresIn * 10000);
         localStorage.setItem('token', response.idToken);
         localStorage.setItem('token-exp', expDate.toString());
       }

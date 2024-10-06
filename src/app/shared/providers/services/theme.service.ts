@@ -8,10 +8,10 @@ import { DOCUMENT } from '@angular/common';
   providedIn: 'root'
 })
 export class ThemeService {
-  theme$ = new BehaviorSubject<Theme>('dark');
-  userService = inject(UserService);
-  rendererFactory = inject(RendererFactory2)
-  private document = inject(DOCUMENT);
+  theme$: BehaviorSubject<Theme> = new BehaviorSubject<Theme>('dark');
+  userService: UserService = inject(UserService);
+  rendererFactory: RendererFactory2 = inject(RendererFactory2)
+  private document: Document = inject(DOCUMENT);
 
   private renderer: Renderer2 = this.rendererFactory.createRenderer(null, null);
 
@@ -19,19 +19,19 @@ export class ThemeService {
     return this.theme$.getValue();
   }
 
-  setTheme(theme: Theme) {
+  setTheme(theme: Theme): void {
     this.theme$.next(theme);
     this.changeDocumentTheme(theme);
   }
 
-  toggleTheme() {
+  toggleTheme(): void {
     const newTheme: Theme = this.getCurrentTheme() === 'dark' ? 'light' : 'dark';
     this.setTheme(newTheme);
     this.userService.updateUserTheme(newTheme).subscribe();
   }
 
-  changeDocumentTheme(theme: Theme) {
-    const html = this.document.documentElement;
+  changeDocumentTheme(theme: Theme): void {
+    const html: HTMLElement = this.document.documentElement;
     if (theme === 'light') {
       this.renderer.removeClass(html, 'dark');
       this.renderer.addClass(html, 'light');

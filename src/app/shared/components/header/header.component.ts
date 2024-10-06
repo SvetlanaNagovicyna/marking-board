@@ -12,27 +12,27 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 
 export class HeaderComponent implements OnInit {
-  auth = inject(AuthService);
-  #router = inject(Router);
-  userService = inject(UserService);
+  auth: AuthService = inject(AuthService);
+  #router: Router = inject(Router);
+  userService: UserService = inject(UserService);
+  destroyRef: DestroyRef = inject(DestroyRef);
   user: User | null = null;
-  destroyRef = inject(DestroyRef);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscribeToUser();
   }
 
-  subscribeToUser() {
+  subscribeToUser(): void {
     this.userService.user$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (user) => {
+        next: (user: User | null): void => {
           this.user = user;
         }
     })
   }
 
-  logout(event: Event) {
+  logout(event: Event): void {
     event.preventDefault();
     this.auth.logout();
     this.#router.navigate(['login']);

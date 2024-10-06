@@ -22,22 +22,22 @@ export class LoginComponent implements OnInit {
       [
         Validators.required,
       ]),
-    rememberMe: new FormControl<boolean>(false)
+    rememberMe: new FormControl<boolean>(false),
   });
 
-  submitted = false;
-  auth = inject(AuthService);
-  #router = inject(Router);
-  #activatedRoute = inject(ActivatedRoute);
-  destroyRef = inject(DestroyRef);
+  auth: AuthService = inject(AuthService);
+  #router: Router = inject(Router);
+  #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  destroyRef: DestroyRef = inject(DestroyRef);
   message : string = '';
+  submitted: boolean = false;
   greenText: boolean = false;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscribeToQueryParams();
   }
 
-  submit() {
+  submit(): void {
     if(this.form.invalid) {
       return;
     }
@@ -51,26 +51,26 @@ export class LoginComponent implements OnInit {
     this.login(user);
   }
 
-  login(user: Omit<UserRequest, 'name'>) {
+  login(user: Omit<UserRequest, 'name'>): void {
     const rememberMe: boolean = !!this.form.value.rememberMe;
     this.auth.login(user, rememberMe)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
+        next: (): void => {
           this.form.reset();
           this.#router.navigate(['home']);
           this.submitted = true;
         },
-        error: () => {
+        error: (): void => {
           this.submitted = false;
         }
       })
   }
 
-  subscribeToQueryParams() {
+  subscribeToQueryParams(): void {
     this.#activatedRoute.queryParams
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params: Params) => {
+      .subscribe((params: Params): void => {
         if(params['loginAgain']) {
           this.message = 'The session has expired. Please, login again';
         }

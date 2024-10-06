@@ -36,15 +36,15 @@ export class RegistrationComponent {
     { validators: this.passwordMatchValidator() }
   );
 
-  submitted = false;
-  auth = inject(AuthService);
-  #router = inject(Router);
-  destroyRef = inject(DestroyRef);
+  submitted: boolean = false;
+  auth: AuthService = inject(AuthService);
+  #router: Router = inject(Router);
+  destroyRef: DestroyRef = inject(DestroyRef);
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
-      const password = control.get('password');
-      const confirmPassword = control.get('confirmPassword');
+      const password: AbstractControl<string, string> | null = control.get('password');
+      const confirmPassword: AbstractControl<string, string> | null = control.get('confirmPassword');
 
       if (password && confirmPassword && password.value !== confirmPassword.value) {
         confirmPassword.setErrors({ mismatch: true });
@@ -56,7 +56,7 @@ export class RegistrationComponent {
     };
   }
 
-  submit() {
+  submit(): void {
     if(this.form.invalid) {
       return;
     }
@@ -71,11 +71,11 @@ export class RegistrationComponent {
     this.singUp(user);
   }
 
-  singUp(user: UserRequest) {
+  singUp(user: UserRequest): void {
     this.auth.singUp(user)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
+        next: (): void => {
           this.form.reset();
           this.#router.navigate(['login'], {
             queryParams: {
@@ -84,7 +84,7 @@ export class RegistrationComponent {
           });
           this.submitted = true;
         },
-        error: () => {
+        error: (): void => {
           this.submitted = false;
         }
       });

@@ -4,13 +4,14 @@ import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { inject } from '@angular/core';
 import { ThemeService } from '../services/theme.service';
+import { User } from '../../interfaces/user.interfaces';
 
 export const UserResolver: ResolveFn<boolean> = ():Observable<boolean> => {
 
-  const userService = inject(UserService);
-  const authService = inject(AuthService);
-  const themeService = inject(ThemeService);
-  const userId = localStorage.getItem('userId');
+  const userService: UserService = inject(UserService);
+  const authService: AuthService = inject(AuthService);
+  const themeService: ThemeService = inject(ThemeService);
+  const userId: string | null = localStorage.getItem('userId');
 
   if (!userId) {
     return of(false);
@@ -18,7 +19,7 @@ export const UserResolver: ResolveFn<boolean> = ():Observable<boolean> => {
 
   return userService.getUserById(userId)
     .pipe(
-      map((user) => {
+      map((user: User): boolean => {
         if (user) {
           userService.setUser(user);
           themeService.setTheme(user.theme);
