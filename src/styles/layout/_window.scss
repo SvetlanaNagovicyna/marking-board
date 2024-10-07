@@ -1,5 +1,5 @@
 @import '../shared/functions';
-@import 'src/styles/shared/colors';
+
 
 .window {
   width: 100%;
@@ -7,47 +7,41 @@
 
   .alert-error {
     font-size: em(16);
-    color: $red-color;
+    color: var(--red-color);
     padding-bottom: em(15, 16);
 
     &.green {
-      color: $green-color;
+      color: var(--green-color);
     }
   }
 
 
   &__wrap {
+    position: relative;
     display: flex;
     flex-direction: column;
     max-width: em(727);
     min-height: em(678);
     padding: em(100) em(124);
     margin: 0 auto;
-    background: url('../../assets/img/form_bg.svg')  center top / 100% 100% no-repeat;
-  }
-  a {
-    margin: 0 auto;
-    cursor: pointer;
-    position: relative;
-    padding-bottom: em(10);
+    background: var(--red-color);
+    clip-path: polygon(100% 0, 100% 76.1%, 79% 100%, 0 100%, 0 0);
+    z-index: 6;
 
-    &:after {
+    &::before {
       content: "";
       position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      display: inline-block;
-      width: 0;
-      height: em(1);
-      background-color: $text-color;
-      transition: all .3s ease-in-out;
+      top: 0;
+      left: 0;
+      width: 100%;
+      max-width: 100%;
+      min-height: 100%;
+      margin: 0 auto;
+      background: var(--window-color);
+      clip-path: polygon(100% 0, 100% 76.1%, 79% 100%, 0 100%, 0 0);
+      z-index: -1;
     }
-
-    &:hover {
-      &:after {
-        width: 100%;
-      }
-    }
+    //background: url('../../assets/img/form_bg.svg')  center top / 100% 100% no-repeat;
   }
+
 }

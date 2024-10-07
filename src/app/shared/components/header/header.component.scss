@@ -1,7 +1,7 @@
 @import 'src/styles/shared/functions';
 
-.header {
 
+.header {
   position: absolute;
   top: 0;
   left: 0;
@@ -25,5 +25,102 @@
     &:nth-of-type(1) {
       margin-right: em(24);
     }
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    z-index: 1;
+
+    .logout-btn {
+      width: em(40);
+      height: em(40);
+      margin-left: em(16);
+      cursor: pointer;
+
+      .line {
+        transition: all .3s ease-in-out;
+      }
+
+      &:hover {
+        .line {
+          transform: translateX(em(-6));
+        }
+      }
+    }
+
+    .user {
+      position: relative;
+
+      ul {
+        opacity: 0;
+        transition: all .3s ease-in-out;
+        visibility: hidden;
+        user-select: none;
+      }
+
+      li:hover  {
+        ul {
+          opacity: 1;
+          visibility: visible;
+          user-select: auto;
+        }
+      }
+      &__name {
+        display: flex;
+        align-items: center;
+        margin-left: em(34);
+        cursor: pointer;
+
+        span {
+          text-transform: uppercase;
+          color: var(--title-color);
+          font-weight: 600;
+          font-size: em(13);
+          margin-right: em(12,13);
+        }
+        svg {
+          width: em(8);
+          path {
+            fill: var(--title-color);
+          }
+        }
+
+      }
+      &__possibilities {
+        width: em(140);
+        position: absolute;
+        right: 0;
+        top: em(30);
+
+        li {
+          height: em(39);
+          background-color: var(--base-color);
+          border-bottom: em(3) solid var(--background-color);
+          padding: em(12);
+          display: flex;
+          align-items: center;
+
+          span {
+            font-size: em(13);
+            line-height: 1;
+            color: var(--text-color);
+            text-transform: initial;
+          }
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+
+    .admin {
+      color: var(--red-color);
+      font-weight: 600;
+      margin-left: em(36, 13);
+      font-size: em(13);
+    }
+
+
   }
 }

@@ -93,5 +93,9 @@
 
     </form>
 
+    <div class="alert-error" *ngIf="auth.error$ | async as error">
+      {{error}}
+    </div>
+
   </div>
 </div>

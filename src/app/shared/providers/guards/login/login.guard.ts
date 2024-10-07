@@ -9,7 +9,7 @@ export const LoginGuard: CanActivateFn = ():boolean => {
         login: true,
       }
     })
-    return false
+    return false;
   }
-  return true
+  return true;
 };

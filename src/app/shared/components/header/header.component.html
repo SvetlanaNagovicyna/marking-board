@@ -15,13 +15,30 @@
       </button>
     </div>
     <ng-template #elseBlock>
-      <button class="button width-179">
-        <svg width="179" height="45" viewBox="0 0 179 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1V44H161.168L177.617 27.5503V1H1Z" stroke="#FF1822"/>
-        </svg>
-        <span>Super</span>
-      </button>
-    </ng-template>
+      <div class="header__user">
+        <app-theme-toggle></app-theme-toggle>
 
+        <div *ngIf="user?.hasPerm" class="admin">
+          <span>АДМИН ПАНЕЛЬ</span>
+        </div>
+        <ul class="user">
+          <li class="user__name">
+            <span>{{ user?.name }}</span>
+            <svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 4.5L8 0H0L4 4.5Z" fill="white"/>
+            </svg>
+            <ul class="user__possibilities">
+            </ul>
+          </li>
+
+        </ul>
+        <div class="logout-btn" (click)="logout($event)">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30.627 25.4955C29.3313 28.4212 27.0724 30.8148 24.2265 32.2777C21.3807 33.7406 18.1195 34.1844 14.9862 33.5353C11.8529 32.8862 9.0365 31.1834 7.00599 28.7103C4.97548 26.2373 3.85341 23.1433 3.82663 19.9436C3.79985 16.7438 4.86998 13.6315 6.85882 11.1248C8.84765 8.61812 11.6352 6.86837 14.7572 6.16692C17.8792 5.46548 21.1473 5.85468 24.0172 7.26972C26.8872 8.68475 29.1858 11.0402 30.5303 13.9439" stroke="#FF1822"/>
+            <line class="line" x1="18" y1="19.5" x2="39" y2="19.5" stroke="white"/>
+          </svg>
+        </div>
+      </div>
+    </ng-template>
   </nav>
 </header>
