@@ -67,3 +67,12 @@ main {
   flex-direction: column;
 }
 
+.editForm{
+  max-width: none !important;
+  width: 100%;
+}
+.editForm .mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: transparent !important;
+  border-radius: 0;
+  max-width: none !important;
+}

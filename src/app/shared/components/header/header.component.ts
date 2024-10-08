@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { UserService } from '../../providers/services/user.service';
 import { User } from '../../interfaces/user.interfaces';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialog } from '@angular/material/dialog';
+import { EditFormComponent } from '../edit-form/edit-form.component';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +19,7 @@ export class HeaderComponent implements OnInit {
   userService: UserService = inject(UserService);
   destroyRef: DestroyRef = inject(DestroyRef);
   user: User | null = null;
+  readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.subscribeToUser();
@@ -36,5 +39,11 @@ export class HeaderComponent implements OnInit {
     event.preventDefault();
     this.auth.logout();
     this.#router.navigate(['login']);
+  }
+
+  openDialog(): void {
+    this.dialog.open(EditFormComponent, {
+      panelClass: 'editForm',
+    });
   }
 }

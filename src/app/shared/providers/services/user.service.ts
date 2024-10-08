@@ -38,4 +38,7 @@ export class UserService {
    updateUserTheme(theme: Theme): Observable<void> {
     return this.#http.patch<void>(`${environment.fbDbUrl}/users/${this.user$.getValue()?.id}.json`, { theme });
    }
+   updateUserName(name: string): Observable<void> {
+    return this.#http.patch<void>(`${environment.fbDbUrl}/users/${this.user$.getValue()?.id}.json`, { name });
+   }
 }

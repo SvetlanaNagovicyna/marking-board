@@ -30,6 +30,13 @@
 
     label {
       cursor: pointer;
+
+      span {
+        font-size: em(12);
+        text-transform: uppercase;
+        margin-bottom: em(12, 12);
+        display: inline-block;
+      }
     }
 
     input {
@@ -113,6 +120,7 @@
       font-size: em(16);
       width: 100%;
       display: inline-block;
+      text-transform: uppercase;
       &:after {
         content: "";
         position: absolute;

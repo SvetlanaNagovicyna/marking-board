@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
         Validators.required,
         Validators.email,
       ]),
-    password: new FormControl('193978777Zaq',
+    password: new FormControl('123Zaq',
       [
         Validators.required,
       ]),
