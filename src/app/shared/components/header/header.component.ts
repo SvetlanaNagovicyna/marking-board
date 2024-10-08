@@ -44,6 +44,7 @@ export class HeaderComponent implements OnInit {
   openDialog(): void {
     this.dialog.open(EditFormComponent, {
       panelClass: 'editForm',
+      disableClose: true,
     });
   }
 }

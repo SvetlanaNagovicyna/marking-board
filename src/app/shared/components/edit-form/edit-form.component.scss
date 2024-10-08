@@ -17,7 +17,7 @@ button {
 
 }
 .close {
-  color: #A1A1A1;
+  color: var(--text-color);
   font-size: em(25);
   position: absolute;
   right: em(15);

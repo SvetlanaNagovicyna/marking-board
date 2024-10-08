@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     RouterLink,
     ReactiveFormsModule,
+    MatDialogModule,
   ],
   exports: [
     HttpClientModule,
