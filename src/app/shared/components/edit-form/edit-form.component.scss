@@ -1,0 +1,26 @@
+@import 'src/styles/shared/functions';
+
+.window {
+  margin-top: 0;
+  &__wrap {
+    min-height: em(250);
+    padding: em(40) em(55)  em(40) em(55);
+  }
+  .form {
+    width: 80%;
+  }
+}
+
+button {
+  width: em(360);
+  margin-top: em(20);
+
+}
+.close {
+  color: #A1A1A1;
+  font-size: em(25);
+  position: absolute;
+  right: em(15);
+  width: em(25);
+  top: 0;
+}
