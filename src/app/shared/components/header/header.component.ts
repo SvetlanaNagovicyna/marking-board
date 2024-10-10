@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import {AuthService} from "../../providers/services/auth.service";
+import { AuthService } from "../../providers/services/auth.service";
 import { Router } from '@angular/router';
 import { UserService } from '../../providers/services/user.service';
-import { User } from '../../interfaces/user.interfaces';
+import { User } from '../../interfaces/user.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { EditFormComponent } from '../edit-form/edit-form.component';
@@ -43,6 +43,7 @@ export class HeaderComponent implements OnInit {
 
   openDialog(): void {
     this.dialog.open(EditFormComponent, {
+      data: { name: this.user?.name },
       panelClass: 'editForm',
       disableClose: true,
     });

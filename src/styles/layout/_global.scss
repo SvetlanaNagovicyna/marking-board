@@ -65,26 +65,6 @@ main {
   flex-direction: column;
 }
 
-.loader {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, .5);
-  z-index: 100;
-
-  img {
-    width: em(100);
-  }
-}
-
 .editForm {
   max-width: none !important;
   width: 100%;
@@ -103,4 +83,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+  stroke: #FF1822 !important;
 }

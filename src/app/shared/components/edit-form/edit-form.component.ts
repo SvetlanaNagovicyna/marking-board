@@ -1,51 +1,43 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../providers/services/auth.service';
-import { User } from '../../interfaces/user.interfaces';
 import { UserService } from '../../providers/services/user.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { User } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-edit-form',
   templateUrl: './edit-form.component.html',
   styleUrls: ['./edit-form.component.scss']
 })
-export class EditFormComponent implements OnInit {
+export class EditFormComponent {
   form = new FormGroup({
-      name: new FormControl('',
+      name: new FormControl(this.data.name,
         [
           Validators.required,
         ]),
     }
   );
 
-  auth: AuthService = inject(AuthService);
   readonly dialogRef = inject(MatDialogRef);
   userService: UserService = inject(UserService);
-  user: User | null = null;
   isLoading: boolean = false;
 
-  ngOnInit() {
-    this.patchValueToForm();
-  }
 
-  patchValueToForm() {
-    this.user = this.userService.user$.getValue();
-    this.form.patchValue({
-      name: this.user?.name,
-    });
+  constructor(@Inject(MAT_DIALOG_DATA) public data: User) {
   }
 
   saveInfoUserInFirebase(): void {
-    if (!this.user?.name) return;
-
     this.isLoading = true;
 
-    const newName: string = this.user.name = this.form.value.name ?? '';
-    this.userService.updateUserName(newName).subscribe({
+    const newName: string = this.form.value.name ?? '';
+
+    this.userService.updateUserData({name: newName}).subscribe({
       next: (): void => {
         this.isLoading = false;
         this.close();
+      },
+      error: (): void => {
+        this.isLoading = true;
       }
     });
   }

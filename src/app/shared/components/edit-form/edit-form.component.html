@@ -40,15 +40,9 @@
 
     </form>
 
-    <div class="alert-error" *ngIf="auth.error$ | async as error">
-      {{error}}
-    </div>
-
     <button class="close" (click)="close()">X</button>
 
   </div>
 </div>
 
-<div *ngIf="isLoading" class="loader">
-  <img src="../../../../assets/img/loader.gif" alt="">
-</div>
+<app-loader *ngIf="isLoading" ></app-loader>

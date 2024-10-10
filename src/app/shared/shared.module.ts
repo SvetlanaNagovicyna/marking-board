@@ -9,6 +9,8 @@ import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.com
 import { EditFormComponent } from './components/edit-form/edit-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { LoaderComponent } from './components/loader/loader.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     BackgroundComponent,
     ThemeToggleComponent,
     EditFormComponent,
+    LoaderComponent,
   ],
   imports: [
     HttpClientModule,
@@ -23,6 +26,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     RouterLink,
     ReactiveFormsModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     HttpClientModule,
@@ -30,6 +34,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     BackgroundComponent,
     MatDialogModule,
     EditFormComponent,
+    MatProgressSpinnerModule,
+    LoaderComponent,
   ],
 })
 

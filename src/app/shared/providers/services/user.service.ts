@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../../interfaces/user.interfaces';
+import { User } from '../../interfaces/user.interface';
 import { environment } from '../../../../environments/environment';
-import { BehaviorSubject, map, Observable } from 'rxjs';
-import { Theme } from '../../types/theme.type';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,25 +19,27 @@ export class UserService {
       .pipe(map((response: { [key: string]: User }) => {
         return Object
           .keys(response)
-          .map((key:string) => ({
+          .map((key: string) => ({
             ...response[key],
             id: key
           })).filter(item => item.idDb === id)[0];
       }));
   }
 
-   setUser(user: User): void {
-     this.user$.next(user);
-   }
+  setUser(user: User): void {
+    this.user$.next(user);
+    this.user = user;
+  }
 
-   addUser(user: Omit<User, 'id'>): Observable<User> {
-     return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user);
-   }
+  addUser(user: Omit<User, 'id'>): Observable<User> {
+    return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user);
+  }
 
-   updateUserTheme(theme: Theme): Observable<void> {
-    return this.#http.patch<void>(`${environment.fbDbUrl}/users/${this.user$.getValue()?.id}.json`, { theme });
-   }
-   updateUserName(name: string): Observable<void> {
-    return this.#http.patch<void>(`${environment.fbDbUrl}/users/${this.user$.getValue()?.id}.json`, { name });
-   }
+  updateUserData(data: Partial<User>): Observable<void> {
+    return this.#http.patch<void>(`${environment.fbDbUrl}/users/${this.user?.id}.json`, data)
+      .pipe(tap((): void => {
+        const updatedUser = {...this.user, ...data};
+        this.setUser(updatedUser);
+      }));
+  }
 }
