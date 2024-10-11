@@ -39,8 +39,8 @@ export class EditFormComponent {
         next: (): void => {
           this.close();
         },
-        error: (): void => {
-          this.isLoading = true;
+        error: (err): void => {
+          console.log('User update error:', err);
         }
       });
   }
