@@ -31,6 +31,12 @@ export class UserService {
     this.user = user;
   }
 
+  isAdmin(): boolean {
+    console.log(this.user$.getValue()?.hasPerm)
+
+    return !!this.user$.getValue()?.hasPerm;
+  }
+
   addUser(user: Omit<User, 'id'>): Observable<User> {
     return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user);
   }

@@ -1,8 +1,8 @@
 <header class="header">
   <nav class="container">
-    <div class="header__logo">
-      <img src="../../../../assets/img/logo.svg" alt="logo">
-    </div>
+    <a class="header__logo" routerLink="home">
+      <img src="../../../../assets/img/logo.svg" alt="logo" >
+    </a>
     <div class="header__buttons" *ngIf="!auth.isAuthenticated(); else elseBlock">
       <button class="button width-179" routerLink="login">
         <svg width="179" height="45" viewBox="0 0 179 45" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,9 +18,9 @@
       <div class="header__user">
         <app-theme-toggle></app-theme-toggle>
 
-        <div *ngIf="user?.hasPerm" class="admin">
+        <a *ngIf="user?.hasPerm" class="admin" routerLink="admin">
           <span>АДМИН ПАНЕЛЬ</span>
-        </div>
+        </a>
         <ul class="user">
           <li class="user__name">
             <span>{{ user?.name }}</span>

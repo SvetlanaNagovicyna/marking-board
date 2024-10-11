@@ -1,8 +1,8 @@
-import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
-import {PublicComponent} from "./public.component";
-import {LoginComponent} from "./pages/login/login.component";
-import {RegistrationComponent} from "./pages/registration/registration.component";
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { PublicComponent } from "./public.component";
+import { LoginComponent } from "./pages/login/login.component";
+import { RegistrationComponent } from "./pages/registration/registration.component";
 
 const routes: Routes = [
   {
@@ -33,4 +33,5 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 
-export class PublicRoutingModule {}
+export class PublicRoutingModule {
+}

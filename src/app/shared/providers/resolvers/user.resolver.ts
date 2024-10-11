@@ -23,6 +23,7 @@ export const UserResolver: ResolveFn<boolean> = ():Observable<boolean> => {
         if (user) {
           userService.setUser(user);
           themeService.setTheme(user.theme);
+          userService.isAdmin();
         }
         return true;
       }),
