@@ -35,8 +35,8 @@ export class UserService {
     return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user);
   }
 
-  updateUserData(data: Partial<User>): Observable<void> {
-    return this.#http.patch<void>(`${environment.fbDbUrl}/users/${this.user?.id}.json`, data)
+  updateUserData<T>(data: Partial<User>): Observable<T> {
+    return this.#http.patch<T>(`${environment.fbDbUrl}/users/${this.user?.id}.json`, data)
       .pipe(tap((): void => {
         const updatedUser = {...this.user, ...data};
         this.setUser(updatedUser);
