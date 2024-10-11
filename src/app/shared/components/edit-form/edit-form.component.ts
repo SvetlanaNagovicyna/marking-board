@@ -37,7 +37,6 @@ export class EditFormComponent {
       )
       .subscribe({
         next: (): void => {
-          this.isLoading = false;
           this.close();
         },
         error: (): void => {
