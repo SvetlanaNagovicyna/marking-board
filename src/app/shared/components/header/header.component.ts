@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
         next: (user: User | null): void => {
           this.user = user;
         }
-    })
+      })
   }
 
   logout(event: Event): void {
@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
   openDialog(): void {
     this.dialog.open(EditFormComponent, {
       data: { name: this.user?.name },
-      panelClass: 'editForm',
+      panelClass: 'dialog',
       disableClose: true,
     });
   }

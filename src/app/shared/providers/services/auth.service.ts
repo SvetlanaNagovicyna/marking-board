@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { catchError, map, mergeMap, Observable, Subject, tap, throwError } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { AuthResponse } from "../../interfaces/auth-response.interface";
@@ -13,7 +13,7 @@ import { Theme } from '../../types/theme.type';
   providedIn: 'root'
 })
 
-export class AuthService{
+export class AuthService {
   public error$: Subject<string> = new Subject<string>();
 
   #http: HttpClient = inject(HttpClient);
@@ -31,13 +31,13 @@ export class AuthService{
   }
 
   login(user: Omit<UserRequest, 'name'>, rememberMe: boolean): Observable<AuthResponse> {
-     return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
-       .pipe(
-         tap((response: AuthResponse): void => {
-           this.setToken(response, rememberMe);
-         }),
-         catchError(this.handleError.bind(this))
-       );
+    return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
+      .pipe(
+        tap((response: AuthResponse): void => {
+          this.setToken(response, rememberMe);
+        }),
+        catchError(this.handleError.bind(this))
+      );
   }
 
 
@@ -82,6 +82,9 @@ export class AuthService{
         break;
       case 'EMAIL_NOT_FOUND':
         this.error$.next('Email not found');
+        break;
+      case 'EMAIL_EXISTS':
+        this.error$.next('Email already exists');
         break;
     }
     return throwError(() => error);

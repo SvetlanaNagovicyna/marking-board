@@ -1,9 +1,10 @@
-import {Component, DestroyRef, inject} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {AuthService} from "../../../shared/providers/services/auth.service";
-import {Router} from "@angular/router";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import { Component, DestroyRef, inject } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { AuthService } from "../../../shared/providers/services/auth.service";
+import { Router } from "@angular/router";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { UserRequest } from '../../../shared/interfaces/user-request.interface';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -13,33 +14,34 @@ import { UserRequest } from '../../../shared/interfaces/user-request.interface';
 export class RegistrationComponent {
 
   form = new FormGroup({
-    name: new FormControl('',
-      [
-        Validators.required,
-      ]),
-    email: new FormControl('',
-      [
-        Validators.required,
-        Validators.email,
-      ]),
-    password: new FormControl('',
-      [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$'),
-      ]),
-    confirmPassword: new FormControl('',
-      [
-        Validators.required,
-      ]),
-  },
-    { validators: this.passwordMatchValidator() }
+      name: new FormControl('',
+        [
+          Validators.required,
+        ]),
+      email: new FormControl('',
+        [
+          Validators.required,
+          Validators.email,
+        ]),
+      password: new FormControl('',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$'),
+        ]),
+      confirmPassword: new FormControl('',
+        [
+          Validators.required,
+        ]),
+    },
+    {validators: this.passwordMatchValidator()}
   );
 
-  submitted: boolean = false;
   auth: AuthService = inject(AuthService);
   #router: Router = inject(Router);
   destroyRef: DestroyRef = inject(DestroyRef);
+  submitted: boolean = false;
+  isLoading: boolean = false;
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
@@ -47,8 +49,8 @@ export class RegistrationComponent {
       const confirmPassword: AbstractControl<string, string> | null = control.get('confirmPassword');
 
       if (password && confirmPassword && password.value !== confirmPassword.value) {
-        confirmPassword.setErrors({ mismatch: true });
-        return { mismatch: true };
+        confirmPassword.setErrors({mismatch: true});
+        return {mismatch: true};
       } else {
         confirmPassword?.setErrors(null);
         return null;
@@ -57,11 +59,9 @@ export class RegistrationComponent {
   }
 
   submit(): void {
-    if(this.form.invalid) {
+    if (this.form.invalid) {
       return;
     }
-
-    this.submitted = true;
 
     const user: UserRequest = {
       email: this.form.value.email ?? '',
@@ -72,8 +72,17 @@ export class RegistrationComponent {
   }
 
   singUp(user: UserRequest): void {
+    this.submitted = true;
+    this.isLoading = true;
+
     this.auth.singUp(user)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.submitted = false;
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         next: (): void => {
           this.form.reset();
@@ -82,10 +91,6 @@ export class RegistrationComponent {
               registration: true,
             }
           });
-          this.submitted = true;
-        },
-        error: (): void => {
-          this.submitted = false;
         }
       });
   }
