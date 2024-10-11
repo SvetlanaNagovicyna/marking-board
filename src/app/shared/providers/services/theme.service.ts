@@ -27,7 +27,7 @@ export class ThemeService {
   toggleTheme(): void {
     const newTheme: Theme = this.getCurrentTheme() === 'dark' ? 'light' : 'dark';
     this.setTheme(newTheme);
-    this.userService.updateUserTheme(newTheme).subscribe();
+    this.userService.updateUserData({theme: newTheme}).subscribe();
   }
 
   changeDocumentTheme(theme: Theme): void {

@@ -43,7 +43,6 @@ body {
   font-style: normal;
   color: var(--text-color);
   background-color: var(--background-color);
-  //background-color: var(--background-color);
 }
 
 .main__wrap{
@@ -52,7 +51,6 @@ body {
   min-height: 100%;
   overflow: hidden;
   background-color: var(--black-color);
-  //background-color: var(--background-color);
 }
 
 app-header {
@@ -67,3 +65,26 @@ main {
   flex-direction: column;
 }
 
+.dialog {
+  max-width: none !important;
+  width: 100%;
+  height: 100%;
+}
+
+.dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: transparent !important;
+  border-radius: 0;
+  max-width: none !important;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+}
+
+.dialog .mat-mdc-dialog-surface .mdc-dialog__surface {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+  stroke: #FF1822 !important;
+}

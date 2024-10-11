@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RegistrationComponent} from "./registration.component";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { RegistrationComponent } from "./registration.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
   declarations: [
-      RegistrationComponent,
+    RegistrationComponent,
   ],
   imports: [
-      CommonModule,
-      FormsModule,
-      ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
   ]
 })
 
-export class RegistrationModule { }
+export class RegistrationModule {
+}

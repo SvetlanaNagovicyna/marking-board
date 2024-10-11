@@ -51,7 +51,7 @@
       <button
         class="btn-red"
         type="submit"
-        [disabled]="form.invalid || submitted"
+        [disabled]="form.invalid || isLoading"
       >
         <svg viewBox="0 0 225 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <polygon fill="none" points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
@@ -74,3 +74,5 @@
 
   </div>
 </div>
+
+<app-loader *ngIf="isLoading" ></app-loader>

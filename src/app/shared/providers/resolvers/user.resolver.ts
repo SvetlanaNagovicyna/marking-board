@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { inject } from '@angular/core';
 import { ThemeService } from '../services/theme.service';
-import { User } from '../../interfaces/user.interfaces';
+import { User } from '../../interfaces/user.interface';
 
 export const UserResolver: ResolveFn<boolean> = ():Observable<boolean> => {
 
