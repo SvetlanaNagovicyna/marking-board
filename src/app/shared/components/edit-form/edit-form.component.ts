@@ -38,9 +38,6 @@ export class EditFormComponent {
       .subscribe({
         next: (): void => {
           this.close();
-        },
-        error: (err): void => {
-          console.log('User update error:', err);
         }
       });
   }
