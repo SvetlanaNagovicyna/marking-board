@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
   #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   destroyRef: DestroyRef = inject(DestroyRef);
   message: string = '';
-  submitted: boolean = false;
   greenText: boolean = false;
   isLoading: boolean = false;
 
@@ -53,13 +52,11 @@ export class LoginComponent implements OnInit {
   login(user: Omit<UserRequest, 'name'>): void {
     const rememberMe: boolean = !!this.form.value.rememberMe;
     this.isLoading = true;
-    this.submitted = true;
 
     this.auth.login(user, rememberMe)
       .pipe(
         finalize(() => {
           this.isLoading = false;
-          this.submitted = false;
         }),
         takeUntilDestroyed(this.destroyRef)
       )
