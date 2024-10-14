@@ -31,7 +31,8 @@ export class UserService {
     this.user = user;
   }
 
-  clearUser() {
+  clearUser(): void {
+    this.user = null;
     localStorage.setItem('userId', 'null');
   }
 
@@ -40,6 +41,10 @@ export class UserService {
 
     if (!userId) {
       return of(null);
+    }
+
+    if (this.user) {
+      return of(this.user);
     }
 
     return this.getUserById(userId).pipe(
