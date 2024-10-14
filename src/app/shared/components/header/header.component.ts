@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   userService: UserService = inject(UserService);
   destroyRef: DestroyRef = inject(DestroyRef);
   user: User | null = null;
-  readonly dialog = inject(MatDialog);
+  readonly dialog: MatDialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.subscribeToUser();

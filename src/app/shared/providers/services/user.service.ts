@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../interfaces/user.interface';
 import { environment } from '../../../../environments/environment';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 export class UserService {
   #http: HttpClient = inject(HttpClient);
 
-  user: User = {} as User;
+  user: User | null = null;
   user$: BehaviorSubject<User | null> = new BehaviorSubject<null | User>(null);
 
   getUserById(id: string): Observable<User> {
@@ -26,15 +26,27 @@ export class UserService {
       }));
   }
 
-  setUser(user: User): void {
+  setUser(user: User | null): void {
     this.user$.next(user);
     this.user = user;
   }
 
-  isAdmin(): boolean {
-    console.log(this.user$.getValue()?.hasPerm)
+  clearUser() {
+    localStorage.setItem('userId', 'null');
+  }
 
-    return !!this.user$.getValue()?.hasPerm;
+  getUser(): Observable<User | null> {
+    const userId: string | null = localStorage.getItem('userId');
+
+    if (!userId) {
+      return of(null);
+    }
+
+    return this.getUserById(userId).pipe(
+      tap((user: User | null): void => {
+        this.setUser(user);
+      })
+    )
   }
 
   addUser(user: Omit<User, 'id'>): Observable<User> {
@@ -44,7 +56,7 @@ export class UserService {
   updateUserData<T>(data: Partial<User>): Observable<T> {
     return this.#http.patch<T>(`${environment.fbDbUrl}/users/${this.user?.id}.json`, data)
       .pipe(tap((): void => {
-        const updatedUser = {...this.user, ...data};
+        const updatedUser: User = {...this.user, ...data} as User;
         this.setUser(updatedUser);
       }));
   }

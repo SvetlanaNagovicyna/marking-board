@@ -1,5 +1,5 @@
 import { ResolveFn } from '@angular/router';
-import { catchError, map, Observable, of, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { inject } from '@angular/core';
@@ -7,23 +7,15 @@ import { ThemeService } from '../services/theme.service';
 import { User } from '../../interfaces/user.interface';
 
 export const UserResolver: ResolveFn<boolean> = ():Observable<boolean> => {
-
   const userService: UserService = inject(UserService);
   const authService: AuthService = inject(AuthService);
   const themeService: ThemeService = inject(ThemeService);
-  const userId: string | null = localStorage.getItem('userId');
 
-  if (!userId) {
-    return of(false);
-  }
-
-  return userService.getUserById(userId)
+  return userService.getUser()
     .pipe(
-      map((user: User): boolean => {
+      map((user: User | null): boolean => {
         if (user) {
-          userService.setUser(user);
           themeService.setTheme(user.theme);
-          userService.isAdmin();
         }
         return true;
       }),
@@ -31,5 +23,5 @@ export const UserResolver: ResolveFn<boolean> = ():Observable<boolean> => {
         authService.logout();
         return throwError(error);
       })
-    );
+  );
 };

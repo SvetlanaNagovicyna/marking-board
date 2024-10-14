@@ -65,6 +65,7 @@ export class AuthService {
 
   logout(): void {
     this.setToken(null);
+    this.userService.clearUser();
   }
 
   isAuthenticated(): boolean {
