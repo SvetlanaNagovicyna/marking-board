@@ -43,7 +43,7 @@ export class UserService {
     }
 
     return this.getUserById(userId).pipe(
-      tap((user: User | null): void => {
+      tap((user: User): void => {
         this.setUser(user);
       })
     )

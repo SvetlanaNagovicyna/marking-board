@@ -1,14 +1,14 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { User } from '../../../interfaces/user.interface';
 
 export const AdminGuard: CanActivateFn = (): Observable<boolean> => {
   const userService: UserService = inject(UserService);
   const router: Router = inject(Router);
 
-  userService.getUser()
+  return userService.getUser()
     .pipe(
       map((user: User | null): boolean => {
         if (user && user.hasPerm) {
@@ -18,5 +18,4 @@ export const AdminGuard: CanActivateFn = (): Observable<boolean> => {
         return false;
       })
     );
-  return of(true);
 };
