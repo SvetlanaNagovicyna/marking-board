@@ -33,7 +33,7 @@ export class UserService {
 
   clearUser(): void {
     this.user = null;
-    localStorage.setItem('userId', 'null');
+    localStorage.removeItem('userId');
   }
 
   getUser(): Observable<User | null> {
