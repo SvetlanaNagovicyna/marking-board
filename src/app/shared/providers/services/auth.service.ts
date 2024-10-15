@@ -65,6 +65,7 @@ export class AuthService {
 
   logout(): void {
     this.setToken(null);
+    this.userService.clearUser();
   }
 
   isAuthenticated(): boolean {
@@ -92,12 +93,13 @@ export class AuthService {
 
   private setToken(response: AuthResponse | null, rememberMe: boolean = false): void {
     if (response) {
-      const expDate: Date = new Date(new Date().getTime() + +response.expiresIn);
+      const expDate: Date = new Date(new Date().getTime() + 3600);
+      console.log(response)
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
       localStorage.setItem('userId', response.localId);
       if (rememberMe) {
-        const expDate: Date = new Date(new Date().getTime() + +response.expiresIn * 10000);
+        const expDate: Date = new Date(new Date().getTime() + 36000);
         localStorage.setItem('token', response.idToken);
         localStorage.setItem('token-exp', expDate.toString());
       }

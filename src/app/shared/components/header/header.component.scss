@@ -8,6 +8,7 @@
   right: 0;
   width: 100%;
   padding: em(40) 0;
+  z-index: 10;
 
   .container {
     display: flex;
@@ -119,6 +120,10 @@
       font-weight: 600;
       margin-left: em(36, 13);
       font-size: em(13);
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
 
