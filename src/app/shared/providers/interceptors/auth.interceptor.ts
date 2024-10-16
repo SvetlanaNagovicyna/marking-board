@@ -1,35 +1,48 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { inject } from '@angular/core';
+import { HttpRequest, HttpEvent, HttpErrorResponse, HttpInterceptorFn, HttpHandlerFn } from '@angular/common/http';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  private authService: AuthService = inject(AuthService);
-  private router: Router = inject(Router);
+export const AuthInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, next: HttpHandlerFn) => {
+  const authService: AuthService = inject(AuthService);
+  const router: Router = inject(Router);
+  const accessToken: string | null = localStorage.getItem('accessToken');
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (this.authService.isAuthenticated()) {
-      request = request.clone({
-        setParams: {
-          auth: this.authService.token ?? ''
-        }
-      })
-    }
-    return next.handle(request)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            this.authService.logout();
-            this.router.navigate(['login'], {
-              queryParams: {
-                authFailed: true,
-              }
-            })
+  const handleTokenExpired =  (request: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
+    return authService.refreshAccessToken().pipe(
+      switchMap(() => {
+        const newAccessToken: string = localStorage.getItem('accessToken') ?? '';
+        return next(addToken(request, newAccessToken));
+      }),
+      catchError((error) => {
+        authService.logout();
+        router.navigate(['login'], {
+          queryParams: {
+            loginAgain: true,
           }
-          return throwError(() => error);
         })
-      );
+        return throwError(() => error);
+      })
+    );
+  };
+
+  const addToken = (request: HttpRequest<any>, token: string): HttpRequest<any> => {
+    return request.clone({
+      setParams: { auth: `${token}` },
+    });
+  };
+
+  if (accessToken) {
+    request = addToken(request, accessToken);
   }
-}
+
+  return next(request).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401 && accessToken) {
+        return handleTokenExpired(request, next);
+      }
+      return throwError(() => error);
+    })
+  );
+};

@@ -1,17 +1,11 @@
-import { NgModule, Provider } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from "./shared/shared.module";
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthInterceptor } from './shared/providers/interceptors/auth.interceptor';
-
-const INTERCEPTOR_PROVIDER: Provider = {
-  provide: HTTP_INTERCEPTORS,
-  multi: true,
-  useClass: AuthInterceptor,
-}
 
 @NgModule({
   declarations: [
@@ -21,8 +15,14 @@ const INTERCEPTOR_PROVIDER: Provider = {
     BrowserModule,
     AppRoutingModule,
     SharedModule,
+    HttpClientModule,
   ],
-  providers: [INTERCEPTOR_PROVIDER],
+  providers: [
+    provideHttpClient(
+      withInterceptors([AuthInterceptor])
+    ),
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+}

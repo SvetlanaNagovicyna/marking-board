@@ -51,9 +51,10 @@ export class LoginComponent implements OnInit {
 
   login(user: Omit<UserRequest, 'name'>): void {
     const rememberMe: boolean = !!this.form.value.rememberMe;
+    localStorage.setItem('rememberMe', `${rememberMe}`);
     this.isLoading = true;
 
-    this.auth.login(user, rememberMe)
+    this.auth.login(user)
       .pipe(
         finalize(() => {
           this.isLoading = false;
