@@ -31,6 +31,7 @@ export class AuthService {
   }
 
   login(user: Omit<UserRequest, 'name'>, rememberMe: boolean): Observable<AuthResponse> {
+    user.returnSecureToken = true;
     return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
       .pipe(
         tap((response: AuthResponse): void => {
@@ -93,13 +94,12 @@ export class AuthService {
 
   private setToken(response: AuthResponse | null, rememberMe: boolean = false): void {
     if (response) {
-      const expDate: Date = new Date(new Date().getTime() + 3600);
-      console.log(response)
+      const expDate: Date = new Date(new Date().getTime() + +response.expiresIn);
       localStorage.setItem('token', response.idToken);
       localStorage.setItem('token-exp', expDate.toString());
       localStorage.setItem('userId', response.localId);
       if (rememberMe) {
-        const expDate: Date = new Date(new Date().getTime() + 36000);
+        const expDate: Date = new Date(new Date().getTime() + +response.expiresIn * 10000);
         localStorage.setItem('token', response.idToken);
         localStorage.setItem('token-exp', expDate.toString());
       }
