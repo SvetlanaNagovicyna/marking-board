@@ -43,6 +43,7 @@ export class AuthService {
     return this.#http.post<AuthResponse>(`${environment.url}/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
       .pipe(
         tap((response: AuthResponse): void => {
+          localStorage.setItem('rememberMe', `${user.rememberMe}`);
           this.setToken(response);
         }),
         catchError(this.handleError.bind(this))
@@ -81,15 +82,6 @@ export class AuthService {
     }).pipe(
       tap((response: AuthRefreshTokenResponse): void => {
         localStorage.setItem('accessToken', response.id_token);
-      }),
-      catchError((error) => {
-        this.logout();
-        this.#router.navigate(['login'], {
-          queryParams: {
-            loginAgain: true,
-          }
-        });
-        return throwError(() => error);
       })
     );
   }
@@ -131,6 +123,7 @@ export class AuthService {
       localStorage.setItem('refreshToken', response.refreshToken);
       localStorage.setItem('token-exp', expDate.toString());
       localStorage.setItem('userId', response.localId);
+
     } else {
       localStorage.clear();
     }
