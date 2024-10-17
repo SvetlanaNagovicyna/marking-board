@@ -9,7 +9,7 @@ export const AuthInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, ne
   const router: Router = inject(Router);
   const accessToken: string | null = localStorage.getItem('accessToken');
 
-  const handleTokenExpired =  (request: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
+  const handleTokenExpired = (request: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
     return authService.refreshAccessToken().pipe(
       switchMap(() => {
         const newAccessToken: string = localStorage.getItem('accessToken') ?? '';

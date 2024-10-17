@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { UserService } from './user.service';
 import { UserRequest } from '../../interfaces/user-request.interface';
 import { Theme } from '../../types/theme.type';
+import { AuthRefreshTokenResponse } from '../../interfaces/auth-refresh-token-response.interface';
 
 
 @Injectable({
@@ -23,10 +24,6 @@ export class AuthService {
   get token(): string | null {
     const expDate: number = new Date(localStorage.getItem('token-exp') ?? '').getTime();
     const rememberMe: string | null = localStorage.getItem('rememberMe');
-
-    if (!rememberMe) {
-      return null;
-    }
 
     if (new Date().getTime() > expDate && rememberMe !== 'true') {
       this.logout();
@@ -75,12 +72,15 @@ export class AuthService {
       );
   }
 
-  refreshAccessToken(): Observable<AuthResponse> {
+  refreshAccessToken(): Observable<AuthRefreshTokenResponse> {
     const refreshToken: string | null = localStorage.getItem('refreshToken');
 
-    return this.#http.post<AuthResponse>(`${environment.fbDbUrl}/v1/token?key=${environment.apiKey}`, {refreshToken}).pipe(
-      tap((response: AuthResponse): void => {
-        localStorage.setItem('accessToken', response.idToken);
+    return this.#http.post<AuthRefreshTokenResponse>(`https://securetoken.googleapis.com/v1/token?key=${environment.apiKey}`, {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    }).pipe(
+      tap((response: AuthRefreshTokenResponse): void => {
+        localStorage.setItem('accessToken', response.id_token);
       }),
       catchError((error) => {
         this.logout();
