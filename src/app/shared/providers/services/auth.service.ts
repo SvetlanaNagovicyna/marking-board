@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { UserService } from './user.service';
 import { UserRequest } from '../../interfaces/user-request.interface';
 import { Theme } from '../../types/theme.type';
+import { AuthRefreshTokenResponse } from '../../interfaces/auth-refresh-token-response.interface';
 
 
 @Injectable({
@@ -21,20 +22,29 @@ export class AuthService {
   userService: UserService = inject(UserService);
 
   get token(): string | null {
-    const expDate: Date = new Date(localStorage.getItem('token-exp') ?? '');
-    if (new Date() > expDate) {
+    const expDate: number = new Date(localStorage.getItem('token-exp') ?? '').getTime();
+    const rememberMe: string | null = localStorage.getItem('rememberMe');
+
+    if (new Date().getTime() > expDate && rememberMe !== 'true') {
       this.logout();
-      this.#router.navigate(['login']);
+      this.#router.navigate(['login'], {
+        queryParams: {
+          loginAgain: true,
+        }
+      });
       return null;
     }
-    return localStorage.getItem('token');
+
+    return localStorage.getItem('accessToken');
   }
 
-  login(user: Omit<UserRequest, 'name'>, rememberMe: boolean): Observable<AuthResponse> {
-    return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
+  login(user: Omit<UserRequest, 'name'>): Observable<AuthResponse> {
+    user.returnSecureToken = true;
+    return this.#http.post<AuthResponse>(`${environment.url}/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
       .pipe(
         tap((response: AuthResponse): void => {
-          this.setToken(response, rememberMe);
+          localStorage.setItem('rememberMe', `${user.rememberMe}`);
+          this.setToken(response);
         }),
         catchError(this.handleError.bind(this))
       );
@@ -42,7 +52,7 @@ export class AuthService {
 
 
   singUp(user: UserRequest): Observable<AuthResponse> {
-    return this.#http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`, user)
+    return this.#http.post<AuthResponse>(`${environment.url}/v1/accounts:signUp?key=${environment.apiKey}`, user)
       .pipe(
         mergeMap((res: AuthResponse) => {
           const newUser = {
@@ -63,8 +73,22 @@ export class AuthService {
       );
   }
 
+  refreshAccessToken(): Observable<AuthRefreshTokenResponse> {
+    const refreshToken: string | null = localStorage.getItem('refreshToken');
+
+    return this.#http.post<AuthRefreshTokenResponse>(`https://securetoken.googleapis.com/v1/token?key=${environment.apiKey}`, {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    }).pipe(
+      tap((response: AuthRefreshTokenResponse): void => {
+        localStorage.setItem('accessToken', response.id_token);
+      })
+    );
+  }
+
   logout(): void {
     this.setToken(null);
+    localStorage.clear();
     this.userService.clearUser();
   }
 
@@ -74,6 +98,7 @@ export class AuthService {
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     const {message} = error.error.error;
+
     switch (message) {
       case 'INVALID_EMAIL':
         this.error$.next('Invalid email');
@@ -91,18 +116,14 @@ export class AuthService {
     return throwError(() => error);
   }
 
-  private setToken(response: AuthResponse | null, rememberMe: boolean = false): void {
+  private setToken(response: AuthResponse | null): void {
     if (response) {
-      const expDate: Date = new Date(new Date().getTime() + 3600);
-      console.log(response)
-      localStorage.setItem('token', response.idToken);
+      const expDate: Date = new Date(new Date().getTime() + (+response.expiresIn) * 1000);
+      localStorage.setItem('accessToken', response.idToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
       localStorage.setItem('token-exp', expDate.toString());
       localStorage.setItem('userId', response.localId);
-      if (rememberMe) {
-        const expDate: Date = new Date(new Date().getTime() + 36000);
-        localStorage.setItem('token', response.idToken);
-        localStorage.setItem('token-exp', expDate.toString());
-      }
+
     } else {
       localStorage.clear();
     }
