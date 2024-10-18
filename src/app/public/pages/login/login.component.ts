@@ -44,16 +44,16 @@ export class LoginComponent implements OnInit {
     const user: Omit<UserRequest, 'name'> = {
       email: this.form.value.email ?? '',
       password: this.form.value.password ?? '',
+      rememberMe: this.form.value.rememberMe ?? false,
     }
 
     this.login(user);
   }
 
   login(user: Omit<UserRequest, 'name'>): void {
-    const rememberMe: boolean = !!this.form.value.rememberMe;
     this.isLoading = true;
 
-    this.auth.login(user, rememberMe)
+    this.auth.login(user)
       .pipe(
         finalize(() => {
           this.isLoading = false;
