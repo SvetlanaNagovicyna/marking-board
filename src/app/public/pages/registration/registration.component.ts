@@ -66,7 +66,6 @@ export class RegistrationComponent {
       email: this.form.value.email ?? '',
       password: this.form.value.password ?? '',
       name: this.form.value.name ?? '',
-      rememberMe: false,
     }
 
     this.singUp(user);

@@ -3,5 +3,5 @@ export interface UserRequest {
   password: string,
   name: string,
   returnSecureToken?: boolean,
-  rememberMe: boolean,
+  rememberMe?: boolean,
 }

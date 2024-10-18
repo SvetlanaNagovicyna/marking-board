@@ -1,5 +1,11 @@
 import { inject } from '@angular/core';
-import { HttpRequest, HttpEvent, HttpErrorResponse, HttpInterceptorFn, HttpHandlerFn } from '@angular/common/http';
+import {
+  HttpRequest,
+  HttpEvent,
+  HttpErrorResponse,
+  HttpInterceptorFn,
+  HttpHandlerFn,
+} from '@angular/common/http';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
@@ -29,12 +35,14 @@ export const AuthInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, ne
 
   const addToken = (request: HttpRequest<any>, token: string): HttpRequest<any> => {
     return request.clone({
-      setParams: { auth: `${token}` },
+      setParams: {auth: `${token}`},
     });
   };
 
-  if (accessToken) {
+  if (accessToken && !request.url.includes('signUp')) {
     request = addToken(request, accessToken);
+  } else {
+    return next(request);
   }
 
   return next(request).pipe(

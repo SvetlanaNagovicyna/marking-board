@@ -25,7 +25,7 @@ export class AuthService {
     const expDate: number = new Date(localStorage.getItem('token-exp') ?? '').getTime();
     const rememberMe: string | null = localStorage.getItem('rememberMe');
 
-    if (new Date().getTime() > expDate && rememberMe !== 'true') {
+    if (new Date().getTime() > expDate && rememberMe) {
       this.logout();
       this.#router.navigate(['login'], {
         queryParams: {
@@ -43,7 +43,9 @@ export class AuthService {
     return this.#http.post<AuthResponse>(`${environment.url}/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
       .pipe(
         tap((response: AuthResponse): void => {
-          localStorage.setItem('rememberMe', `${user.rememberMe}`);
+          if (user.rememberMe) {
+            localStorage.setItem('rememberMe', `${user.rememberMe}`);
+          }
           this.setToken(response);
         }),
         catchError(this.handleError.bind(this))
@@ -88,7 +90,6 @@ export class AuthService {
 
   logout(): void {
     this.setToken(null);
-    localStorage.clear();
     this.userService.clearUser();
   }
 
@@ -123,7 +124,6 @@ export class AuthService {
       localStorage.setItem('refreshToken', response.refreshToken);
       localStorage.setItem('token-exp', expDate.toString());
       localStorage.setItem('userId', response.localId);
-
     } else {
       localStorage.clear();
     }
