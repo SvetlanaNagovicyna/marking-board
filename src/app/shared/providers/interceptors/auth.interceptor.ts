@@ -39,10 +39,8 @@ export const AuthInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, ne
     });
   };
 
-  if (accessToken && !request.url.includes('signUp')) {
+  if (accessToken) {
     request = addToken(request, accessToken);
-  } else {
-    return next(request);
   }
 
   return next(request).pipe(
