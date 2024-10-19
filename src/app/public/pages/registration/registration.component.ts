@@ -67,6 +67,7 @@ export class RegistrationComponent {
       password: this.form.value.password ?? '',
       name: this.form.value.name ?? '',
     }
+
     this.singUp(user);
   }
 

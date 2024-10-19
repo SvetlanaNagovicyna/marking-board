@@ -45,5 +45,4 @@ export class EditFormComponent {
   close(): void {
     this.dialogRef.close();
   }
-
 }
