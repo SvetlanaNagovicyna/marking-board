@@ -8,6 +8,7 @@ import { UserService } from './user.service';
 import { UserRequest } from '../../interfaces/user-request.interface';
 import { Theme } from '../../types/theme.type';
 import { AuthRefreshTokenResponse } from '../../interfaces/auth-refresh-token-response.interface';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Injectable({
@@ -20,12 +21,13 @@ export class AuthService {
   #http: HttpClient = inject(HttpClient);
   #router: Router = inject(Router);
   userService: UserService = inject(UserService);
+  matDialog: MatDialog = inject(MatDialog);
 
   get token(): string | null {
     const expDate: number = new Date(localStorage.getItem('token-exp') ?? '').getTime();
     const rememberMe: string | null = localStorage.getItem('rememberMe');
 
-    if (new Date().getTime() > expDate && rememberMe) {
+    if (new Date().getTime() > expDate && !rememberMe) {
       this.logout();
       this.#router.navigate(['login'], {
         queryParams: {
@@ -64,7 +66,7 @@ export class AuthService {
             hasPerm: false,
             theme: 'dark' as Theme,
           }
-          return this.userService.addUser(newUser)
+          return this.userService.addUser(newUser, res.idToken)
             .pipe(
               map(() => {
                 return res;
@@ -91,6 +93,7 @@ export class AuthService {
   logout(): void {
     this.setToken(null);
     this.userService.clearUser();
+    this.matDialog.closeAll();
   }
 
   isAuthenticated(): boolean {

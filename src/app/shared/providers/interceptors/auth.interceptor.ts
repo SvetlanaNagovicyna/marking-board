@@ -13,12 +13,12 @@ import { Router } from '@angular/router';
 export const AuthInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, next: HttpHandlerFn) => {
   const authService: AuthService = inject(AuthService);
   const router: Router = inject(Router);
-  const accessToken: string | null = localStorage.getItem('accessToken');
+  const accessToken: string | null = authService.token;
 
   const handleTokenExpired = (request: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
     return authService.refreshAccessToken().pipe(
       switchMap(() => {
-        const newAccessToken: string = localStorage.getItem('accessToken') ?? '';
+        const newAccessToken: string | null = authService.token;
         return next(addToken(request, newAccessToken));
       }),
       catchError((error) => {
@@ -33,7 +33,7 @@ export const AuthInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, ne
     );
   };
 
-  const addToken = (request: HttpRequest<any>, token: string): HttpRequest<any> => {
+  const addToken = (request: HttpRequest<any>, token: string | null): HttpRequest<any> => {
     return request.clone({
       setParams: {auth: `${token}`},
     });

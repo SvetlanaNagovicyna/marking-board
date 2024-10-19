@@ -33,6 +33,7 @@ export class UserService {
 
   clearUser(): void {
     this.user = null;
+    this.user$.next(null);
     localStorage.removeItem('userId');
   }
 
@@ -54,8 +55,8 @@ export class UserService {
     )
   }
 
-  addUser(user: Omit<User, 'id'>): Observable<User> {
-    return this.#http.post<User>(`${environment.fbDbUrl}/users.json`, user);
+  addUser(user: Omit<User, 'id'>, token: string): Observable<User> {
+    return this.#http.post<User>(`${environment.fbDbUrl}/users.json?auth=${token}`, user);
   }
 
   updateUserData<T>(data: Partial<User>): Observable<T> {
