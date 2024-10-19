@@ -1,4 +1,7 @@
 <app-background></app-background>
+
+<app-loader *ngIf="this.loaderService.getLoading()"></app-loader>
+
 <div class="main__wrap">
   <app-header></app-header>
   <main class="main">
