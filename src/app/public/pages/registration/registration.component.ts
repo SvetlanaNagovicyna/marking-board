@@ -40,7 +40,7 @@ export class RegistrationComponent {
   auth: AuthService = inject(AuthService);
   #router: Router = inject(Router);
   destroyRef: DestroyRef = inject(DestroyRef);
-  isLoading: boolean = false;
+  showLoader: boolean = false;
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
@@ -72,12 +72,12 @@ export class RegistrationComponent {
   }
 
   singUp(user: UserRequest): void {
-    this.isLoading = true;
+    this.showLoader = true;
 
     this.auth.singUp(user)
       .pipe(
         finalize(() => {
-          this.isLoading = false;
+          this.showLoader = false;
         }),
         takeUntilDestroyed(this.destroyRef)
       )

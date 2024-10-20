@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoaderService {
-  private activeRequests: number = 0;
 
-  getLoading(): boolean {
-    return this.activeRequests > 0;
+  loaderState$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+  public showLoader(): void {
+    this.loaderState$.next(true);
   }
 
-  incrementRequest(): void {
-    this.activeRequests++;
-  }
-
-  decrementRequest(): void {
-    if (this.activeRequests > 0) {
-      this.activeRequests--;
-    }
+  public hideLoader(): void {
+    this.loaderState$.next(false);
   }
 }
