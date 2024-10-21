@@ -5,7 +5,6 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { UserRequest } from '../../../shared/interfaces/user-request.interface';
 import { finalize } from 'rxjs';
-import { LoaderService } from '../../../shared/providers/services/loader.service';
 
 @Component({
   selector: 'app-login-page',
@@ -31,13 +30,11 @@ export class LoginComponent implements OnInit {
   #router: Router = inject(Router);
   #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   destroyRef: DestroyRef = inject(DestroyRef);
-  loaderService: LoaderService = inject(LoaderService);
   message: string = '';
   greenText: boolean = false;
   showLoader: boolean = false;
 
   ngOnInit(): void {
-    this.loaderService.hideLoader();
     this.subscribeToQueryParams();
   }
 
@@ -58,7 +55,7 @@ export class LoginComponent implements OnInit {
 
     this.auth.login(user)
       .pipe(
-        finalize(() => {
+        finalize((): void => {
           this.showLoader = false;
         }),
         takeUntilDestroyed(this.destroyRef)

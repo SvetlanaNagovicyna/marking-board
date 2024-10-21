@@ -31,7 +31,7 @@ export class EditFormComponent {
 
     this.userService.updateUserData({name: newName})
       .pipe(
-        finalize(() => {
+        finalize((): void => {
           this.showLoader = false;
         })
       )

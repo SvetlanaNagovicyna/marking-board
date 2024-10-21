@@ -1,15 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { LoaderService } from '../../../shared/providers/services/loader.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit{
-  loaderService: LoaderService = inject(LoaderService);
-
-  ngOnInit() {
-    this.loaderService.hideLoader();
-  }
+export class HomeComponent {
 }

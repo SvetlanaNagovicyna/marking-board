@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../../interfaces/user.interface';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
+import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class UserService {
 
   user: User | null = null;
   user$: BehaviorSubject<User | null> = new BehaviorSubject<null | User>(null);
+  loaderService: LoaderService = inject(LoaderService);
 
   getUserById(id: string): Observable<User> {
     return this.#http.get<{ [key: string]: User }>(`${environment.fbDbUrl}/users.json`)
@@ -50,6 +52,7 @@ export class UserService {
 
     return this.getUserById(userId).pipe(
       tap((user: User): void => {
+        this.loaderService.hideLoader();
         this.setUser(user);
       })
     )

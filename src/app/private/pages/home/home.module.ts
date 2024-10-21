@@ -7,10 +7,10 @@ import { SharedModule } from '../../../shared/shared.module';
   declarations: [
     HomeComponent,
   ],
-    imports: [
-        CommonModule,
-        SharedModule,
-    ],
+  imports: [
+    CommonModule,
+    SharedModule,
+  ],
   exports: [
     HomeComponent,
   ]

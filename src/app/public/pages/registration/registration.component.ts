@@ -76,7 +76,7 @@ export class RegistrationComponent {
 
     this.auth.singUp(user)
       .pipe(
-        finalize(() => {
+        finalize((): void => {
           this.showLoader = false;
         }),
         takeUntilDestroyed(this.destroyRef)
