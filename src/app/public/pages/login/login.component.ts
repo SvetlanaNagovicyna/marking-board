@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   destroyRef: DestroyRef = inject(DestroyRef);
   message: string = '';
   greenText: boolean = false;
-  isLoading: boolean = false;
+  showLoader: boolean = false;
 
   ngOnInit(): void {
     this.subscribeToQueryParams();
@@ -51,12 +51,12 @@ export class LoginComponent implements OnInit {
   }
 
   login(user: Omit<UserRequest, 'name'>): void {
-    this.isLoading = true;
+    this.showLoader = true;
 
     this.auth.login(user)
       .pipe(
-        finalize(() => {
-          this.isLoading = false;
+        finalize((): void => {
+          this.showLoader = false;
         }),
         takeUntilDestroyed(this.destroyRef)
       )

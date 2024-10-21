@@ -14,7 +14,7 @@ export class EditFormComponent {
   data: {name: string} = inject(MAT_DIALOG_DATA);
   readonly dialogRef = inject(MatDialogRef);
   userService: UserService = inject(UserService);
-  isLoading: boolean = false;
+  showLoader: boolean = false;
 
   form = new FormGroup({
       name: new FormControl(this.data.name,
@@ -25,14 +25,14 @@ export class EditFormComponent {
   );
 
   saveInfoUserInFirebase(): void {
-    this.isLoading = true;
+    this.showLoader = true;
 
     const newName: string = this.form.value.name ?? '';
 
     this.userService.updateUserData({name: newName})
       .pipe(
-        finalize(() => {
-          this.isLoading = false;
+        finalize((): void => {
+          this.showLoader = false;
         })
       )
       .subscribe({
