@@ -86,5 +86,5 @@ main {
   align-items: center;
 }
 .mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
-  stroke: #FF1822 !important;
+  stroke: var(--red-color) !important;
 }
