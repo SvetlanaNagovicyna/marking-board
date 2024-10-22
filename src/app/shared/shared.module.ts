@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LoaderComponent } from './components/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ThemeToggleComponent,
     EditFormComponent,
     LoaderComponent,
+    ButtonComponent,
   ],
   imports: [
     HttpClientModule,
@@ -36,6 +38,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     EditFormComponent,
     MatProgressSpinnerModule,
     LoaderComponent,
+    ButtonComponent,
   ],
 })
 

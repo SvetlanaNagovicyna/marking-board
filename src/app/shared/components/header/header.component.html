@@ -4,15 +4,21 @@
       <img src="../../../../assets/img/logo.svg" alt="logo" >
     </a>
     <div class="header__buttons" *ngIf="!user?.name; else elseBlock">
-      <button class="button width-179" routerLink="login">
-        <svg width="179" height="45" viewBox="0 0 179 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1V44H161.168L177.617 27.5503V1H1Z" stroke="#FF1822"/>
-        </svg>
-        <span>LOG IN</span>
-      </button>
-      <button class="button hover-text-red" routerLink="registration">
-        <span>REGISTRATION</span>
-      </button>
+
+      <app-button
+        [isLink]="true"
+        classes="w-179 h-45 no-element"
+        label="Log In"
+        linkUrl="login"
+      ></app-button>
+
+      <app-button
+        [isLink]="true"
+        label="REGISTRATION"
+        linkUrl="registration"
+        classes="h-45 no-border no-element hover-red"
+      ></app-button>
+
     </div>
     <ng-template #elseBlock>
       <div class="header__user">

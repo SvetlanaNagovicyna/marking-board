@@ -15,7 +15,6 @@
     }
   }
 
-
   &__wrap {
     position: relative;
     display: flex;
@@ -41,7 +40,5 @@
       clip-path: polygon(100% 0, 100% 76.1%, 79% 100%, 0 100%, 0 0);
       z-index: -1;
     }
-    //background: url('../../assets/img/form_bg.svg')  center top / 100% 100% no-repeat;
   }
-
 }
