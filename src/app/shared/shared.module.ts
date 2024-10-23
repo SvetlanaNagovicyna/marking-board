@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LoaderComponent } from './components/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     EditFormComponent,
     LoaderComponent,
     NotFoundComponent,
+    ButtonComponent,
   ],
   imports: [
     HttpClientModule,
@@ -38,6 +40,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     EditFormComponent,
     MatProgressSpinnerModule,
     LoaderComponent,
+    ButtonComponent,
   ],
 })
 

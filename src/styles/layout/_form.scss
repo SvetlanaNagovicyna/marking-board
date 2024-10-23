@@ -109,38 +109,4 @@
       }
     }
   }
-  button {
-    position: relative;
-    width: 100%;
-    height: em(74.5);
-    margin-bottom: em(36);
-
-    span {
-      position: relative;
-      font-size: em(16);
-      width: 100%;
-      display: inline-block;
-      text-transform: uppercase;
-      &:after {
-        content: "";
-        position: absolute;
-        left: em(-35);
-        top: 50%;
-        transform: translateY(-50%);
-        display: inline-block;
-        width: em(80);
-        height: em(1);
-        background-color: var(--btn-red-text-color);
-        transition: all .3s ease-in-out;
-      }
-    }
-
-    &:hover {
-      span {
-        &:after {
-          left: em(-25);
-        }
-      }
-    }
-  }
 }
