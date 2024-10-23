@@ -1,21 +1,24 @@
 <ng-container *ngIf="isLink; else buttonTemplate">
   <a class="button {{ classes }}" [routerLink]="linkUrl">
-    <svg viewBox="0 0 225 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <polygon fill="none" points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
-      <polygon fill="transparent" stroke="#FF1822"
-               points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
-    </svg>
-    <span>{{ label }}</span>
+    <ng-container [ngTemplateOutlet]="svg"></ng-container>
   </a>
 </ng-container>
 
 <ng-template #buttonTemplate>
   <button class="button {{ classes }}" [type]="type" [disabled]="disabled">
-    <svg viewBox="0 0 225 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <polygon fill="none" points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
-      <polygon fill="transparent" stroke="#FF1822"
-               points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
-    </svg>
-    <span>{{ label }}</span>
+    <ng-container [ngTemplateOutlet]="svg">
+      <ng-content></ng-content>
+    </ng-container>
   </button>
+</ng-template>
+
+<ng-template #svg>
+  <svg viewBox="0 0 225 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <polygon fill="none" points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
+    <polygon fill="transparent" stroke="#FF1822"
+             points="215.5 43.5 203.83 55.5 0.5 55.5 0.5 0.5 224.5 0.5 224.5 34.67 215.5 43.5"></polygon>
+  </svg>
+  <span>
+     <ng-content></ng-content>
+  </span>
 </ng-template>

@@ -7,8 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class ButtonComponent {
   @Input() isLink: boolean = false;
-  @Input() disabled: boolean = true;
-  @Input() label: string = '';
+  @Input() disabled: boolean = false;
   @Input() linkUrl: string = '';
   @Input() type: string = '';
   @Input() classes: string = '';
