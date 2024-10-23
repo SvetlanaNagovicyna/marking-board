@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LoaderComponent } from './components/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ButtonComponent } from './components/button/button.component';
     ThemeToggleComponent,
     EditFormComponent,
     LoaderComponent,
+    NotFoundComponent,
     ButtonComponent,
   ],
   imports: [
