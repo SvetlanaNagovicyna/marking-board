@@ -6,9 +6,7 @@
 
 <ng-template #buttonTemplate>
   <button class="button {{ classes }}" [type]="type" [disabled]="disabled">
-    <ng-container [ngTemplateOutlet]="svg">
-      <ng-content></ng-content>
-    </ng-container>
+    <ng-container [ngTemplateOutlet]="svg"></ng-container>
   </button>
 </ng-template>
 
