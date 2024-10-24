@@ -13,6 +13,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ButtonComponent } from './components/button/button.component';
+import { TimeComponent } from './components/time/time.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ButtonComponent } from './components/button/button.component';
     LoaderComponent,
     NotFoundComponent,
     ButtonComponent,
+    TimeComponent,
   ],
   imports: [
     HttpClientModule,
@@ -41,6 +43,7 @@ import { ButtonComponent } from './components/button/button.component';
     MatProgressSpinnerModule,
     LoaderComponent,
     ButtonComponent,
+    TimeComponent,
   ],
 })
 
