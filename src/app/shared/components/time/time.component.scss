@@ -1,0 +1,38 @@
+@import 'src/styles/shared/functions';
+
+.time {
+  display: flex;
+  justify-content: space-between;
+
+  &__item {
+    width: em(290);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: center;
+  }
+  &__block {
+    height: em(72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: em(18);
+
+    &-red {
+      background: linear-gradient(0deg, rgba(255, 24, 34, .4), rgba(255, 24, 34, .1), rgba(255, 24, 34, 0));
+      border-bottom: em(1) solid #ff1822;
+    }
+
+    &-green {
+      background: linear-gradient(0deg, rgba(0, 207, 44, .4), rgba(0, 207, 44, .1), rgba(0, 207, 44, 0));
+      border-bottom: em(1) solid #00cf2c;
+    }
+
+    span {
+      font-family: 'CLICKABLE', serif;
+      font-size: em(32);
+      font-weight: 900;
+      color: var(--title-color);
+    }
+  }
+}

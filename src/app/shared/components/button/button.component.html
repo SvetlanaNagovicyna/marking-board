@@ -1,11 +1,11 @@
 <ng-container *ngIf="isLink; else buttonTemplate">
-  <a class="button {{ classes }}" [routerLink]="linkUrl">
+  <a class="button" [class]="classes" [routerLink]="linkUrl">
     <ng-container [ngTemplateOutlet]="svg"></ng-container>
   </a>
 </ng-container>
 
 <ng-template #buttonTemplate>
-  <button class="button {{ classes }}" [type]="type" [disabled]="disabled">
+  <button class="button" [class]="classes" [type]="type" [disabled]="disabled">
     <ng-container [ngTemplateOutlet]="svg"></ng-container>
   </button>
 </ng-template>

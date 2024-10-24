@@ -7,7 +7,7 @@
 
       <app-button
         [isLink]="true"
-        classes="w-179 h-45 no-element"
+        classes="w-179 h-45 no-element fz-13"
         linkUrl="login"
       >Log In
       </app-button>
@@ -15,7 +15,7 @@
       <app-button
         [isLink]="true"
         linkUrl="registration"
-        classes="h-45 no-border no-element hover-red"
+        classes="h-45 no-border no-element hover-red fz-13"
       >REGISTRATION
       </app-button>
 
@@ -25,7 +25,7 @@
         <app-theme-toggle></app-theme-toggle>
 
         <a *ngIf="user?.hasPerm" class="admin" routerLink="admin">
-          <span>АДМИН ПАНЕЛЬ</span>
+          <span>Admin Panel</span>
         </a>
         <ul class="user">
           <li class="user__name">

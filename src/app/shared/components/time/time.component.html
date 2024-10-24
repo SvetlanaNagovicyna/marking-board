@@ -1,0 +1,42 @@
+<div class="time">
+  <form class="form-come time__item">
+    <div class="time__block time__block-red">
+      <span>--:--</span>
+    </div>
+    <app-button
+      classes="red"
+    >
+      came to work
+    </app-button>
+  </form>
+  <form class="form-leave time__item">
+    <div class="time__block time__block-green">
+      <span>--:--</span>
+    </div>
+    <app-button
+      classes="white no-element"
+    >
+      went home
+    </app-button>
+  </form>
+  <form class="form-lunch time__item" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="time__block">
+      <input type="number" formControlName="time">
+    </div>
+    <app-button
+      [isLink]="isLink"
+      [type]="!isLink ? 'submit' : ''"
+      classes="grey no-element"
+      (click)="isLink ? changeTypeButton($event) : $event"
+    >
+      work at lunch
+    </app-button>
+  </form>
+  <div class="time__item">
+    <app-button
+      classes="grey no-element"
+    >
+      continue working
+    </app-button>
+  </div>
+</div>
