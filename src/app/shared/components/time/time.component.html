@@ -1,40 +1,51 @@
 <div class="time">
-  <form class="form-come time__item">
+  <div class="time-come time__item">
     <div class="time__block time__block-red">
-      <span>--:--</span>
+      <span>{{ cameTime || '--:--' }}</span>
     </div>
     <app-button
       classes="red"
+      (click)="addCameTime()"
     >
       came to work
     </app-button>
-  </form>
-  <form class="form-leave time__item">
+  </div>
+  <div class="time-leave time__item">
     <div class="time__block time__block-green">
-      <span>--:--</span>
+      <span>{{ leaveTime || '--:--' }}</span>
     </div>
     <app-button
       classes="white no-element"
+      (click)="addLeaveTime()"
     >
       went home
     </app-button>
-  </form>
-  <form class="form-lunch time__item" [formGroup]="form" (ngSubmit)="submit()">
-    <div class="time__block">
-      <input type="number" formControlName="time">
+  </div>
+  <div class="time-lunch time__item" [formGroup]="form">
+    <div class="time__block"
+         *ngIf="isShowInput"
+         [ngClass]="{invalid: form.controls.time.errors}">
+      <label for="time">Enter the number of minutes worked</label>
+      <input id="time" type="number" formControlName="time">
+      <div
+        *ngIf="form.controls.time.invalid"
+        class="validation">
+        <small *ngIf="form.controls.time.hasError('max')">
+          Max time can be 60 minutes
+        </small>
+      </div>
     </div>
     <app-button
-      [isLink]="isLink"
-      [type]="!isLink ? 'submit' : ''"
       classes="grey no-element"
-      (click)="isLink ? changeTypeButton($event) : $event"
+      (click)="handleClick()"
     >
-      work at lunch
+      {{ isShowInput ? 'add' : 'work at lunch' }}
     </app-button>
-  </form>
+  </div>
   <div class="time__item">
     <app-button
       classes="grey no-element"
+      (click)="continueWork()"
     >
       continue working
     </app-button>

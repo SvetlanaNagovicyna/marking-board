@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     margin-bottom: em(18);
 
     &-red {
@@ -28,11 +29,55 @@
       border-bottom: em(1) solid #00cf2c;
     }
 
+    label {
+      color: var(--text-color);
+      font-size: em(14);
+    }
+
+    input {
+      width: 100%;
+      background: none;
+      outline: none;
+      border: none;
+      text-align: center;
+      font-family: 'CLICKABLE', serif;
+      font-size: em(32);
+      font-weight: 900;
+      color: var(--title-color);
+      border-bottom: em(1, 32) solid #555;
+      padding: 0 em(10, 32) em(10, 32);
+    }
+
     span {
       font-family: 'CLICKABLE', serif;
       font-size: em(32);
       font-weight: 900;
       color: var(--title-color);
+    }
+
+    &.invalid {
+      input {
+        border-bottom: em(1, 32) solid var(--red-color);
+      }
+    }
+  }
+
+  .time-lunch {
+    .time__block {
+      justify-content: space-between;
+      position: relative;
+
+      .validation {
+        position: absolute;
+        bottom: em(-15);
+        left: 0;
+
+        small {
+          font-size: em(10);
+          color: var(--red-color);
+          display: block;
+        }
+      }
     }
   }
 }
