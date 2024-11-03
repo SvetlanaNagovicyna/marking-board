@@ -1,7 +1,7 @@
 <div class="time">
   <div class="time-come time__item">
     <div class="time__block time__block-red">
-      <span>{{ cameTime || '--:--' }}</span>
+      <span>{{ currentTime.cameTime || '--:--' }}</span>
     </div>
     <app-button
       classes="red"
@@ -12,7 +12,7 @@
   </div>
   <div class="time-leave time__item">
     <div class="time__block time__block-green">
-      <span>{{ leaveTime || '--:--' }}</span>
+      <span>{{ currentTime.leaveTime || '--:--' }}</span>
     </div>
     <app-button
       classes="white no-element"
@@ -32,6 +32,9 @@
         class="validation">
         <small *ngIf="form.controls.time.hasError('max')">
           Max time can be 60 minutes
+        </small>
+        <small *ngIf="form.controls.time.hasError('required')">
+          Field is required
         </small>
       </div>
     </div>

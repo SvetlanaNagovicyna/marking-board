@@ -1,11 +1,7 @@
-import { DestroyRef, inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, of } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { TimesData } from '../../interfaces/times-data.interface';
-import { UserService } from './user.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { User } from '../../interfaces/user.interface';
 import { Times } from '../../interfaces/times.interface';
 
 @Injectable({
@@ -14,40 +10,12 @@ import { Times } from '../../interfaces/times.interface';
 
 export class TimeService {
   #http: HttpClient = inject(HttpClient);
-  userService: UserService = inject(UserService);
-  destroyRef: DestroyRef = inject(DestroyRef);
-  user: User | null = null;
 
-  subscribeToUser(): void {
-    this.userService.user$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (user: User | null): void => {
-          this.user = user;
-        }
-      })
+  addTime(time: Times, userId: string | undefined): Observable<Times > {
+    return this.#http.put<Times>(`${environment.fbDbUrl}/attendance/${userId}.json`, time);
   }
 
-  addTimeToDb(time: TimesData, token: string | null): Observable<TimesData> {
-    this.subscribeToUser();
-    return this.#http.put<TimesData>(`${environment.fbDbUrl}/attendance/${this.user?.id}.json?auth=${token}`, time);
-  }
-
-  getTimesFromDb(token: string | null): Observable<{ [key: string]: Times }> {
-    this.subscribeToUser();
-    return this.#http.get<TimesData>(
-      `${environment.fbDbUrl}/attendance/${this.user?.id}.json?auth=${token}`
-    ).pipe(
-      map((response: TimesData) => {
-        if (response) {
-          return response.times || {}
-        } else {
-          return {};
-        }
-      }),
-      catchError(() => {
-        return of({});
-      })
-    );
+  getTimes(userId: string | undefined): Observable<{ [key: string]: Times }> {
+    return this.#http.get<{ [key: string]: Times }>(`${environment.fbDbUrl}/attendance/${userId}.json`);
   }
 }
