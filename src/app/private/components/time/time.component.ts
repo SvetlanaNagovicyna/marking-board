@@ -3,7 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TimeService } from '../../../shared/providers/services/time.service';
 import { UserService } from '../../../shared/providers/services/user.service';
 import { Times } from '../../../shared/interfaces/times.interface';
-import { Time } from '../../../shared/types/time.type';
+import { TimesData } from '../../../shared/interfaces/times-data.interface';
+import { TimeState } from '../../../shared/enums/time-state';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-time',
@@ -25,7 +27,7 @@ export class TimeComponent implements OnInit {
   isShowInput: boolean = false;
 
   currentTime: Times = {};
-  currentDate: string = this.getCurrentDate();
+  currentDate: string = this.getFullDate().split('T')[0];
   times: { [key: string]: Times } = {};
 
   ngOnInit(): void {
@@ -34,7 +36,7 @@ export class TimeComponent implements OnInit {
 
   private loadCurrentTimeData(): void {
     this.timeService.getTimes(this.userService.user?.id).subscribe({
-      next: (res: { [key: string]: Times }): void => {
+      next: (res: TimesData): void => {
         this.times = res || {};
         this.currentTime = this.times[this.currentDate] || {};
       }
@@ -44,12 +46,13 @@ export class TimeComponent implements OnInit {
   submit(): void {
     if (this.form.valid) {
       this.addLunchTime();
-      this.form.reset();
     }
   }
 
   handleClick(): void {
-    if (this.currentTime.lunchTime) return;
+    if (this.currentTime.lunchTime) {
+      return;
+    }
 
     if (this.isShowInput) {
       this.submit();
@@ -58,7 +61,7 @@ export class TimeComponent implements OnInit {
     this.isShowInput = !this.isShowInput;
   }
 
-  generateTimesData(type: Time): Times {
+  generateTimesData(type: TimeState): TimesData {
     this.times[this.currentDate] = {
       ...this.times[this.currentDate],
       [type]: this.currentTime[type]
@@ -67,42 +70,47 @@ export class TimeComponent implements OnInit {
     return this.times;
   }
 
-  addTime(type: Time): void {
+  addTime(type: TimeState): void {
     const timeData: Times = this.generateTimesData(type);
-    this.timeService.addTime(timeData, this.userService.user?.id).subscribe();
+    this.timeService.addTime(timeData, this.userService.user?.id)
+      .pipe(
+        finalize((): void => {
+          this.form.reset();
+        })
+      )
+      .subscribe();
   }
 
   addCameTime(): void {
-    if (this.currentTime.cameTime) return;
-    this.currentTime.cameTime = this.getCurrentTime();
-    this.addTime('cameTime');
+    if (this.currentTime.cameTime) {
+      return;
+    }
+    this.currentTime.cameTime = this.getFullDate();
+    this.addTime(TimeState.cameTime);
   }
 
   addLeaveTime(): void {
-    if (this.currentTime.leaveTime) return;
-    this.currentTime.leaveTime = this.getCurrentTime();
-    this.addTime('leaveTime');
+    if (this.currentTime.leaveTime) {
+      return;
+    }
+    this.currentTime.leaveTime = this.getFullDate();
+    this.addTime(TimeState.leaveTime);
   }
 
   addLunchTime(): void {
     this.currentTime.lunchTime = String(this.form.value.time) ?? '';
-    this.addTime('lunchTime');
+    this.addTime(TimeState.lunchTime);
   }
 
   continueWork(): void {
-    if (!this.currentTime.leaveTime) return;
+    if (!this.currentTime.leaveTime) {
+      return;
+    }
     this.currentTime.leaveTime = '';
-    this.addTime('leaveTime');
+    this.addTime(TimeState.leaveTime);
   }
 
-  getCurrentTime(): string {
-    return new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-  }
-
-  getCurrentDate(): string {
-    const year: number = new Date().getFullYear();
-    const month: string = String(new Date().getMonth() + 1).padStart(2, '0');
-    const day: string = String(new Date().getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+  getFullDate(): string {
+    return new Date().toISOString();
   }
 }
