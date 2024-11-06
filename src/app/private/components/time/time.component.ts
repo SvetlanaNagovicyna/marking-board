@@ -3,9 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TimeService } from '../../../shared/providers/services/time.service';
 import { UserService } from '../../../shared/providers/services/user.service';
 import { Times } from '../../../shared/interfaces/times.interface';
-import { TimesData } from '../../../shared/interfaces/times-data.interface';
 import { TimeState } from '../../../shared/enums/time-state';
-import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-time',
@@ -28,17 +26,15 @@ export class TimeComponent implements OnInit {
 
   currentTime: Times = {};
   currentDate: string = this.getFullDate().split('T')[0];
-  times: { [key: string]: Times } = {};
 
   ngOnInit(): void {
     this.loadCurrentTimeData();
   }
 
   private loadCurrentTimeData(): void {
-    this.timeService.getTimes(this.userService.user?.id).subscribe({
-      next: (res: TimesData): void => {
-        this.times = res || {};
-        this.currentTime = this.times[this.currentDate] || {};
+    this.timeService.getTime(this.userService.user?.id, this.currentDate).subscribe({
+      next: (res: Times): void => {
+        this.currentTime = res || {};
       }
     })
   }
@@ -61,24 +57,24 @@ export class TimeComponent implements OnInit {
     this.isShowInput = !this.isShowInput;
   }
 
-  generateTimesData(type: TimeState): TimesData {
-    this.times[this.currentDate] = {
-      ...this.times[this.currentDate],
+  generateTimesData(type: TimeState): Times {
+    this.currentTime = {
+      ...this.currentTime,
       [type]: this.currentTime[type]
     };
 
-    return this.times;
+    return this.currentTime;
   }
 
   addTime(type: TimeState): void {
     const timeData: Times = this.generateTimesData(type);
-    this.timeService.addTime(timeData, this.userService.user?.id)
-      .pipe(
-        finalize((): void => {
+    this.timeService.addTime(timeData, this.userService.user?.id, this.currentDate).subscribe({
+      next: (res: Times): void => {
+        if (res.lunchTime) {
           this.form.reset();
-        })
-      )
-      .subscribe();
+        }
+      }
+    });
   }
 
   addCameTime(): void {
