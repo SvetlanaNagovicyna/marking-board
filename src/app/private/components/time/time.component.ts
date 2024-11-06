@@ -39,19 +39,13 @@ export class TimeComponent implements OnInit {
     })
   }
 
-  submit(): void {
-    if (this.form.valid) {
-      this.addLunchTime();
-    }
-  }
-
-  handleClick(): void {
-    if (this.currentTime.lunchTime) {
+  toggleLunchInput(): void {
+    if (this.currentTime.lunchTime || !this.currentTime.cameTime) {
       return;
     }
 
     if (this.isShowInput) {
-      this.submit();
+      this.addLunchTime();
     }
 
     this.isShowInput = !this.isShowInput;
@@ -86,7 +80,7 @@ export class TimeComponent implements OnInit {
   }
 
   addLeaveTime(): void {
-    if (this.currentTime.leaveTime) {
+    if (this.currentTime.leaveTime || !this.currentTime.cameTime) {
       return;
     }
     this.currentTime.leaveTime = this.getFullDate();
@@ -95,7 +89,9 @@ export class TimeComponent implements OnInit {
 
   addLunchTime(): void {
     this.currentTime.lunchTime = String(this.form.value.time) ?? '';
-    this.addTime(TimeState.lunchTime);
+    if (this.form.valid) {
+      this.addTime(TimeState.lunchTime);
+    }
   }
 
   continueWork(): void {
