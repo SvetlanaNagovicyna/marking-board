@@ -1,0 +1,56 @@
+<div class="time">
+  <div class="time-come time__item">
+    <div class="time__block time__block-red">
+      <span>{{ (currentTime.cameTime | date:'hh:mm') || '--:--' }}</span>
+    </div>
+    <app-button
+      classes="red"
+      (click)="addCameTime()"
+    >
+      came to work
+    </app-button>
+  </div>
+  <div class="time-leave time__item">
+    <div class="time__block time__block-green">
+      <span>{{ (currentTime.leaveTime | date:'hh:mm') || '--:--' }}</span>
+    </div>
+    <app-button
+      classes="white no-element"
+      (click)="addLeaveTime()"
+    >
+      went home
+    </app-button>
+  </div>
+  <div class="time-lunch time__item" [formGroup]="form">
+    <div class="time__block"
+         *ngIf="isShowInput"
+         [ngClass]="{invalid: form.controls.time.errors}">
+      <label for="time">Enter the number of minutes worked</label>
+      <input id="time" type="number" formControlName="time">
+      <div
+        *ngIf="form.controls.time.invalid"
+        class="validation">
+        <small *ngIf="form.controls.time.hasError('max')">
+          Max time can be 60 minutes
+        </small>
+        <small *ngIf="form.controls.time.hasError('required')">
+          Field is required
+        </small>
+      </div>
+    </div>
+    <app-button
+      classes="grey no-element"
+      (click)="toggleLunchInput()"
+    >
+      {{ isShowInput ? 'add' : 'work at lunch' }}
+    </app-button>
+  </div>
+  <div class="time__item">
+    <app-button
+      classes="grey no-element"
+      (click)="continueWork()"
+    >
+      continue working
+    </app-button>
+  </div>
+</div>

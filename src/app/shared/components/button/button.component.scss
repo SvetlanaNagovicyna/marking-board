@@ -1,11 +1,5 @@
 @import 'src/styles/shared/functions';
 
-button.button {
-  span {
-    font-size: em(16, 16);
-  }
-}
-
 .button {
   position: relative;
   outline: none;
@@ -30,7 +24,7 @@ button.button {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     line-height: 1;
-    font-size: em(13, 16);
+    font-size: em(16, 16);
     width: 100%;
     text-align: center;
     transition: all .3s ease-in-out;
@@ -87,6 +81,61 @@ button.button {
   }
 }
 
+.white {
+  svg {
+    polygon {
+      stroke: var(--white-color);
+    }
+  }
+  &:hover {
+    svg {
+      polygon {
+        //fill: var(--green-color);
+        stroke: var(--green-color);
+        fill: var(--green-color);
+      }
+    }
+  }
+}
+
+.grey {
+  svg {
+    polygon {
+      fill: var(--window-color);
+      stroke: var(--window-color);
+    }
+  }
+  span {
+    color: var(--text-color);
+  }
+  &:hover {
+    svg {
+      polygon {
+        fill: var(--window-color);
+        filter: brightness(0.8);
+      }
+    }
+    span {
+      color: var(--red-color);
+    }
+  }
+}
+
+.red {
+  svg {
+    polygon {
+     fill: var(--red-color);
+    }
+  }
+  &:hover {
+    svg {
+      polygon {
+        filter: brightness(0.8);
+      }
+    }
+  }
+}
+
 .hover-red {
   &:hover {
     span {
@@ -115,10 +164,20 @@ button.button {
   }
 }
 
+.w-320 {
+  width: em(320);
+}
+
 .w-179 {
   width: em(179);
 }
 
 .h-45 {
   height: em(45);
+}
+
+.fz-13 {
+  span {
+    font-size: em(13,16);
+  }
 }

@@ -120,3 +120,14 @@ img, svg {
   display: block;
   width: 100%;
 }
+
+button {
+  outline: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
