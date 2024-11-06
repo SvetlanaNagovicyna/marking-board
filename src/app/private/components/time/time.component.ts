@@ -63,8 +63,8 @@ export class TimeComponent implements OnInit {
   addTime(type: TimeState): void {
     const timeData: Times = this.generateTimesData(type);
     this.timeService.addTime(timeData, this.userService.user?.id, this.currentDate).subscribe({
-      next: (res: Times): void => {
-        if (res.lunchTime) {
+      next: (): void => {
+        if (type === TimeState.lunchTime) {
           this.form.reset();
         }
       }
