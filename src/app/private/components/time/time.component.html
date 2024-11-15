@@ -1,7 +1,7 @@
 <div class="time">
   <div class="time-come time__item">
     <div class="time__block time__block-red">
-      <span>{{ (currentTime.cameTime | date:'hh:mm') || '--:--' }}</span>
+      <span>{{ (currentTime.cameTime | date:'HH:mm') || '--:--' }}</span>
     </div>
     <app-button
       classes="red"
@@ -12,7 +12,7 @@
   </div>
   <div class="time-leave time__item">
     <div class="time__block time__block-green">
-      <span>{{ (currentTime.leaveTime | date:'hh:mm') || '--:--' }}</span>
+      <span>{{ (currentTime.leaveTime | date:'HH:mm') || '--:--' }}</span>
     </div>
     <app-button
       classes="white no-element"

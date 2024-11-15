@@ -1,5 +1,7 @@
 export enum TimeState {
   cameTime = 'cameTime',
   leaveTime = 'leaveTime',
-  lunchTime = 'lunchTime'
+  lunchTime = 'lunchTime',
+  cameComment = 'cameComment',
+  leaveComment = 'leaveComment',
 }

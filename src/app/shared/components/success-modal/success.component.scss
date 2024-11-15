@@ -1,0 +1,17 @@
+@import 'src/styles/shared/functions';
+
+.window {
+  margin-top: 0;
+
+  &__wrap {
+    min-height: em(400);
+    padding: em(130) em(55) em(130) em(55);
+
+    .title {
+      margin-bottom: 0;
+      span {
+        font-size: em(56);
+      }
+    }
+  }
+}

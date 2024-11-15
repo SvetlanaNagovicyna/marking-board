@@ -40,5 +40,14 @@
       clip-path: polygon(100% 0, 100% 76.1%, 79% 100%, 0 100%, 0 0);
       z-index: -1;
     }
+
+    .close {
+      color: var(--text-color);
+      font-size: em(25);
+      position: absolute;
+      right: em(15);
+      width: em(25);
+      top: em(20);
+    }
   }
 }

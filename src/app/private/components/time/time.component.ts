@@ -4,6 +4,9 @@ import { TimeService } from '../../../shared/providers/services/time.service';
 import { UserService } from '../../../shared/providers/services/user.service';
 import { Times } from '../../../shared/interfaces/times.interface';
 import { TimeState } from '../../../shared/enums/time-state';
+import { MatDialog } from '@angular/material/dialog';
+import { InfoModalComponent } from '../../../shared/components/info-modal/info-modal.component';
+import { SuccessModalComponent } from '../../../shared/components/success-modal/success.component';
 
 @Component({
   selector: 'app-time',
@@ -21,9 +24,10 @@ export class TimeComponent implements OnInit {
 
   timeService: TimeService = inject(TimeService);
   userService: UserService = inject(UserService);
+  dialog: MatDialog = inject(MatDialog);
 
   isShowInput: boolean = false;
-
+  isLeaveModal: boolean = false;
   currentTime: Times = {};
   currentDate: string = this.getFullDate().split('T')[0];
 
@@ -71,12 +75,46 @@ export class TimeComponent implements OnInit {
     });
   }
 
+  calculateTimeDifference(startTime: string, endTime: string): number {
+    const startDate: number = new Date(startTime).getTime();
+    const endDate: number = new Date(endTime).getTime();
+
+    const differenceInMilliseconds: number = endDate - startDate;
+
+    let differenceInHours: number = differenceInMilliseconds / (1000 * 60 * 60);
+
+    if(this.currentTime.lunchTime) {
+      const lunchTimeInHours: number = +this.currentTime.lunchTime / 60;
+      differenceInHours += lunchTimeInHours;
+    }
+
+    return differenceInHours;
+  }
+
+  checkCameTime(): void {
+    const getHours: number = new Date(this.getFullDate()).getHours();
+    const getMinutes: number = new Date(this.getFullDate()).getMinutes();
+    if (getHours >= 9 || getMinutes > 0) {
+      this.openDialogInfo();
+    }
+  }
+
+  checkTimeWorked(startTime: string, endTime: string): void {
+    const differenceInHours: number = this.calculateTimeDifference(startTime, endTime);
+
+    if(differenceInHours < 8) {
+      this.isLeaveModal = true;
+      this.openDialogInfo();
+    }
+  }
+
   addCameTime(): void {
     if (this.currentTime.cameTime) {
       return;
     }
     this.currentTime.cameTime = this.getFullDate();
     this.addTime(TimeState.cameTime);
+    this.checkCameTime();
   }
 
   addLeaveTime(): void {
@@ -85,6 +123,7 @@ export class TimeComponent implements OnInit {
     }
     this.currentTime.leaveTime = this.getFullDate();
     this.addTime(TimeState.leaveTime);
+    this.checkTimeWorked(this.currentTime.cameTime, this.currentTime.leaveTime);
   }
 
   addLunchTime(): void {
@@ -100,6 +139,42 @@ export class TimeComponent implements OnInit {
     }
     this.currentTime.leaveTime = '';
     this.addTime(TimeState.leaveTime);
+  }
+
+  addCameComment(text: string): void {
+      this.currentTime.cameComment = text;
+      this.addTime(TimeState.cameComment);
+  }
+
+  addLeaveComment(text: string): void {
+      this.currentTime.leaveComment = text;
+      this.addTime(TimeState.leaveComment);
+  }
+
+  openDialogInfo(): void {
+    const dialogRef = this.dialog.open(InfoModalComponent, {
+      data: { modal: this.isLeaveModal ? 'isLeaveModal' : '' },
+      panelClass: 'dialog',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        if (this.isLeaveModal) {
+          this.addLeaveComment(result);
+        } else {
+          this.addCameComment(result);
+        }
+        this.openDialogSuccess();
+      }
+    })
+  }
+
+  openDialogSuccess(): void {
+    this.dialog.open(SuccessModalComponent, {
+      panelClass: 'dialog',
+      disableClose: true,
+    });
   }
 
   getFullDate(): string {

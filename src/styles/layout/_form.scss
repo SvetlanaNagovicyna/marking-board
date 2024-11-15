@@ -40,7 +40,10 @@
       }
     }
 
-    input {
+
+
+    input, textarea {
+      font-family: 'Montserrat', monospace;
       font-size: 1em;
       display: block;
       height: em(53);
@@ -74,6 +77,13 @@
 
     }
 
+    textarea {
+      font-family: 'Montserrat', monospace;
+      resize: none;
+      height: em(140);
+      padding: em(20);
+    }
+
     &-checkbox {
       position: relative;
       display: flex;
@@ -105,7 +115,7 @@
     }
 
     &.invalid {
-      input {
+      input, textarea {
         border: em(1) solid var(--red-color);
       }
     }
