@@ -47,7 +47,7 @@ export class TimeComponent implements OnInit {
     this.loadCurrentTimeData();
   }
 
-  transformDate(): string | null {
+  transformDate(): string {
     return this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? '';
   }
 
