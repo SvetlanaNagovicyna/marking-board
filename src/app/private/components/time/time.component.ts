@@ -7,11 +7,12 @@ import { TimeState } from '../../../shared/enums/time-state';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalComponent } from '../reason-modal/reason-modal.component';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-time',
   templateUrl: './time.component.html',
-  styleUrls: ['./time.component.scss']
+  styleUrls: ['./time.component.scss'],
 })
 
 export class TimeComponent implements OnInit {
@@ -25,10 +26,11 @@ export class TimeComponent implements OnInit {
   timeService: TimeService = inject(TimeService);
   userService: UserService = inject(UserService);
   dialog: MatDialog = inject(MatDialog);
+  datePipe: DatePipe = inject(DatePipe);
 
   isShowInput: boolean = false;
   currentTime: Times = {};
-  currentDate: string = this.getFullDate().split('T')[0];
+  currentDate: string = this.transformDate() ?? '';
 
   modalTexts = {
     came: {
@@ -36,14 +38,17 @@ export class TimeComponent implements OnInit {
       subtitle: 'You have no excuse. But you can try, write:'
     },
     leave: {
-      title: 'You\'re too early',
-      subtitle: 'WHERE ARE YOU GOING SO EARLY? There\'s still time to work and work...'
+      title: `You're too early`,
+      subtitle: `WHERE ARE YOU GOING SO EARLY? There's still time to work and work...`
     },
   };
 
-
   ngOnInit(): void {
     this.loadCurrentTimeData();
+  }
+
+  transformDate(): string | null {
+    return this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? '';
   }
 
   private loadCurrentTimeData(): void {
@@ -103,18 +108,18 @@ export class TimeComponent implements OnInit {
     const getHours: number = new Date(this.getFullDate()).getHours();
     const getMinutes: number = new Date(this.getFullDate()).getMinutes();
     if (getHours >= 9 || getMinutes > 0) {
-      this.openDialogInfo(
+      this.openReasonModal(
         TimeState.cameComment,
         this.modalTexts.came.title,
         this.modalTexts.came.subtitle);
     }
   }
 
-  checkTimeWorked(startTime: string, endTime: string): void {
+  checkWorkedTime(startTime: string, endTime: string): void {
     const differenceInHours: number = this.calculateTimeDifference(startTime, endTime);
 
     if(differenceInHours < 8) {
-      this.openDialogInfo(
+      this.openReasonModal(
         TimeState.leaveComment,
         this.modalTexts.leave.title,
         this.modalTexts.leave.subtitle);
@@ -135,7 +140,7 @@ export class TimeComponent implements OnInit {
     }
     this.currentTime.leaveTime = this.getFullDate();
     this.generateTimesData(TimeState.leaveTime, this.getFullDate());
-    this.checkTimeWorked(this.currentTime.cameTime, this.currentTime.leaveTime);
+    this.checkWorkedTime(this.currentTime.cameTime, this.currentTime.leaveTime);
   }
 
   addLunchTime(): void {
@@ -153,7 +158,7 @@ export class TimeComponent implements OnInit {
     this.addTime(TimeState.leaveTime);
   }
 
-  openDialogInfo(type: TimeState, title: string, subtitle: string): void {
+  openReasonModal(type: TimeState, title: string, subtitle: string): void {
     const dialogRef = this.dialog.open(ReasonModalComponent, {
       data: { title, subtitle },
       panelClass: 'dialog',
