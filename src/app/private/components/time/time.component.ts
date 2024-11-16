@@ -5,8 +5,8 @@ import { UserService } from '../../../shared/providers/services/user.service';
 import { Times } from '../../../shared/interfaces/times.interface';
 import { TimeState } from '../../../shared/enums/time-state';
 import { MatDialog } from '@angular/material/dialog';
-import { InfoModalComponent } from '../../../shared/components/info-modal/info-modal.component';
-import { SuccessModalComponent } from '../../../shared/components/success-modal/success.component';
+import { ReasonModalComponent } from '../reason-modal/reason-modal.component';
+import { InfoModalComponent } from '../info-modal/info-modal.component';
 
 @Component({
   selector: 'app-time',
@@ -27,9 +27,20 @@ export class TimeComponent implements OnInit {
   dialog: MatDialog = inject(MatDialog);
 
   isShowInput: boolean = false;
-  isLeaveModal: boolean = false;
   currentTime: Times = {};
   currentDate: string = this.getFullDate().split('T')[0];
+
+  modalTexts = {
+    came: {
+      title: 'Lateness',
+      subtitle: 'You have no excuse. But you can try, write:'
+    },
+    leave: {
+      title: 'You\'re too early',
+      subtitle: 'WHERE ARE YOU GOING SO EARLY? There\'s still time to work and work...'
+    },
+  };
+
 
   ngOnInit(): void {
     this.loadCurrentTimeData();
@@ -55,18 +66,16 @@ export class TimeComponent implements OnInit {
     this.isShowInput = !this.isShowInput;
   }
 
-  generateTimesData(type: TimeState): Times {
+  generateTimesData(type: TimeState, value: string): void {
     this.currentTime = {
       ...this.currentTime,
-      [type]: this.currentTime[type]
+      [type]: value,
     };
-
-    return this.currentTime;
+    this.addTime(type);
   }
 
   addTime(type: TimeState): void {
-    const timeData: Times = this.generateTimesData(type);
-    this.timeService.addTime(timeData, this.userService.user?.id, this.currentDate).subscribe({
+    this.timeService.addTime(this.currentTime, this.userService.user?.id, this.currentDate).subscribe({
       next: (): void => {
         if (type === TimeState.lunchTime) {
           this.form.reset();
@@ -80,7 +89,6 @@ export class TimeComponent implements OnInit {
     const endDate: number = new Date(endTime).getTime();
 
     const differenceInMilliseconds: number = endDate - startDate;
-
     let differenceInHours: number = differenceInMilliseconds / (1000 * 60 * 60);
 
     if(this.currentTime.lunchTime) {
@@ -95,7 +103,10 @@ export class TimeComponent implements OnInit {
     const getHours: number = new Date(this.getFullDate()).getHours();
     const getMinutes: number = new Date(this.getFullDate()).getMinutes();
     if (getHours >= 9 || getMinutes > 0) {
-      this.openDialogInfo();
+      this.openDialogInfo(
+        TimeState.cameComment,
+        this.modalTexts.came.title,
+        this.modalTexts.came.subtitle);
     }
   }
 
@@ -103,8 +114,10 @@ export class TimeComponent implements OnInit {
     const differenceInHours: number = this.calculateTimeDifference(startTime, endTime);
 
     if(differenceInHours < 8) {
-      this.isLeaveModal = true;
-      this.openDialogInfo();
+      this.openDialogInfo(
+        TimeState.leaveComment,
+        this.modalTexts.leave.title,
+        this.modalTexts.leave.subtitle);
     }
   }
 
@@ -112,8 +125,7 @@ export class TimeComponent implements OnInit {
     if (this.currentTime.cameTime) {
       return;
     }
-    this.currentTime.cameTime = this.getFullDate();
-    this.addTime(TimeState.cameTime);
+    this.generateTimesData(TimeState.cameTime, this.getFullDate());
     this.checkCameTime();
   }
 
@@ -122,7 +134,7 @@ export class TimeComponent implements OnInit {
       return;
     }
     this.currentTime.leaveTime = this.getFullDate();
-    this.addTime(TimeState.leaveTime);
+    this.generateTimesData(TimeState.leaveTime, this.getFullDate());
     this.checkTimeWorked(this.currentTime.cameTime, this.currentTime.leaveTime);
   }
 
@@ -141,37 +153,23 @@ export class TimeComponent implements OnInit {
     this.addTime(TimeState.leaveTime);
   }
 
-  addCameComment(text: string): void {
-      this.currentTime.cameComment = text;
-      this.addTime(TimeState.cameComment);
-  }
-
-  addLeaveComment(text: string): void {
-      this.currentTime.leaveComment = text;
-      this.addTime(TimeState.leaveComment);
-  }
-
-  openDialogInfo(): void {
-    const dialogRef = this.dialog.open(InfoModalComponent, {
-      data: { modal: this.isLeaveModal ? 'isLeaveModal' : '' },
+  openDialogInfo(type: TimeState, title: string, subtitle: string): void {
+    const dialogRef = this.dialog.open(ReasonModalComponent, {
+      data: { title, subtitle },
       panelClass: 'dialog',
       disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        if (this.isLeaveModal) {
-          this.addLeaveComment(result);
-        } else {
-          this.addCameComment(result);
-        }
+        this.generateTimesData(type, result);
         this.openDialogSuccess();
       }
     })
   }
 
   openDialogSuccess(): void {
-    this.dialog.open(SuccessModalComponent, {
+    this.dialog.open(InfoModalComponent, {
       panelClass: 'dialog',
       disableClose: true,
     });

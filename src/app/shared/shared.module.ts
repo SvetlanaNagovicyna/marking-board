@@ -13,8 +13,6 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ButtonComponent } from './components/button/button.component';
-import { InfoModalComponent } from './components/info-modal/info-modal.component';
-import { SuccessModalComponent } from './components/success-modal/success.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +23,6 @@ import { SuccessModalComponent } from './components/success-modal/success.compon
     LoaderComponent,
     NotFoundComponent,
     ButtonComponent,
-    InfoModalComponent,
-    SuccessModalComponent,
   ],
   imports: [
     HttpClientModule,
@@ -45,8 +41,6 @@ import { SuccessModalComponent } from './components/success-modal/success.compon
     MatProgressSpinnerModule,
     LoaderComponent,
     ButtonComponent,
-    InfoModalComponent,
-    SuccessModalComponent,
   ],
 })
 

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InfoModalComponent } from './info-modal.component';
 
-describe('InfoModalComponent', () => {
+describe('SuccessComponent', () => {
   let component: InfoModalComponent;
   let fixture: ComponentFixture<InfoModalComponent>;
 
