@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalComponent } from '../reason-modal/reason-modal.component';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { DatePipe } from '@angular/common';
+import { ModalData } from '../../../shared/interfaces/modal-data.interface';
 
 @Component({
   selector: 'app-time',
@@ -30,7 +31,7 @@ export class TimeComponent implements OnInit {
 
   isShowInput: boolean = false;
   currentTime: Times = {};
-  currentDate: string = this.transformDate() ?? '';
+  currentDate: string = this.getCurrentDate();
 
   modalTexts = {
     came: {
@@ -47,7 +48,7 @@ export class TimeComponent implements OnInit {
     this.loadCurrentTimeData();
   }
 
-  transformDate(): string {
+  getCurrentDate(): string {
     return this.datePipe.transform(new Date(), 'yyyy-MM-dd') ?? '';
   }
 
@@ -71,20 +72,10 @@ export class TimeComponent implements OnInit {
     this.isShowInput = !this.isShowInput;
   }
 
-  generateTimesData(type: TimeState, value: string): void {
-    this.currentTime = {
-      ...this.currentTime,
-      [type]: value,
-    };
-    this.addTime(type);
-  }
-
-  addTime(type: TimeState): void {
+  addTime(cb = ():void => {}): void {
     this.timeService.addTime(this.currentTime, this.userService.user?.id, this.currentDate).subscribe({
       next: (): void => {
-        if (type === TimeState.lunchTime) {
-          this.form.reset();
-        }
+        cb();
       }
     });
   }
@@ -104,34 +95,30 @@ export class TimeComponent implements OnInit {
     return differenceInHours;
   }
 
-  checkCameTime(): void {
+  checkCameTime(): boolean {
     const getHours: number = new Date(this.getFullDate()).getHours();
     const getMinutes: number = new Date(this.getFullDate()).getMinutes();
-    if (getHours >= 9 || getMinutes > 0) {
-      this.openReasonModal(
-        TimeState.cameComment,
-        this.modalTexts.came.title,
-        this.modalTexts.came.subtitle);
-    }
+
+    return (getHours >= 9 || getMinutes > 0);
   }
 
-  checkWorkedTime(startTime: string, endTime: string): void {
+  checkWorkedTime(startTime: string, endTime: string): boolean {
     const differenceInHours: number = this.calculateTimeDifference(startTime, endTime);
 
-    if(differenceInHours < 8) {
-      this.openReasonModal(
-        TimeState.leaveComment,
-        this.modalTexts.leave.title,
-        this.modalTexts.leave.subtitle);
-    }
+    return differenceInHours < 8;
   }
 
   addCameTime(): void {
     if (this.currentTime.cameTime) {
       return;
     }
-    this.generateTimesData(TimeState.cameTime, this.getFullDate());
-    this.checkCameTime();
+    if (this.checkCameTime()) {
+      this.openReasonModal(
+        { commentType: TimeState.cameComment, timeType: TimeState.cameTime },
+        this.modalTexts.came);
+    } else {
+      this.addTime();
+    }
   }
 
   addLeaveTime(): void {
@@ -139,14 +126,21 @@ export class TimeComponent implements OnInit {
       return;
     }
     this.currentTime.leaveTime = this.getFullDate();
-    this.generateTimesData(TimeState.leaveTime, this.getFullDate());
-    this.checkWorkedTime(this.currentTime.cameTime, this.currentTime.leaveTime);
+
+    if (this.checkWorkedTime(this.currentTime.cameTime, this.currentTime.leaveTime)) {
+      this.openReasonModal(
+        { commentType: TimeState.leaveComment, timeType: TimeState.leaveTime },
+        this.modalTexts.leave);
+    } else {
+      this.addTime();
+    }
   }
 
   addLunchTime(): void {
     this.currentTime.lunchTime = String(this.form.value.time) ?? '';
+
     if (this.form.valid) {
-      this.addTime(TimeState.lunchTime);
+      this.addTime(this.form.reset.bind(this));
     }
   }
 
@@ -155,25 +149,26 @@ export class TimeComponent implements OnInit {
       return;
     }
     this.currentTime.leaveTime = '';
-    this.addTime(TimeState.leaveTime);
+    this.addTime();
   }
 
-  openReasonModal(type: TimeState, title: string, subtitle: string): void {
+  openReasonModal(type: { commentType: TimeState, timeType: TimeState }, text: ModalData ): void {
     const dialogRef = this.dialog.open(ReasonModalComponent, {
-      data: { title, subtitle },
+      data: { text },
       panelClass: 'dialog',
       disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.generateTimesData(type, result);
-        this.openDialogSuccess();
+          this.currentTime[type.commentType] = result;
+          this.currentTime[type.timeType] = this.getFullDate();
+          this.addTime(this.openInfoModal.bind(this));
       }
     })
   }
 
-  openDialogSuccess(): void {
+  openInfoModal(): void {
     this.dialog.open(InfoModalComponent, {
       panelClass: 'dialog',
       disableClose: true,
