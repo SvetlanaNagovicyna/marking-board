@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalData } from '../../../shared/interfaces/modal-data.interface';
+import { ReasonModalData } from '../../../shared/interfaces/reason-modal-data.interface';
 
 @Component({
   selector: 'app-reason-modal',
@@ -11,7 +11,7 @@ import { ModalData } from '../../../shared/interfaces/modal-data.interface';
 export class ReasonModalComponent {
 
   dialogRef = inject(MatDialogRef);
-  data: { text: ModalData } = inject(MAT_DIALOG_DATA);
+  data: { text: ReasonModalData } = inject(MAT_DIALOG_DATA);
 
   form = new FormGroup({
       text: new FormControl('',
@@ -22,7 +22,9 @@ export class ReasonModalComponent {
   );
 
   submit() {
-    this.dialogRef.close(this.form.value.text);
+    if (this.form.valid) {
+      this.dialogRef.close(this.form.value.text);
+    }
   }
 
 }

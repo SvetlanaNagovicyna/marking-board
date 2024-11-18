@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalComponent } from '../reason-modal/reason-modal.component';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { DatePipe } from '@angular/common';
-import { ModalData } from '../../../shared/interfaces/modal-data.interface';
+import { ReasonModalData } from '../../../shared/interfaces/reason-modal-data.interface';
 
 @Component({
   selector: 'app-time',
@@ -35,12 +35,12 @@ export class TimeComponent implements OnInit {
 
   modalTexts = {
     came: {
-      title: 'Lateness',
-      subtitle: 'You have no excuse. But you can try, write:'
+      title: 'Lateness' ?? '',
+      subtitle: 'You have no excuse. But you can try, write:' ?? ''
     },
     leave: {
-      title: `You're too early`,
-      subtitle: `WHERE ARE YOU GOING SO EARLY? There's still time to work and work...`
+      title: `You're too early` ?? '',
+      subtitle: `WHERE ARE YOU GOING SO EARLY? There's still time to work and work...` ?? ''
     },
   };
 
@@ -72,7 +72,7 @@ export class TimeComponent implements OnInit {
     this.isShowInput = !this.isShowInput;
   }
 
-  addTime(cb = ():void => {}): void {
+  addTime(cb = (): void => {}): void {
     this.timeService.addTime(this.currentTime, this.userService.user?.id, this.currentDate).subscribe({
       next: (): void => {
         cb();
@@ -87,7 +87,7 @@ export class TimeComponent implements OnInit {
     const differenceInMilliseconds: number = endDate - startDate;
     let differenceInHours: number = differenceInMilliseconds / (1000 * 60 * 60);
 
-    if(this.currentTime.lunchTime) {
+    if (this.currentTime.lunchTime) {
       const lunchTimeInHours: number = +this.currentTime.lunchTime / 60;
       differenceInHours += lunchTimeInHours;
     }
@@ -152,18 +152,18 @@ export class TimeComponent implements OnInit {
     this.addTime();
   }
 
-  openReasonModal(type: { commentType: TimeState, timeType: TimeState }, text: ModalData ): void {
+  openReasonModal(type: { commentType: TimeState, timeType: TimeState }, data: ReasonModalData): void {
     const dialogRef = this.dialog.open(ReasonModalComponent, {
-      data: { text },
+      data: { data },
       panelClass: 'dialog',
       disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-          this.currentTime[type.commentType] = result;
-          this.currentTime[type.timeType] = this.getFullDate();
-          this.addTime(this.openInfoModal.bind(this));
+      if (result) {
+        this.currentTime[type.commentType] = result;
+        this.currentTime[type.timeType] = this.getFullDate();
+        this.addTime(this.openInfoModal.bind(this));
       }
     })
   }
