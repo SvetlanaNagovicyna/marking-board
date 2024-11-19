@@ -35,12 +35,12 @@ export class TimeComponent implements OnInit {
 
   modalTexts = {
     came: {
-      title: 'Lateness' ?? '',
-      subtitle: 'You have no excuse. But you can try, write:' ?? ''
+      title: 'Lateness',
+      subtitle: 'You have no excuse. But you can try, write:'
     },
     leave: {
-      title: `You're too early` ?? '',
-      subtitle: `WHERE ARE YOU GOING SO EARLY? There's still time to work and work...` ?? ''
+      title: `You're too early`,
+      subtitle: `WHERE ARE YOU GOING SO EARLY? There's still time to work and work...`
     },
   };
 
