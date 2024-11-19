@@ -1,0 +1,42 @@
+<div class="window">
+  <div class="window__wrap">
+
+    <div class="title">
+      <span>
+        {{ data.text.title }}
+      </span>
+      <span class="title-red">!</span>
+    </div>
+
+    <div class="title-secondary">
+      {{ data.text.subtitle }}
+    </div>
+
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+      <div
+        class="form__control"
+        [ngClass]="{invalid: form.controls.text.touched && form.controls.text.errors}"
+      >
+        <textarea type="text" placeholder="Well, tell me..." formControlName="text"></textarea>
+        <div
+          *ngIf="form.controls.text.touched && form.controls.text.invalid"
+          class="validation">
+          <small *ngIf="form.controls.text.hasError('required')">
+            Field is required
+          </small>
+        </div>
+      </div>
+
+      <app-button
+        type="submit"
+        classes="w-320"
+        [disabled]="form.invalid"
+      >
+        Send
+      </app-button>
+
+    </form>
+
+  </div>
+</div>
+
