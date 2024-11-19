@@ -137,7 +137,7 @@ export class TimeComponent implements OnInit {
   }
 
   addLunchTime(): void {
-    this.currentTime.lunchTime = String(this.form.value.time) ?? '';
+    this.currentTime.lunchTime = String(this.form.value.time);
 
     if (this.form.valid) {
       this.addTime(this.form.reset.bind(this));
