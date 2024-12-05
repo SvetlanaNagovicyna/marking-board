@@ -5,12 +5,14 @@ import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReasonModalComponent } from './reason-modal/reason-modal.component';
 import { InfoModalComponent } from './info-modal/info-modal.component';
+import { TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
-    TimeComponent,
     ReasonModalComponent,
     InfoModalComponent,
+    TimeComponent,
+    TableComponent,
   ],
   imports: [
     CommonModule,
@@ -19,9 +21,10 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
     ReactiveFormsModule,
   ],
   exports: [
-    TimeComponent,
     ReasonModalComponent,
     InfoModalComponent,
+    TimeComponent,
+    TableComponent,
   ]
 })
 

@@ -1,0 +1,53 @@
+<div *ngFor="let monthGroup of groupedAttendance | keyvalue: reverseOrderDate">
+  <div class="table">
+    <div class="table__row table__row-header">
+      <div class="table__cell table__cell-date">
+        <span>Date</span>
+      </div>
+      <div class="table__cell">
+        <span>Came</span>
+      </div>
+      <div class="table__cell">
+        <span>Leave</span>
+      </div>
+      <div class="table__cell">
+        <span>Summary</span>
+      </div>
+      <div class="table__cell table__cell-result">
+        <span>Result</span>
+      </div>
+    </div>
+    <div class="table__row" *ngFor="let date of monthGroup.value | keyvalue: reverseOrder">
+      <div class="table__cell table__cell-date">
+        <span>{{ date.key | date: 'yyyy - MM - dd'}}</span>
+      </div>
+      <div class="table__cell">
+        <span>{{ date.value.cameTime ? (date.value.cameTime | date: 'HH:mm') : '-- : --' }}</span>
+      </div>
+      <div class="table__cell">
+        <span>{{date.value.leaveTime ? (date.value.leaveTime | date: 'HH:mm') : '-- : --' }}</span>
+      </div>
+      <div class="table__cell">
+        <span>08:05</span>
+      </div>
+      <div class="table__cell table__cell-result">
+        <span>НедоработКА:</span>
+        <span class="value">00:55</span>
+      </div>
+    </div>
+    <div class="table__row table__row-footer">
+      <div class="table__cell table__cell-days">
+        <span>Work days: </span>
+        <span class="value">{{ Object.keys(monthGroup.value).length }}</span>
+      </div>
+      <div class="table__cell table__cell-time">
+        <span>Total worked: </span>
+        <span class="value">51:17</span>
+      </div>
+      <div class="table__cell table__cell-sum table__cell_sum-red">
+        <span>Total unfinished: </span>
+        <span class="value">12:43</span>
+      </div>
+    </div>
+  </div>
+</div>

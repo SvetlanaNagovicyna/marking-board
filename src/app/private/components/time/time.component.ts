@@ -140,7 +140,7 @@ export class TimeComponent implements OnInit {
     this.currentTime.lunchTime = String(this.form.value.time);
 
     if (this.form.valid) {
-      this.addTime(this.form.reset.bind(this));
+      this.addTime(() => this.form.reset());
     }
   }
 
@@ -154,7 +154,7 @@ export class TimeComponent implements OnInit {
 
   openReasonModal(type: { commentType: TimeState, timeType: TimeState }, data: ReasonModalData): void {
     const dialogRef = this.dialog.open(ReasonModalComponent, {
-      data: { data },
+      data: { text: data },
       panelClass: 'dialog',
       disableClose: true,
     });
