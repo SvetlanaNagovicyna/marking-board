@@ -7,6 +7,7 @@ import { ReasonModalComponent } from './reason-modal/reason-modal.component';
 import { InfoModalComponent } from './info-modal/info-modal.component';
 import { TableComponent } from './table/table.component';
 import { MatTableModule } from '@angular/material/table';
+import { PrivateSharedModule } from '../shared/private-shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
     FormsModule,
     ReactiveFormsModule,
     MatTableModule,
+    PrivateSharedModule,
   ],
   exports: [
     ReasonModalComponent,

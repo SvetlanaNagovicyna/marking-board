@@ -4,6 +4,7 @@ import { CommonModule, DatePipe } from "@angular/common";
 import { PrivateComponent } from "./private.component";
 import { PrivateRoutingModule } from "./private-routing.module";
 import { SharedModule } from '../shared/shared.module';
+import { PrivateSharedModule } from './shared/private-shared.module';
 
 @NgModule({
   declarations: [PrivateComponent],
@@ -11,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     PrivateRoutingModule,
     SharedModule,
+    PrivateSharedModule,
   ],
   providers: [
     DatePipe,

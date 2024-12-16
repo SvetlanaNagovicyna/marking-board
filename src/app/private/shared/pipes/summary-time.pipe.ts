@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Times } from '../interfaces/times.interface';
+import { Times } from '../../../shared/interfaces/times.interface';
 
 @Pipe({
   name: 'summaryTime'

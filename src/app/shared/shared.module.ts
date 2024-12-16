@@ -13,9 +13,6 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ButtonComponent } from './components/button/button.component';
-import { SummaryTimePipe } from './pipes/summary-time.pipe';
-import { StatusTimePipe } from './pipes/status-time.pipe';
-import { ResultTimePipe } from './pipes/result-time.pipe';
 
 @NgModule({
   declarations: [
@@ -26,9 +23,6 @@ import { ResultTimePipe } from './pipes/result-time.pipe';
     LoaderComponent,
     NotFoundComponent,
     ButtonComponent,
-    SummaryTimePipe,
-    StatusTimePipe,
-    ResultTimePipe,
   ],
   imports: [
     HttpClientModule,
@@ -47,9 +41,6 @@ import { ResultTimePipe } from './pipes/result-time.pipe';
     MatProgressSpinnerModule,
     LoaderComponent,
     ButtonComponent,
-    SummaryTimePipe,
-    StatusTimePipe,
-    ResultTimePipe,
   ],
 })
 
