@@ -14,9 +14,7 @@
     <ng-container matColumnDef="came">
       <mat-header-cell *matHeaderCellDef> Came</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.value['cameTime'] ?
-        (element.value['cameTime'] | date: 'HH:mm') :
-        '-- : --' }}
+        {{ element.value.cameTime | date: 'HH:mm' }}
       </mat-cell>
     </ng-container>
 
@@ -31,20 +29,19 @@
 
     <ng-container matColumnDef="summary">
       <mat-header-cell *matHeaderCellDef> Summary</mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="element.value | summaryTime | statusTime">
-        {{ (element.value | summaryTime) ?
+      <mat-cell *matCellDef="let element" [ngClass]="element.value | statusTime">
+        {{ (element.value.leaveTime) ?
         (element.value | summaryTime | date: 'HH:mm':'UTC') :
         '-- : --' }}
       </mat-cell>
     </ng-container>
 
-
     <ng-container matColumnDef="result">
       <mat-header-cell *matHeaderCellDef> Result</mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="element.value | summaryTime | statusTime">
-        {{ element.value | summaryTime | statusTime:'text' }}
-        {{ (element.value | summaryTime) ?
-        (element.value | summaryTime | resultTime | date: 'HH:mm':'UTC') :
+      <mat-cell *matCellDef="let element" [ngClass]="element.value | statusTime">
+        {{ element.value | statusTime:'text' }}
+        {{ (element.value.leaveTime) ?
+        (element.value | resultTime | date: 'HH:mm':'UTC') :
         '-- : --' }}
       </mat-cell>
     </ng-container>

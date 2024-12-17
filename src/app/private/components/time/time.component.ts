@@ -9,6 +9,7 @@ import { ReasonModalComponent } from '../reason-modal/reason-modal.component';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { DatePipe } from '@angular/common';
 import { ReasonModalData } from '../../../shared/interfaces/reason-modal-data.interface';
+import { calculateTimeDifference } from '../../shared/time';
 
 @Component({
   selector: 'app-time',
@@ -30,7 +31,7 @@ export class TimeComponent implements OnInit {
   datePipe: DatePipe = inject(DatePipe);
 
   isShowInput: boolean = false;
-  currentTime: Times = {};
+  currentTime: Times = {} as Times;
   currentDate: string = this.getCurrentDate();
 
   modalTexts = {
@@ -80,21 +81,6 @@ export class TimeComponent implements OnInit {
     });
   }
 
-  calculateTimeDifference(startTime: string, endTime: string): number {
-    const startDate: number = new Date(startTime).getTime();
-    const endDate: number = new Date(endTime).getTime();
-
-    const differenceInMilliseconds: number = endDate - startDate;
-    let differenceInHours: number = differenceInMilliseconds / (1000 * 60 * 60);
-
-    if (this.currentTime.lunchTime) {
-      const lunchTimeInHours: number = +this.currentTime.lunchTime / 60;
-      differenceInHours += lunchTimeInHours;
-    }
-
-    return differenceInHours;
-  }
-
   checkCameTime(): boolean {
     const getHours: number = new Date(this.getFullDate()).getHours();
     const getMinutes: number = new Date(this.getFullDate()).getMinutes();
@@ -103,9 +89,9 @@ export class TimeComponent implements OnInit {
   }
 
   checkWorkedTime(startTime: string, endTime: string): boolean {
-    const differenceInHours: number = this.calculateTimeDifference(startTime, endTime);
+    const differenceInHours: number = calculateTimeDifference(startTime, endTime, this.currentTime.lunchTime);
 
-    return differenceInHours < 8;
+    return differenceInHours < 9;
   }
 
   addCameTime(): void {
