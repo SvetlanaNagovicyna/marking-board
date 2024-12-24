@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TimeService } from '../../../shared/providers/services/time.service';
 import { UserService } from '../../../shared/providers/services/user.service';
@@ -9,6 +9,7 @@ import { ReasonModalComponent } from '../reason-modal/reason-modal.component';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { DatePipe } from '@angular/common';
 import { ReasonModalData } from '../../../shared/interfaces/reason-modal-data.interface';
+import { calculateTimeDifference } from '../../shared/time';
 
 @Component({
   selector: 'app-time',
@@ -24,13 +25,15 @@ export class TimeComponent implements OnInit {
     ])
   })
 
+  @Output() attendanceChanged = new EventEmitter<void>();
+
   timeService: TimeService = inject(TimeService);
   userService: UserService = inject(UserService);
   dialog: MatDialog = inject(MatDialog);
   datePipe: DatePipe = inject(DatePipe);
 
   isShowInput: boolean = false;
-  currentTime: Times = {};
+  currentTime: Times = {} as Times;
   currentDate: string = this.getCurrentDate();
 
   modalTexts = {
@@ -75,24 +78,10 @@ export class TimeComponent implements OnInit {
   addTime(cb = (): void => {}): void {
     this.timeService.addTime(this.currentTime, this.userService.user?.id, this.currentDate).subscribe({
       next: (): void => {
+        this.attendanceChanged.emit();
         cb();
       }
     });
-  }
-
-  calculateTimeDifference(startTime: string, endTime: string): number {
-    const startDate: number = new Date(startTime).getTime();
-    const endDate: number = new Date(endTime).getTime();
-
-    const differenceInMilliseconds: number = endDate - startDate;
-    let differenceInHours: number = differenceInMilliseconds / (1000 * 60 * 60);
-
-    if (this.currentTime.lunchTime) {
-      const lunchTimeInHours: number = +this.currentTime.lunchTime / 60;
-      differenceInHours += lunchTimeInHours;
-    }
-
-    return differenceInHours;
   }
 
   checkCameTime(): boolean {
@@ -103,9 +92,9 @@ export class TimeComponent implements OnInit {
   }
 
   checkWorkedTime(startTime: string, endTime: string): boolean {
-    const differenceInHours: number = this.calculateTimeDifference(startTime, endTime);
+    const differenceInHours: number = calculateTimeDifference(startTime, endTime, this.currentTime.lunchTime);
 
-    return differenceInHours < 8;
+    return differenceInHours < 9;
   }
 
   addCameTime(): void {
@@ -140,7 +129,7 @@ export class TimeComponent implements OnInit {
     this.currentTime.lunchTime = String(this.form.value.time);
 
     if (this.form.valid) {
-      this.addTime(this.form.reset.bind(this));
+      this.addTime(() => this.form.reset());
     }
   }
 
@@ -154,7 +143,7 @@ export class TimeComponent implements OnInit {
 
   openReasonModal(type: { commentType: TimeState, timeType: TimeState }, data: ReasonModalData): void {
     const dialogRef = this.dialog.open(ReasonModalComponent, {
-      data: { data },
+      data: { text: data },
       panelClass: 'dialog',
       disableClose: true,
     });
