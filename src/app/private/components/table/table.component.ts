@@ -28,5 +28,7 @@ export class TableComponent implements OnInit {
       }
     })
   }
-
+  updateAttendance(): void {
+    this.getAttendance();
+  }
 }

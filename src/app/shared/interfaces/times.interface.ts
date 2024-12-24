@@ -4,4 +4,5 @@ export interface Times {
   lunchTime?: string;
   cameComment?: string;
   leaveComment?: string;
+  workFromHome?: boolean;
 }

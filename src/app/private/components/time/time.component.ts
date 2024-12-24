@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TimeService } from '../../../shared/providers/services/time.service';
 import { UserService } from '../../../shared/providers/services/user.service';
@@ -24,6 +24,8 @@ export class TimeComponent implements OnInit {
       Validators.required,
     ])
   })
+
+  @Output() attendanceChanged = new EventEmitter<void>();
 
   timeService: TimeService = inject(TimeService);
   userService: UserService = inject(UserService);
@@ -76,6 +78,7 @@ export class TimeComponent implements OnInit {
   addTime(cb = (): void => {}): void {
     this.timeService.addTime(this.currentTime, this.userService.user?.id, this.currentDate).subscribe({
       next: (): void => {
+        this.attendanceChanged.emit();
         cb();
       }
     });

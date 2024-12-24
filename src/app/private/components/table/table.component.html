@@ -1,4 +1,6 @@
-<div *ngFor="let monthGroup of groupedAttendance">
+<app-time (attendanceChanged)="updateAttendance()"></app-time>
+
+<ng-container *ngFor="let monthGroup of groupedAttendance">
   <mat-table [dataSource]="monthGroup.items" class="table">
     <mat-header-row *matHeaderRowDef="columnsToDisplayHeader"></mat-header-row>
     <mat-row *matRowDef="let myRowData; columns: columnsToDisplayHeader"></mat-row>
@@ -49,6 +51,12 @@
             <span>Work at lunch: {{ element.value.lunchTime }} min</span>
           </div>
         </div>
+        <div class="work-home" *ngIf="element.value.workFromHome">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.5 14.88">
+            <path fill="#ffffff" d="M7,14.88V9.63h3.5v5.25h4.38v-7H17.5L8.75,0,0,7.88H2.63v7Z"></path>
+          </svg>
+
+        </div>
 
       </mat-cell>
     </ng-container>
@@ -84,4 +92,6 @@
       </mat-footer-cell>
     </ng-container>
   </mat-table>
-</div>
+
+
+</ng-container>

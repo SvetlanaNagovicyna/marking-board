@@ -47,7 +47,7 @@
     &.red {
       color: var(--red-color);
 
-      svg {
+      .lunch svg {
         path {
           fill: var(--red-color);
         }
@@ -57,7 +57,7 @@
     &.green {
       color: var(--green-color);
 
-      svg {
+      .lunch svg {
         path {
           fill: var(--green-color);
         }
@@ -67,7 +67,7 @@
     &.white {
       color: var(--white-color);
 
-      svg {
+      .lunch svg {
         path {
           fill: var(--white-color);
         }
@@ -78,7 +78,7 @@
       width: em(60);
     }
 
-    .lunch {
+    .lunch, .work-home {
       width: em(28);
       height: 100%;
       margin-left: em(20);
@@ -133,6 +133,7 @@
           border-top: em(12) solid var(--white-color);
         }
       }
+
       svg:hover ~ .lunch__info {
         opacity: 1;
         visibility: visible;
