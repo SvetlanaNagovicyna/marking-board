@@ -56,7 +56,7 @@
 </div>
 
 <label class="checkbox">
-  <input type="checkbox" [(ngModel)]="currentTime.workFromHome" (change)="addTime()">
+  <input type="checkbox" [disabled]="!!(currentTime.leaveTime || currentTime.leaveTime !== '')"  [(ngModel)]="currentTime.workFromHome">
   <div class="checkmark"></div>
   I work from home
 </label>

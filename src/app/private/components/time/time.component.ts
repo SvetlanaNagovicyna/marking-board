@@ -9,7 +9,7 @@ import { ReasonModalComponent } from '../reason-modal/reason-modal.component';
 import { InfoModalComponent } from '../info-modal/info-modal.component';
 import { DatePipe } from '@angular/common';
 import { ReasonModalData } from '../../../shared/interfaces/reason-modal-data.interface';
-import { calculateTimeDifference } from '../../shared/time';
+import { calculateTimeDifference, nineHoursInMilliseconds } from '../../shared/time';
 
 @Component({
   selector: 'app-time',
@@ -85,16 +85,15 @@ export class TimeComponent implements OnInit {
   }
 
   checkCameTime(): boolean {
-    const getHours: number = new Date(this.getFullDate()).getHours();
-    const getMinutes: number = new Date(this.getFullDate()).getMinutes();
+    const getHours: number = new Date(new Date(this.getFullDate())).setMinutes(0, 0 ,0);
 
-    return (getHours >= 9 || getMinutes > 0);
+    return (getHours >= nineHoursInMilliseconds);
   }
 
   checkWorkedTime(startTime: string, endTime: string): boolean {
     const differenceInHours: number = calculateTimeDifference(startTime, endTime, this.currentTime.lunchTime);
 
-    return differenceInHours < 9;
+    return differenceInHours < nineHoursInMilliseconds;
   }
 
   addCameTime(): void {

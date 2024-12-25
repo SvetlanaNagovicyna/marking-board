@@ -1,6 +1,6 @@
-import { Times } from './times.interface';
+import { ItemAttendance } from './item-attendance';
 
 export interface GroupedAttendance {
   month: string,
-  items: Array<{ day: string, value: Times }>
+  items: Array<ItemAttendance>
 }

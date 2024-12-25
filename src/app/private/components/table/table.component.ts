@@ -1,6 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { TimeService } from '../../../shared/providers/services/time.service';
-import { UserService } from '../../../shared/providers/services/user.service';
+import { Component, Input } from '@angular/core';
 import { GroupedAttendance } from '../../../shared/interfaces/grouped-attendance.interface';
 
 @Component({
@@ -9,26 +7,10 @@ import { GroupedAttendance } from '../../../shared/interfaces/grouped-attendance
   styleUrls: ['./table.component.scss']
 })
 
-export class TableComponent implements OnInit {
-  timeService: TimeService = inject(TimeService);
-  userService: UserService = inject(UserService);
-  groupedAttendance: GroupedAttendance[] = [];
+export class TableComponent {
+  @Input() groupedAttendance: GroupedAttendance[] = [];
+  @Input() showLoader: boolean = false;
+
   columnsToDisplayHeader: string[] = ['date', 'came', 'leave', 'summary', 'result'];
   columnsToDisplayFooter: string[] = ['work', 'total', 'resultFooter'];
-
-  ngOnInit(): void {
-    this.getAttendance();
-  }
-
-  getAttendance(): void {
-    this.timeService.getAttendance(this.userService.user?.id).subscribe({
-      next: (res: GroupedAttendance[]): void => {
-        this.groupedAttendance = res;
-        console.log(this.groupedAttendance, 'groupedAttendance');
-      }
-    })
-  }
-  updateAttendance(): void {
-    this.getAttendance();
-  }
 }

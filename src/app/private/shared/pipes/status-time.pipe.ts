@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { calculateTimeDifference } from '../time';
+import { calculateTimeDifference, nineHoursInMilliseconds } from '../time';
 import { Times } from '../../../shared/interfaces/times.interface';
 
 @Pipe({
@@ -7,7 +7,7 @@ import { Times } from '../../../shared/interfaces/times.interface';
 })
 
 export class StatusTimePipe implements PipeTransform {
-  transform(time: Times, type: string = 'color'): string {
+  transform(time: Times, type: 'text' | 'color' = 'color'): string {
     const status: string = this.setStatusTime(calculateTimeDifference(time.cameTime, time.leaveTime, time.lunchTime));
 
     if (type === 'text') {
@@ -30,9 +30,9 @@ export class StatusTimePipe implements PipeTransform {
     if (isNaN(time)) {
       return '';
     }
-    if (time === 9) {
+    if (time === nineHoursInMilliseconds) {
       return 'white';
     }
-    return time < 9 ? 'red' : 'green';
+    return time < nineHoursInMilliseconds ? 'red' : 'green';
   }
 }

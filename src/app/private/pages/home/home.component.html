@@ -3,5 +3,6 @@
     <span>Attendance Tracker</span>
     <span class="title-red">.</span>
   </div>
-  <app-table></app-table>
+  <app-time (attendanceChanged)="getAttendance()"></app-time>
+  <app-table [groupedAttendance]="groupedAttendance" [showLoader]="showLoader"></app-table>
 </div>
