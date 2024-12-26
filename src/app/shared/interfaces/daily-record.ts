@@ -1,6 +1,6 @@
 import { Times } from './times.interface';
 
-export interface ItemAttendance {
+export interface DailyRecord {
   day: string,
   value: Times
 }

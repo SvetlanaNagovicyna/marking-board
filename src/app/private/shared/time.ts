@@ -1,4 +1,4 @@
-import { ItemAttendance } from '../../shared/interfaces/item-attendance';
+import { DailyRecord } from '../../shared/interfaces/daily-record';
 
 export const calculateTimeDifference = (startTime: string, endTime: string, lunchTime?: string): number => {
   const startDate: number = new Date(new Date(startTime).setSeconds(0, 0)).getTime();
@@ -14,8 +14,8 @@ export const calculateTimeDifference = (startTime: string, endTime: string, lunc
   return differenceInMilliseconds;
 }
 
-export const calculateTotalTime = (value: Array<ItemAttendance>): number => {
-  return value.reduce((sum: number, item: ItemAttendance) => {
+export const calculateTotalTime = (value: Array<DailyRecord>): number => {
+  return value.reduce((sum: number, item: DailyRecord) => {
     const timeDifferenceOfDay: number = calculateTimeDifference(
       item.value.cameTime,
       item.value.leaveTime,

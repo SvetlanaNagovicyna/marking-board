@@ -1,6 +1,6 @@
-import { ItemAttendance } from './item-attendance';
+import { DailyRecord } from './daily-record';
 
 export interface GroupedAttendance {
   month: string,
-  items: Array<ItemAttendance>
+  items: Array<DailyRecord>
 }

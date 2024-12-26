@@ -6,7 +6,7 @@ import { Times } from '../../interfaces/times.interface';
 import { Attendance } from '../../interfaces/attendance.interface';
 import { DatePipe } from '@angular/common';
 import { GroupedAttendance } from '../../interfaces/grouped-attendance.interface';
-import { ItemAttendance } from '../../interfaces/item-attendance';
+import { DailyRecord } from '../../interfaces/daily-record';
 
 @Injectable({
   providedIn: 'root'
@@ -27,16 +27,16 @@ export class TimeService {
   getAttendance(userId: string | undefined): Observable<GroupedAttendance[]> {
     return this.#http.get<Attendance>(`${environment.fbDbUrl}/attendance/${userId}.json`).pipe(
       map((attendance: Attendance) => {
-        const attendanceArray: ItemAttendance[] = Object.entries(attendance)
-          .map(([key, value]: [string, Times]): ItemAttendance => ({ day: key, value }))
-          .sort((a: ItemAttendance, b: ItemAttendance): number => (a.day < b.day ? 1 : -1));
+        const attendanceArray: DailyRecord[] = Object.entries(attendance)
+          .map(([key, value]: [string, Times]): DailyRecord => ({ day: key, value }))
+          .sort((a: DailyRecord, b: DailyRecord): number => (a.day < b.day ? 1 : -1));
         return this.groupAttendanceByMonth(attendanceArray);
         }),
     );
   }
 
-   private groupAttendanceByMonth(attendanceArray: ItemAttendance[]): GroupedAttendance[] {
-    return attendanceArray.reduce((acc: GroupedAttendance[], item: ItemAttendance) => {
+   private groupAttendanceByMonth(attendanceArray: DailyRecord[]): GroupedAttendance[] {
+    return attendanceArray.reduce((acc: GroupedAttendance[], item: DailyRecord) => {
       const month = this.datePipe.transform(new Date(item.day), 'yyyy-MM') ?? '';
       let group: GroupedAttendance | undefined = acc.find((g: GroupedAttendance) => g.month === month);
       if (!group) {

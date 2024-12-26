@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { calculateTotalTime, formatTime, nineHoursInMilliseconds } from '../time';
-import { ItemAttendance } from '../../../shared/interfaces/item-attendance';
+import { DailyRecord } from '../../../shared/interfaces/daily-record';
 
 @Pipe({
   name: 'totalTime'
 })
 export class TotalTimePipe implements PipeTransform {
   transform(
-    value: Array<ItemAttendance>,
+    value: Array<DailyRecord>,
     type: 'total' | 'result' = 'total',
   ): string {
     const totalTime: number = calculateTotalTime(value);
