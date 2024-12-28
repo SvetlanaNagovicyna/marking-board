@@ -4,5 +4,10 @@
     <span class="title-red">.</span>
   </div>
   <app-time (attendanceChanged)="getAttendance()"></app-time>
-  <app-table [groupedAttendance]="groupedAttendance" [showLoader]="showLoader"></app-table>
+  <div class="tables">
+    <ng-container *ngFor="let monthGroup of groupedAttendance">
+      <app-table [monthRecord]="monthGroup.items"></app-table>
+    </ng-container>
+    <app-loader [showLoader]="showLoader"></app-loader>
+  </div>
 </div>

@@ -5,6 +5,7 @@ import { PrivateComponent } from "./private.component";
 import { PrivateRoutingModule } from "./private-routing.module";
 import { SharedModule } from '../shared/shared.module';
 import { PrivateSharedModule } from './shared/private-shared.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [PrivateComponent],
@@ -13,6 +14,7 @@ import { PrivateSharedModule } from './shared/private-shared.module';
     PrivateRoutingModule,
     SharedModule,
     PrivateSharedModule,
+    MatTooltipModule,
   ],
   providers: [
     DatePipe,

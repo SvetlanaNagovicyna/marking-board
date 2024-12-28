@@ -1,5 +1,9 @@
 @import 'src/styles/shared/functions';
 
+.tables {
+  position: relative;
+}
+
 .container {
   padding-top: em(80);
   padding-bottom: em(80);

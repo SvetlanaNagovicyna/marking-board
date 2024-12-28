@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { GroupedAttendance } from '../../../shared/interfaces/grouped-attendance.interface';
+import { Component, inject, Input } from '@angular/core';
+import { DailyRecord } from '../../../shared/interfaces/daily-record';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-table',
@@ -8,9 +10,17 @@ import { GroupedAttendance } from '../../../shared/interfaces/grouped-attendance
 })
 
 export class TableComponent {
-  @Input() groupedAttendance: GroupedAttendance[] = [];
-  @Input() showLoader: boolean = false;
+  iconRegistry: MatIconRegistry = inject(MatIconRegistry);
+  domSanitizer: DomSanitizer = inject(DomSanitizer);
+  @Input() monthRecord: DailyRecord[] = [];
 
   columnsToDisplayHeader: string[] = ['date', 'came', 'leave', 'summary', 'result'];
   columnsToDisplayFooter: string[] = ['work', 'total', 'resultFooter'];
+
+  constructor() {
+    this.iconRegistry.addSvgIconSet(
+      this.domSanitizer.bypassSecurityTrustResourceUrl("/assets/img/icons.svg")
+    );
+  }
+
 }

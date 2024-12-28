@@ -7,6 +7,7 @@ import { SharedModule } from "./shared/shared.module";
 import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthInterceptor } from './shared/providers/interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { DatePipe } from '@angular/common';
     AppRoutingModule,
     SharedModule,
     HttpClientModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     provideHttpClient(

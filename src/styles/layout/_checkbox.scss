@@ -1,0 +1,52 @@
+@import '../shared/functions';
+
+.mat-mdc-checkbox {
+  margin-top: em(30);
+
+  .mat-mdc-checkbox-ripple, .mdc-checkbox__ripple {
+    display: none;
+  }
+
+  .mdc-form-field {
+    color: var(--text-color);
+    font-size: em(22);
+    line-height: 1;
+
+    &>label {
+      padding-left: em(15);
+    }
+
+    .mdc-checkbox {
+      padding: 0;
+      margin: 0;
+      flex: 0 0 em(24);
+      width: em(24);
+      height: em(24);
+
+      .mat-mdc-checkbox-touch-target {
+        width: em(24);
+        height: em(24);
+      }
+
+      .mdc-checkbox__background {
+        top: 0;
+        left: 0;
+        width: em(24);
+        height: em(24);
+        border: em(2) solid #5A5A5A !important;
+        background-color: var(--input-color) !important;
+        border-radius: em(2);
+      }
+
+      .mdc-checkbox__native-control {
+        width: em(24);
+        height: em(24);
+      }
+
+      .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background, .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background, .mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
+        border-color:var(--red-color) !important;
+        background-color: var(--red-color) !important;
+      }
+    }
+  }
+}

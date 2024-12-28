@@ -54,9 +54,8 @@
     </app-button>
   </div>
 </div>
-
-<label class="checkbox">
-  <input type="checkbox" [disabled]="!!(currentTime.leaveTime)"  [(ngModel)]="currentTime.workFromHome">
-  <div class="checkmark"></div>
+<mat-checkbox class="checkbox"
+              [disabled]="!!(currentTime.leaveTime)"
+              [(ngModel)]="currentTime.workFromHome">
   I work from home
-</label>
+</mat-checkbox>

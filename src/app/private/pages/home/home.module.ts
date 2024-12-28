@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { SharedModule } from '../../../shared/shared.module';
 import { ComponentsModule } from '../../components/components.module';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { MatTableModule } from '@angular/material/table';
     SharedModule,
     ComponentsModule,
     MatTableModule,
+    MatTooltipModule,
   ],
   exports: [
     HomeComponent,

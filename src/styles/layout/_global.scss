@@ -1,6 +1,5 @@
 @import '../shared/functions';
 
-
 :root {
   --base-color: #0B0C0C;
   --background-color: #000000;
@@ -18,6 +17,7 @@
   --input-color: #1A1A1A;
 
 }
+
 html.light {
   --base-color: #9e9e9e;
   --background-color: #b9b9b9;
@@ -46,7 +46,7 @@ body {
   background-color: var(--background-color);
 }
 
-.main__wrap{
+.main__wrap {
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -86,6 +86,7 @@ main {
   justify-content: center;
   align-items: center;
 }
+
 .mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
   stroke: var(--red-color) !important;
 }

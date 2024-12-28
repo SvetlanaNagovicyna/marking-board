@@ -1,0 +1,30 @@
+@import '../shared/functions';
+
+.custom-tooltip {
+  &.mat-mdc-tooltip {
+    font-size: em(14);
+    top: em(10, 14);
+
+    .mdc-tooltip__surface {
+      border: none;
+      padding: em(10) em(20);
+      background-color: var(--white-color);
+      color: #000000;
+      text-transform: uppercase;
+      font-size: em(16);
+      font-weight: 500;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 85%;
+      width: 0;
+      border: 0.85em solid transparent;
+      border-top: 0.95em solid var(--white-color);
+      bottom: 0;
+    }
+  }
+}

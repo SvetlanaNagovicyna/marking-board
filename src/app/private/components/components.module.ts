@@ -8,6 +8,9 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
 import { TableComponent } from './table/table.component';
 import { MatTableModule } from '@angular/material/table';
 import { PrivateSharedModule } from '../shared/private-shared.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { PrivateSharedModule } from '../shared/private-shared.module';
     FormsModule,
     ReactiveFormsModule,
     MatTableModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatCheckboxModule,
     PrivateSharedModule,
   ],
   exports: [
