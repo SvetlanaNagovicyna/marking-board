@@ -3,6 +3,7 @@ import { LoginComponent } from "./login.component";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from '../../../shared/shared.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { SharedModule } from '../../../shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    MatCheckboxModule,
   ]
 })
 

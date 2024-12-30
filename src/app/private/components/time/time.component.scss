@@ -3,6 +3,7 @@
 .time {
   display: flex;
   justify-content: space-between;
+  margin-bottom: em(30);
 
   &__item {
     width: em(290);
