@@ -1,0 +1,135 @@
+@import '../../../../styles/shared/functions';
+
+.table {
+  width: 100%;
+  margin-top: em(80);
+  text-transform: uppercase;
+  background: none;
+
+  mat-header-row, mat-footer-row {
+    width: 100%;
+    background-color: var(--input-color);
+    height: em(53, 14);
+    min-height: em(53, 14);
+    gap: em(1);
+    margin-bottom: em(1, 14);
+    font-family: 'Montserrat', sans-serif;
+    font-size: em(14);
+    font-weight: 700;
+    color: var(--text-color);
+  }
+
+  mat-header-cell, mat-footer-cell {
+    &:last-child {
+      justify-content: flex-end;
+    }
+  }
+
+  mat-row {
+    font-family: 'Montserrat', sans-serif;
+    font-size: em(14);
+    font-weight: 700;
+    background-color: var(--window-color);
+    color: var(--white-color);
+    min-height: em(53, 14);
+    margin-bottom: em(1, 14);
+  }
+
+  mat-cell {
+    &:last-child {
+      justify-content: flex-end;
+    }
+
+    &.red {
+      color: var(--red-color);
+
+      .lunch svg {
+        path {
+          fill: var(--red-color);
+        }
+      }
+    }
+
+    &.green {
+      color: var(--green-color);
+
+      .lunch svg {
+        path {
+          fill: var(--green-color);
+        }
+      }
+    }
+
+    &.white {
+      .lunch svg {
+        path {
+          fill: var(--white-color);
+        }
+      }
+    }
+
+    .work-home mat-icon {
+      color: var(--white-color) !important;
+    }
+
+    .time {
+      width: em(60);
+    }
+
+    .lunch {
+      cursor: pointer;
+    }
+
+    .lunch, .work-home {
+      width: em(28);
+      height: 100%;
+      margin-left: em(20);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      mat-icon {
+        font-size: em(28) !important;
+        width: em(28, 28) !important;
+        height: em(28, 28) !important;
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: em(-1);
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--white-color);
+        display: inline-block;
+        width: 100%;
+        height: em(1);
+      }
+
+      svg {
+        width: em(21);
+        cursor: pointer;
+      }
+    }
+  }
+
+  mat-footer-cell {
+    .value {
+      margin-left: em(5);
+      color: var(--white-color);
+    }
+
+    &.result {
+      color: var(--white-color);
+    }
+
+    &.red {
+      background-color: var(--red-color);
+    }
+
+    &.green {
+      background-color: var(--green-color);
+    }
+  }
+}

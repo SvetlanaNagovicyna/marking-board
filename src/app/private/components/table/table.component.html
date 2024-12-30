@@ -1,0 +1,80 @@
+<mat-table [dataSource]="monthRecord" class="table">
+  <mat-header-row *matHeaderRowDef="columnsToDisplayHeader"></mat-header-row>
+  <mat-row *matRowDef="let myRowData; columns: columnsToDisplayHeader"></mat-row>
+  <mat-footer-row *matFooterRowDef="columnsToDisplayFooter"></mat-footer-row>
+
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef> Date</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element.day | date: 'yyyy - MM - dd' }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="came">
+    <mat-header-cell *matHeaderCellDef> Came</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element.value.cameTime | date: 'HH:mm' }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="leave">
+    <mat-header-cell *matHeaderCellDef> Leave</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element.value.leaveTime ?
+      (element.value.leaveTime | date: 'HH:mm') :
+      '-- : --' }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="summary">
+    <mat-header-cell *matHeaderCellDef> Summary</mat-header-cell>
+    <mat-cell *matCellDef="let element" [ngClass]="element.value | statusTime">
+      <div class="time"> {{ (element.value.leaveTime) ?
+        (element.value | summaryTime) :
+        '-- : --' }}</div>
+      <div class="lunch" *ngIf="element.value.lunchTime"
+           matTooltip="Work at lunch: {{ element.value.lunchTime }} min"
+           matTooltipClass="custom-tooltip"
+           matTooltipPosition="above">
+        <mat-icon svgIcon="lunch-icon"></mat-icon>
+      </div>
+      <div class="work-home" *ngIf="element.value.workFromHome">
+        <mat-icon fontIcon="home" *ngIf="element.value.workFromHome"></mat-icon>
+      </div>
+
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="result">
+    <mat-header-cell *matHeaderCellDef> Result</mat-header-cell>
+    <mat-cell *matCellDef="let element" [ngClass]="element.value | statusTime">
+      {{ element.value | statusTime:'text' }}
+      {{ (element.value.leaveTime) ?
+      (element.value | resultTime) :
+      '-- : --' }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="work">
+    <mat-footer-cell *matFooterCellDef> Work days:
+      <span class="value">{{ monthRecord.length }}</span>
+    </mat-footer-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="total">
+    <mat-footer-cell *matFooterCellDef> Total worked:
+      <span class="value">{{ monthRecord | totalTime }}</span>
+    </mat-footer-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="resultFooter">
+    <mat-footer-cell class="result" *matFooterCellDef="let element" [ngClass]="monthRecord | statusResult ">
+      Total {{ monthRecord | statusResult: 'text' }}:
+      <span class="value">
+          {{ monthRecord | totalTime: 'result'}}
+        </span>
+    </mat-footer-cell>
+  </ng-container>
+</mat-table>
+
+

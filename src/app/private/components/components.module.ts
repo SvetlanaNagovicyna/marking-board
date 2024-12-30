@@ -5,23 +5,36 @@ import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReasonModalComponent } from './reason-modal/reason-modal.component';
 import { InfoModalComponent } from './info-modal/info-modal.component';
+import { TableComponent } from './table/table.component';
+import { MatTableModule } from '@angular/material/table';
+import { PrivateSharedModule } from '../shared/private-shared.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
-    TimeComponent,
     ReasonModalComponent,
     InfoModalComponent,
+    TimeComponent,
+    TableComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatCheckboxModule,
+    PrivateSharedModule,
   ],
   exports: [
-    TimeComponent,
     ReasonModalComponent,
     InfoModalComponent,
+    TimeComponent,
+    TableComponent,
   ]
 })
 

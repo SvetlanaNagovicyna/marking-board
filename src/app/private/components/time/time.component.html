@@ -54,3 +54,8 @@
     </app-button>
   </div>
 </div>
+<mat-checkbox class="checkbox"
+              [disabled]="!!(currentTime.leaveTime)"
+              [(ngModel)]="currentTime.workFromHome">
+  I work from home
+</mat-checkbox>
