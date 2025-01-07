@@ -1,0 +1,50 @@
+@import '../../../../styles/shared/functions';
+
+mat-tab-group {
+  width: em(950);
+}
+
+.content {
+  margin-top: em(48);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.content-small {
+  width: 80%;
+}
+
+.select {
+  width: em(278, 13);
+  height: em(53, 13);
+}
+
+.date {
+  margin-left: em(8);
+  width: em(133, 13);
+  height: em(53, 13);
+}
+
+.submit {
+  margin-top: em(24);
+  padding-left: em(38);
+}
+
+.time {
+  width: em(133, 13);
+  height: em(53, 13);
+  margin-left: em(8);
+}
+
+.checkbox {
+  font-size: em(13);
+  background-color: var(--window-color);
+  height: em(53, 13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 em(16, 13) 0 0;
+  margin-left: em(8, 13);
+}
+

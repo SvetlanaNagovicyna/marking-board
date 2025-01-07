@@ -87,13 +87,35 @@
       stroke: var(--white-color);
     }
   }
+
   &:hover {
     svg {
       polygon {
-        //fill: var(--green-color);
         stroke: var(--green-color);
         fill: var(--green-color);
       }
+    }
+  }
+}
+
+.excel {
+  font-size: em(13);
+  width: em(140, 13);
+  height: em(53, 13);
+  margin-left: em(72, 13);
+  background-color: var(--white-color) !important;
+
+  svg {
+    display: none;
+  }
+
+  span {
+    color: #000000;
+  }
+
+  &:hover {
+    span {
+      color: var(--red-color);
     }
   }
 }
@@ -105,9 +127,11 @@
       stroke: var(--window-color);
     }
   }
+
   span {
     color: var(--text-color);
   }
+
   &:hover {
     svg {
       polygon {
@@ -115,6 +139,7 @@
         filter: brightness(0.8);
       }
     }
+
     span {
       color: var(--red-color);
     }
@@ -124,9 +149,10 @@
 .red {
   svg {
     polygon {
-     fill: var(--red-color);
+      fill: var(--red-color);
     }
   }
+
   &:hover {
     svg {
       polygon {
@@ -168,6 +194,10 @@
   width: em(320);
 }
 
+.w-278 {
+  width: em(278);
+}
+
 .w-179 {
   width: em(179);
 }
@@ -178,6 +208,6 @@
 
 .fz-13 {
   span {
-    font-size: em(13,16);
+    font-size: em(13, 16);
   }
 }

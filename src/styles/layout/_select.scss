@@ -1,0 +1,58 @@
+@import '../../styles/shared/functions';
+
+.select .mdc-text-field {
+  padding: 0 em(16, 13) !important;
+}
+
+.mat-mdc-select {
+  color: var(--text-color) !important;
+  font-family: 'Montserrat', sans-serif;
+  font-size: em(13, 13) !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 0 !important;
+}
+
+.mat-mdc-select-arrow {
+  font-size: em(24);
+  color: var(--text-color) !important;
+
+  svg {
+    width: em(18, 13) !important;
+  }
+}
+
+.mat-mdc-select-arrow-wrapper {
+  height: em(24, 13) !important;
+}
+
+.mat-mdc-select-panel {
+  box-shadow: none !important;
+  padding: em(8) 0 !important;
+  border-radius: 0 !important;
+  background-color: var(--window-color) !important;
+}
+
+.mat-mdc-option {
+  padding: 0 em(16, 13);
+  color: var(--text-color) !important;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1 !important;
+  font-size: em(13) !important;
+  letter-spacing: 0 !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  min-height: em(40, 13) !important;
+}
+
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+  color: var(--red-color) !important;
+}
+
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple) {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.mat-pseudo-checkbox {
+  display: none !important;
+}

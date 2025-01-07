@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { AdminPageComponent } from './admin-page.component';
+import { ComponentsModule } from '../../components/components.module';
+import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -8,6 +10,8 @@ import { AdminPageComponent } from './admin-page.component';
   ],
   imports: [
     CommonModule,
+    ComponentsModule,
+    SharedModule,
   ],
   exports: [
     AdminPageComponent,

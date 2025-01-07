@@ -1,0 +1,115 @@
+<mat-tab-group animationDuration="0ms">
+  <mat-tab label="Show how much worked">
+    <div class="content">
+      <mat-form-field class="select">
+        <mat-select>
+          <mat-option>--none--</mat-option>
+          <mat-option *ngFor="let user of users" [value]="user.id">
+            {{user.data.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="date">
+        <input matInput [matDatepicker]="startDate" placeholder="--/--/----" readonly>
+        <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="date">
+        <input matInput [matDatepicker]="endDate" placeholder="--/--/----" readonly>
+        <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
+        <mat-datepicker #endDate></mat-datepicker>
+      </mat-form-field>
+
+      <app-button
+        classes="excel no-element"
+      >
+        excel
+      </app-button>
+
+      <app-button class="submit"
+                  classes="w-278"
+                  type="submit"
+      >
+        show
+      </app-button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Add working time">
+    <div class="content">
+      <mat-form-field class="select">
+        <mat-select>
+          <mat-option>--none--</mat-option>
+          <mat-option *ngFor="let user of users" [value]="user.id">
+            {{user.data.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="date">
+        <input matInput [matDatepicker]="picker" placeholder="--/--/----" readonly>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="time">
+        <input matInput type="time">
+        <button matSuffix>
+          <mat-icon>access_time</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field class="time">
+        <input matInput type="time">
+        <button matSuffix>
+          <mat-icon>access_time</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-checkbox class="checkbox" labelPosition="before">
+        WORKED HOME
+      </mat-checkbox>
+
+      <app-button class="submit"
+                  classes="w-278"
+                  type="submit"
+      >
+        WORKED
+      </app-button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Add time to lunch">
+    <div class="content content-small">
+
+      <mat-form-field class="select">
+        <mat-select>
+          <mat-option>--none--</mat-option>
+          <mat-option *ngFor="let user of users" [value]="user.id">
+            {{user.data.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="date">
+        <input matInput [matDatepicker]="picker" placeholder="--/--/----" readonly>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="time">
+        <input matInput type="time">
+        <button matSuffix>
+          <mat-icon>access_time</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <app-button class="submit"
+                  classes="w-278"
+                  type="submit"
+      >
+        WORK at lunch
+      </app-button>
+    </div>
+  </mat-tab>
+</mat-tab-group>
