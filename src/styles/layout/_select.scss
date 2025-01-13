@@ -56,3 +56,15 @@
 .mat-pseudo-checkbox {
   display: none !important;
 }
+
+.mat-form-field-appearance-fill .mat-mdc-select-arrow-wrapper {
+  transform: translateY(0) !important;
+}
+.mdc-text-field .mdc-floating-label {
+  top: 50% !important;
+  color: var(--text-color) !important;
+}
+.mdc-text-field--filled .mdc-floating-label--float-above {
+  transform: translateY(-50%) !important;
+  display: none;
+}

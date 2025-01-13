@@ -5,7 +5,7 @@ mat-tab-group {
 }
 
 .content {
-  margin-top: em(48);
+  padding-top: em(48);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -28,7 +28,7 @@ mat-tab-group {
 
 .submit {
   margin-top: em(24);
-  padding-left: em(38);
+  //padding-left: em(38);
 }
 
 .time {

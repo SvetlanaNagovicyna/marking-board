@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { UsersService } from '../../../shared/providers/services/users.service';
-import { Users } from '../../../shared/interfaces/users.interface';
+import { UserService } from '../../../shared/providers/services/user.service';
+import { User } from '../../../shared/interfaces/user.interface';
 
 @Component({
   selector: 'app-tabs',
@@ -9,16 +9,16 @@ import { Users } from '../../../shared/interfaces/users.interface';
 })
 export class TabsComponent implements OnInit {
 
-  usersService: UsersService = inject(UsersService);
-  users: Users[] = [];
+  userService: UserService = inject(UserService);
+  users: User[] = [];
 
   ngOnInit(): void {
     this.getUsers();
   }
 
   private getUsers(): void {
-    this.usersService.getUsers().subscribe({
-      next: (res: Users[]): void => {
+    this.userService.getUsers().subscribe({
+      next: (res: User[]): void => {
         this.users = res;
       }
     })

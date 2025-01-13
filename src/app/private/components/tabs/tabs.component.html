@@ -2,10 +2,11 @@
   <mat-tab label="Show how much worked">
     <div class="content">
       <mat-form-field class="select">
+        <mat-label>Name</mat-label>
         <mat-select>
           <mat-option>--none--</mat-option>
           <mat-option *ngFor="let user of users" [value]="user.id">
-            {{user.data.name}}
+            {{user.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -39,18 +40,19 @@
   <mat-tab label="Add working time">
     <div class="content">
       <mat-form-field class="select">
+        <mat-label>Name</mat-label>
         <mat-select>
           <mat-option>--none--</mat-option>
           <mat-option *ngFor="let user of users" [value]="user.id">
-            {{user.data.name}}
+            {{user.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="date">
-        <input matInput [matDatepicker]="picker" placeholder="--/--/----" readonly>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <input matInput [matDatepicker]="homePicker" placeholder="--/--/----" readonly>
+        <mat-datepicker-toggle matIconSuffix [for]="homePicker"></mat-datepicker-toggle>
+        <mat-datepicker #homePicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="time">
@@ -83,18 +85,19 @@
     <div class="content content-small">
 
       <mat-form-field class="select">
+        <mat-label>Name</mat-label>
         <mat-select>
           <mat-option>--none--</mat-option>
           <mat-option *ngFor="let user of users" [value]="user.id">
-            {{user.data.name}}
+            {{user.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="date">
-        <input matInput [matDatepicker]="picker" placeholder="--/--/----" readonly>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <input matInput [matDatepicker]="lunchPicker" placeholder="--/--/----" readonly>
+        <mat-datepicker-toggle matIconSuffix [for]="lunchPicker"></mat-datepicker-toggle>
+        <mat-datepicker #lunchPicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="time">

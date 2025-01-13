@@ -61,6 +61,8 @@
   display: none !important;
 }
 
-.mat-mdc-tab-body-content {
-  overflow: hidden !important;
+.mat-mdc-tab-body-wrapper,
+.mat-mdc-tab-body-content,
+.mat-mdc-tab-body {
+  overflow: visible !important;
 }
