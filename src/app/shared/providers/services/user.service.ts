@@ -15,15 +15,24 @@ export class UserService {
   user$: BehaviorSubject<User | null> = new BehaviorSubject<null | User>(null);
 
   getUserById(id: string): Observable<User> {
-    return this.#http.get<{ [key: string]: User }>(`${environment.fbDbUrl}/users.json`)
+    return this.#http.get<{ [key: string]: User }>(`${environment.fbDbUrl}/users.json?orderBy="idDb"&equalTo="${id}"`)
       .pipe(map((response: { [key: string]: User }) => {
-        return Object
-          .keys(response)
-          .map((key: string) => ({
-            ...response[key],
-            id: key
-          })).filter(item => item.idDb === id)[0];
+        const key: string = Object.keys(response)[0];
+        return { ...response[key], id: key };
       }));
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.#http.get<{ [key: string]: User }>(`${environment.fbDbUrl}/users.json`).pipe(
+      map((users: { [key: string]: User }) => {
+        return Object
+          .keys(users)
+          .map((key: string) => ({
+            ...users[key],
+            id: key
+          }));
+      }),
+    );
   }
 
   setUser(user: User | null): void {

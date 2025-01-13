@@ -28,7 +28,7 @@ export class StatusResultPipe implements PipeTransform {
   }
 
   private setStatusTime(total: number, result: number): string {
-    if (total > result && result > 0) {
+    if (total >= result && result > 0) {
       return 'red';
     } else {
       return 'green'

@@ -1,0 +1,8 @@
+<div class="search">
+  <mat-form-field *ngIf="isSearchVisible">
+    <input matInput type="search">
+  </mat-form-field>
+  <button matSuffix aria-label="Search" (click)="toggleSearch()">
+    <mat-icon fontIcon="search"></mat-icon>
+  </button>
+</div>

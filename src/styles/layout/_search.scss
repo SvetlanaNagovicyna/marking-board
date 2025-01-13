@@ -1,0 +1,72 @@
+@import '../../styles/shared/functions';
+
+
+.mat-mdc-form-field-subscript-wrapper, .mdc-line-ripple {
+  display: none !important;
+}
+
+.mat-mdc-form-field {
+  font-family: 'Montserrat', sans-serif !important;
+  line-height: 1.2;
+  font-size: em(13) !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase;
+  font-weight: 500 !important;
+
+}
+
+.mdc-text-field {
+  padding: 0 0 0 em(16) !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  height: em(52, 13) !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: var(--window-color) !important;
+
+}
+
+.mdc-text-field--filled {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.mat-mdc-form-field-infix {
+  width: em(230, 13) !important;
+  padding: em(14, 13) 0 !important;
+  min-height: em(52, 13) !important;
+  height: em(52, 13) !important;
+  display: flex;
+  align-items: center;
+
+  input[type="search"]::-webkit-search-cancel-button {
+    appearance: none;
+  }
+}
+
+.mat-mdc-form-field-icon-suffix {
+  padding: 0 !important;
+
+}
+
+.search button {
+  display: flex;
+  align-items: center;
+  font-size: em(24);
+  padding: 0 em(10, 24);
+  background-color: var(--window-color) !important;
+}
+
+.mat-mdc-form-field-icon-suffix button:hover ~ .mat-mdc-form-field-infix {
+  width: em(300) !important;
+}
+
+.mdc-text-field__input {
+  color: var(--text-color) !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  caret-color: var(--text-color) !important;
+}

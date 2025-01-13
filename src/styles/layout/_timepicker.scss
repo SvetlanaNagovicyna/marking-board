@@ -1,0 +1,26 @@
+@import '../../styles/shared/functions';
+
+.time {
+  .mat-mdc-icon-button.mat-mdc-button-base {
+    --mdc-icon-button-state-layer-size: 2.4em !important;
+    padding: 0.5em !important;
+  }
+
+  .mat-mdc-icon-button {
+    --mdc-icon-button-icon-size: 1.5em !important;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    font-size: em(22);
+
+    .mat-icon {
+      color: var(--text-color);
+      font-size: em(26);
+      height: em(24, 26);
+      width: em(24, 26);
+    }
+  }
+
+}

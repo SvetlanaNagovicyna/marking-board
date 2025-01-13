@@ -1,0 +1,68 @@
+@import '../../styles/shared/functions';
+
+.mat-mdc-tab-group {
+  --mdc-tab-indicator-active-indicator-color: var(--red-color) !important;
+  --mat-tab-header-disabled-ripple-color: rgba(0, 0, 0, 0.38);
+  --mat-tab-header-inactive-label-text-color: rgba(0, 0, 0, 0.6);
+  --mat-tab-header-active-label-text-color: var(--red-color) !important;
+  --mat-tab-header-active-ripple-color: rgba(255, 255, 255, 0.15) !important;
+  --mat-tab-header-inactive-ripple-color: rgba(255, 255, 255, 0.15) !important;
+  --mat-tab-header-inactive-focus-label-text-color: rgba(0, 0, 0, 0.6);
+  --mat-tab-header-inactive-hover-label-text-color: rgba(0, 0, 0, 0.6);
+  --mat-tab-header-active-focus-label-text-color: var(--red-color) !important;
+  --mat-tab-header-active-hover-label-text-color: var(--red-color) !important;
+  --mat-tab-header-active-focus-indicator-color: rgba(255, 255, 255, 0.05) !important;
+  --mat-tab-header-active-hover-indicator-color: rgba(255, 255, 255, 0.05) !important;
+
+  .mat-mdc-tab-header {
+    font-family: 'Montserrat', sans-serif;
+    width: em(950, 13) !important;
+    font-size: em(13) !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    --mat-tab-header-label-text-size: em(13) !important;
+    --mat-tab-header-label-text-font: 'Montserrat', sans-serif;
+    --mat-tab-header-label-text-line-height: 1.2;
+    --mat-tab-header-label-text-weight: 600;
+
+    .mat-mdc-tab {
+      background-color: var(--window-color) !important;
+      padding: 0 em(22, 13) !important;
+      min-width: em(90, 13) !important;
+      letter-spacing: 0 !important;
+      margin-right: em(10);
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+
+      &:not(.mdc-tab--stacked) {
+        height: em(52, 13) !important;
+      }
+
+      .mdc-tab__text-label {
+        color: var(--text-color) !important;
+        line-height: 1.2 !important;
+      }
+
+      &.mdc-tab--active {
+        background-color: var(--red-color) !important;
+
+        .mdc-tab__text-label {
+          color: var(--white-color) !important;
+        }
+      }
+    }
+  }
+}
+
+.mdc-tab-indicator {
+  display: none !important;
+}
+
+.mat-mdc-tab-body-wrapper,
+.mat-mdc-tab-body-content,
+.mat-mdc-tab-body {
+  overflow: visible !important;
+}

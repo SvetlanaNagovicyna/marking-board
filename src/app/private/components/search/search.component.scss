@@ -1,0 +1,15 @@
+@import '../../../../styles/shared/functions';
+
+.search {
+  width: em(292);
+  height: em(52);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mat-icon {
+  font-size: em(24) !important;
+  color: var(--text-color) !important;
+  width: em(24, 24) !important;
+  height: em(24, 24) !important;
+}
